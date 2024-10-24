@@ -1,0 +1,8 @@
+.headerContainer {
+    width: 100%;
+    height: var(--header-height);
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--gray-700);
+    padding: 10px 10px;
+}
