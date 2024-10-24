@@ -1,8 +1,8 @@
 :root {
 
 
-	--background-color-secondary: #1a1d24;
-	--background-color-primary: #0f131a;
+	--background-color-secondary: #eeeeee;
+	--background-color-primary: #fdfdfd;
 	--gray-0: #fff;
     --gray-50: #e9ebf0;
     --gray-100: #cbced4;
@@ -15,6 +15,8 @@
     --gray-800: #1a1d24;
     --gray-900: #0f131a;
 
+	--text-color: #000000c4;
+
 	--header-height: 4rem;
 	--drawer-width: 240px;
 
@@ -22,7 +24,8 @@
 	line-height: 1.5;
 	font-weight: 400;
 	font-synthesis: none;
-	color-scheme: light dark;	
+
+	/* color-scheme: light dark;	 */
 	text-rendering: optimizeLegibility;
 	-webkit-font-smoothing: antialiased;
 	background-color: var(--background-color-primary);
@@ -36,6 +39,11 @@
 }
 
 body{
-	background-color: #0f131a;
-	;
+	background-color: var(--background-color-primary);
+	color: var(--text-color);
+}
+
+.page-wrapper{
+	height: calc(100vh - var(--header-height));
+	overflow: auto;
 }

@@ -7,4 +7,5 @@
     width: var(--drawer-width);
     overflow: hidden;
     transition: width 0.1s ease;
+    border-right: 1px solid var(--gray-100);
 }

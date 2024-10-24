@@ -10,7 +10,7 @@ export const Header: FC<HeaderProps> = (props) => {
 	return (
 		<div className={style.headerContainer}>
 			<IconButton onClick={onDrawerOpen}>
-				<MenuIcon sx={{ color: "var(--gray-100)", fontSize: "1.9rem" }} />
+				<MenuIcon sx={{ color: "var(--gray-500)", fontSize: "1.9rem" }} />
 			</IconButton>
 		</div>
 	);
