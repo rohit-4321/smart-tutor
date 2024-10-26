@@ -2,6 +2,7 @@ from flask import Flask
 from config import Config
 from flask_pymongo import PyMongo
 from flask_cors import CORS
+from openai import OpenAI
 
 mongo = PyMongo();
 db = mongo.db
