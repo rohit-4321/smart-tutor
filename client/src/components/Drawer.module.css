@@ -3,7 +3,7 @@
     left: 0px;
     bottom: 0px;
     top: var(--header-height);
-    background-color: var(--background-color-secondary);
+    background-color: var(--background-color-primary);
     width: var(--drawer-width);
     overflow: hidden;
     transition: width 0.1s ease;
