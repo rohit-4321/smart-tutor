@@ -6,6 +6,7 @@ from app.routes import main
 from typing import List
 from os import getenv
 from openai import OpenAI
+from app.prompt import system_prompt
 
 
 # Validation
@@ -22,19 +23,22 @@ client = OpenAI(
     api_key=SAMBANOVA_API_KEY
 )
 
+
 @main.route('/createQuiz', methods=['POST'])
 def createGroup():
     try:
         data = create_quiz_schema.load(request.json)
-        completion = client.chat.completions.create(
-            model="Meta-Llama-3.1-405B-Instruct",
-            messages = [
-                {"role": "system", "content": "Answer the question in a couple sentences."},
-                {"role": "user", "content": "Share a happy story with me with only 10 words"}
-                ],
-        )
+        print(system_prompt)
+        # completion = client.chat.completions.create(
+        #     model="Meta-Llama-3.1-405B-Instruct",
+        #     messages = [
+        #         {"role": "system", "content": "Answer the question in a couple sentences."},
+        #         {"role": "user", "content": "Share a happy story with me with only 10 words"}
+        #         ],
+        # )
+        print()
         
-        return jsonify({'result': completion.to_json() }), 200
+        return jsonify({'result': 'completion.to_json()' }), 200
     
     except PyMongoError as e:
         return jsonify({"error": f'Database Error: {str(e)}'}), 500
