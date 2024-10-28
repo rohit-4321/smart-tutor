@@ -1,0 +1,11 @@
+.questionNumber{
+    font-size: 1.1rem;
+    color: rgb(82, 80, 80);
+    font-weight: 600;
+}
+
+.questionName{
+    color: rgb(82, 80, 80);
+    font-size: 1.1rem;
+    font-weight: 500;
+}

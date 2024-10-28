@@ -1,34 +1,39 @@
 from flask import request, jsonify, current_app
-from marshmallow import Schema, fields, ValidationError
-from app.modals.groups import create_group, get_all_groups
+from app.modals.quiz import insertQuiz
 from pymongo.errors import PyMongoError
 from app.routes import main
-from typing import List
 from os import getenv
 from openai import OpenAI
+import os
+import json
 from app.prompt import system_prompt
 
+from schema.quiz import CreateQuizSchema, Quiz
 
-# Validation
-class CreateQuizSchema(Schema):
-    topic_name = fields.Str(required=True)
-    question_type = fields.List(fields.Str(), required=True)
-    no_of_questions = fields.Int(required=True, validate=lambda x: x > 0)
-create_quiz_schema = CreateQuizSchema()
-
-
+# AI Client
 SAMBANOVA_API_KEY = getenv("SAMBANOVA_API_KEY")
+
 client = OpenAI(
     base_url="https://api.sambanova.ai/v1",
     api_key=SAMBANOVA_API_KEY
 )
 
+create_quiz_schema = CreateQuizSchema()
+
+
+def load_quiz_data():
+    file_path = os.path.join('schema', 'newQuiz.json')
+    with open(file_path, 'r') as file:
+        quiz_data = json.load(file)
+    return quiz_data
 
 @main.route('/createQuiz', methods=['POST'])
 def createGroup():
     try:
-        data = create_quiz_schema.load(request.json)
-        print(system_prompt)
+        # payload = create_quiz_schema.load(request.json)
+        json_response = load_quiz_data();
+        data = Quiz(**json_response);
+        # result = insertQuiz(data.model_dump())
         # completion = client.chat.completions.create(
         #     model="Meta-Llama-3.1-405B-Instruct",
         #     messages = [
@@ -36,40 +41,15 @@ def createGroup():
         #         {"role": "user", "content": "Share a happy story with me with only 10 words"}
         #         ],
         # )
-        print()
         
-        return jsonify({'result': 'completion.to_json()' }), 200
+        return jsonify({'result': {
+            '_id': '671f38d6c1c67815e6896a31',
+            'quiz': data.model_dump() 
+        } }), 200
     
     except PyMongoError as e:
-        return jsonify({"error": f'Database Error: {str(e)}'}), 500
-    
-    except ValidationError as err:
-        return jsonify({
-            "message": "Validation Error",
-            "errors": err.messages,  # Shows field errors and types
-            "valid_fields": err.valid_data  # Shows fields that passed validation
-        }), 400
-    except Exception as e:
-        return jsonify({'error': f"Server Error: {str(e)}"}), 500;
-
-
-
-@main.route('/groups')
-def getGroups():
-    try:
-        result = get_all_groups()
-        result = result.to_list();
-        list = [];
-
-        for group in result:
-            group['_id'] = str(group['_id'])
-            list.append(group);
-            
-        return jsonify({
-            'result': list
-        }), 200
-
-    except PyMongoError as e:
+        print(str(e))
         return jsonify({"error": f'Database Error: {str(e)}'}), 500
     except Exception as e:
+        print(str(e))
         return jsonify({'error': f"Server Error: {str(e)}"}), 500;

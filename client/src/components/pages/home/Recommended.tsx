@@ -9,11 +9,11 @@ const topics = [
 	"French Revolution",
 	"The Impact of the Industrial Revolution",
 	"Womens Suffrage Movement",
-	"French Revolution",
-	"The Impact of the Industrial Revolution",
-	"Womens Suffrage Movement",
 ];
-export const Recommended = () => {
+type RecommendedType = {
+	onRecommendedClick: (topicName: string) => void;
+};
+export const Recommended: FC<RecommendedType> = ({ onRecommendedClick }) => {
 	return (
 		<div className={style.container}>
 			<div>
@@ -21,7 +21,11 @@ export const Recommended = () => {
 			</div>
 			<div className={style.topicContainer}>
 				{topics.map((topic) => (
-					<Topic key={topic} name={topic} />
+					<Topic
+						key={topic}
+						name={topic}
+						onRecommendedClick={onRecommendedClick}
+					/>
 				))}
 			</div>
 		</div>
@@ -30,10 +34,15 @@ export const Recommended = () => {
 
 type TopicProps = {
 	name: string;
+	onRecommendedClick: (topicName: string) => void;
 };
-const Topic: FC<TopicProps> = ({ name }) => {
+const Topic: FC<TopicProps> = ({ name, onRecommendedClick }) => {
 	return (
-		<button type="button" className={style.topic}>
+		<button
+			type="button"
+			className={style.topic}
+			onClick={() => onRecommendedClick(name)}
+		>
 			<span>{name}</span>
 		</button>
 	);

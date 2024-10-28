@@ -17,7 +17,7 @@ class Question(TypedDict):
     question: str
     correct_answer: List[int]
     options: List[str]
-    discription: str
+    description: str
 
 class Quiz(TypedDict):
     topic: str
@@ -29,7 +29,7 @@ In the above Question Type:
 2. correct_answer should be the List of Integer, where a integer is the index of correct option from the "options" list. \
 If a question is single choice correct_answer list contain a single value and \
 if question is multiple choice than it can contain multiple value.
-3. "discription" should be the a discription about the correct_answer
+3. "description" should be the a description about the correct_answer
 
 In the above Quiz Type:
 1. If topic given by user is long or it does not symbolize a topic than assume a closely related topic only  \
