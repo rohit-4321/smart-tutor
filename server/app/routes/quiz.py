@@ -1,5 +1,5 @@
 from flask import request, jsonify, current_app
-from app.modals.quiz import insertQuiz, getAllQuizTopicWithId
+from app.modals.quiz import insertQuiz, getAllQuizTopicWithId, db_update_quiz
 from pymongo.errors import PyMongoError
 from app.routes import main
 from os import getenv
@@ -64,3 +64,24 @@ def getQuizTopic():
         'result': result
     }), 200
 
+
+@main.route('/updateQuiz/<_id>', methods=['PUT'])
+def updateQuiz(_id):
+    try:
+        payload_quiz = request.json
+        
+        data = Quiz(**payload_quiz)
+
+        count = db_update_quiz(str(_id), data)
+
+        if count > 0:
+            return jsonify({'result': "Updated Successfully"}), 200
+        else:
+            return jsonify({'error': f'No _id match document in db.'}), 304
+        
+    except PyMongoError as e:
+        print(str(e))
+        return jsonify({"error": f'Database Error: {str(e)}'}), 500
+    except Exception as e:
+        print(str(e))
+        return jsonify({'error': f"Server Error: {str(e)}"}), 500; 
