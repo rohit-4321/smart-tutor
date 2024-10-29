@@ -20,7 +20,7 @@ const homeApi = baseApi.injectEndpoints({
 			null
 		>({
 			query: () => ({
-				url: "allQuiz",
+				url: "allTopics",
 				method: "GET",
 			}),
 			providesTags: ["quiz"],

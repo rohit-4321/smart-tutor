@@ -1,5 +1,5 @@
 from flask import request, jsonify, current_app
-from app.modals.quiz import insertQuiz
+from app.modals.quiz import insertQuiz, getAllQuizTopicWithId
 from pymongo.errors import PyMongoError
 from app.routes import main
 from os import getenv
@@ -53,3 +53,14 @@ def createGroup():
     except Exception as e:
         print(str(e))
         return jsonify({'error': f"Server Error: {str(e)}"}), 500;
+
+
+
+@main.route('/allTopics')
+def getQuizTopic():
+    result = getAllQuizTopicWithId()
+
+    return jsonify({
+        'result': result
+    }), 200
+

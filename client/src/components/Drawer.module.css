@@ -9,3 +9,41 @@
     transition: width 0.1s ease;
     border-right: 1px solid var(--gray-100);
 }
+
+.homeLink{
+    all:unset;
+    padding: 10px 12px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    border-radius: 5px;
+}
+.homeLink:hover{
+    cursor: pointer;
+    background-color: var(--background-color-secondary)
+}
+
+.quizLinksHeading{
+    padding: 10px 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 5px;
+}
+
+
+
+.quizLink{
+    all:unset;
+    white-space: nowrap;        
+    overflow: hidden;          
+    text-overflow: ellipsis;   
+    display: inline-block; 
+    padding: 3px 10px;
+    font-size: 1rem;
+    font-weight: 400;
+    border-radius: 5px;
+}
+
+.quizLink:hover{
+    cursor: pointer;
+    background-color: var(--background-color-secondary)
+}

@@ -1,0 +1,21 @@
+.loader {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: inline-block;
+    position: relative;
+    border: 8px solid;
+    border-color: rgb(163, 162, 162) rgb(175, 173, 173) rgb(177, 177, 177) rgb(102, 102, 102);
+    /* border-color: red blue yellow green; */
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+  }
+  
+  @keyframes rotation {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  } 
