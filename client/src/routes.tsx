@@ -1,47 +1,60 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import { Home } from "./components/pages/home/Home";
-import type React from "react";
 import { NewQuiz } from "./components/pages/quiz/NewQuiz";
 import { Quiz } from "./components/pages/quiz/Quiz";
+import { useState } from "react";
+import { SideDrawer } from "./components/Drawer";
+import { Header } from "./components/header";
 
-const Wrapper = (props: { children: React.ReactNode }) => {
-	return <div className="page-wrapper">{props.children}</div>;
+const Template = () => {
+	const [drawerOpen, setDrawerOpen] = useState(true);
+	const onDrawerOpen = () => {
+		setDrawerOpen((prev) => {
+			if (prev) {
+				document.documentElement.style.setProperty("--drawer-width", "0px");
+			} else {
+				document.documentElement.style.setProperty("--drawer-width", "240px");
+			}
+			return !prev;
+		});
+	};
+	return (
+		<div>
+			<Header onDrawerOpen={onDrawerOpen} />
+			<SideDrawer open={drawerOpen} />
+			<div className="rightPanel">
+				<div className="page-wrapper">
+					<Outlet />
+				</div>
+			</div>
+		</div>
+	);
 };
-// const Wrapper = (props: {children: React.ReactNode}) => {
-// 	return
-// }
 const router = createBrowserRouter([
 	{
-		path: "/",
-		element: <Navigate to="/home" />,
-	},
-	{
-		path: "/home",
-		element: (
-			<Wrapper>
-				<Home />
-			</Wrapper>
-		),
-	},
-	{
-		path: "/newquiz",
-		element: (
-			<Wrapper>
-				<NewQuiz />
-			</Wrapper>
-		),
-	},
-	{
-		path: "/quiz/:_id",
-		element: (
-			<Wrapper>
-				<Quiz />
-			</Wrapper>
-		),
-	},
-	{
-		path: "*",
-		element: <div>Page Not Found</div>,
+		element: <Template />,
+		children: [
+			{
+				path: "/",
+				element: <Navigate to="/home" />,
+			},
+			{
+				path: "/home",
+				element: <Home />,
+			},
+			{
+				path: "/newquiz",
+				element: <NewQuiz />,
+			},
+			{
+				path: "/quiz/:_id",
+				element: <Quiz />,
+			},
+			{
+				path: "*",
+				element: <div>Page Not Found</div>,
+			},
+		],
 	},
 ]);
 

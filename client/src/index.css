@@ -43,6 +43,10 @@ body{
 	color: var(--text-color);
 }
 
+.rightPanel {
+    margin-left: var(--drawer-width);
+}
+
 .page-wrapper{
 	height: calc(100vh - var(--header-height));
 	overflow: auto;

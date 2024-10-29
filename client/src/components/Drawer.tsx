@@ -1,4 +1,4 @@
-import type { FC } from "react";
+import { useMemo, type FC } from "react";
 import style from "./Drawer.module.css";
 import { Box, Stack } from "@mui/material";
 import homeApi from "../api/home.api";
@@ -7,41 +7,31 @@ import { useLocation } from "react-router-dom";
 type SideDrawerProps = {
 	open: boolean;
 };
-const allTopics = [
-	{
-		topic: "French Revolution",
-		_id: "asdasd",
-	},
-	{
-		topic: "The Rise and Fall of the Roman Empire",
-		_id: "23",
-	},
-	{
-		topic: "The Impact of the Industrial Revolution",
-		_id: "34",
-	},
-	{
-		topic: "Womens Suffrage Movement",
-		_id: "67",
-	},
-	{
-		topic: "Computer Architecture and Working",
-		_id: "87",
-	},
-];
+
 export const SideDrawer: FC<SideDrawerProps> = (props) => {
-	const { open } = props;
+	const location = useLocation();
+
+	const isHomeScreen = location.pathname === "/home";
+	const currentQuizId = useMemo(() => {
+		const arr = location.pathname.split("/").filter(Boolean);
+		console.log(arr);
+		if (arr[0] === "quiz") return arr[1];
+		return "";
+	}, [location]);
+	console.log(currentQuizId);
 	const {
 		data: allQuiz,
 		isError,
 		isLoading,
 		isFetching,
 	} = homeApi.useGetAllQuizTopicQuery(null);
-	console.log(open);
 	return (
 		<div className={style.drawer}>
 			<Stack mx={0.5}>
-				<a href="/home" className={style.homeLink}>
+				<a
+					href="/home"
+					className={`${style.homeLink} ${isHomeScreen ? style.selected : ""}`}
+				>
 					<span>Home</span>
 				</a>
 				<div className={style.quizLinksHeading}>
@@ -63,7 +53,7 @@ export const SideDrawer: FC<SideDrawerProps> = (props) => {
 					{allQuiz?.result.map((topic) => (
 						<a
 							href={`/quiz/${topic._id}`}
-							className={style.quizLink}
+							className={`${style.quizLink} ${currentQuizId === topic._id ? style.selected : ""}`}
 							key={topic._id}
 						>
 							<span>{topic.topic}</span>
