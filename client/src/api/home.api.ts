@@ -26,7 +26,7 @@ const homeApi = baseApi.injectEndpoints({
 			providesTags: ["quiz"],
 		}),
 		createQuiz: build.mutation<
-			{ result: QuizResponse },
+			{ result: { _id: string; quiz: QuizResponse } },
 			{ no_of_questions: number; question_type: string[]; topic_name: string }
 		>({
 			query: (build) => ({
@@ -35,22 +35,29 @@ const homeApi = baseApi.injectEndpoints({
 				body: build,
 			}),
 			invalidatesTags: ["quiz"],
-			// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-			transformResponse: (res: any) => {
-				console.log("asddasdsa");
-				console.log({
-					result: {
-						...res.result.quiz,
-						_id: res.result._id,
-					},
-				});
-				return {
-					result: {
-						...res.result.quiz,
-						_id: res.result._id,
-					},
-				};
-			},
+		}),
+
+		getQuiz: build.query<
+			{ result: { _id: string; quiz: QuizResponse } },
+			{ _id: string }
+		>({
+			query: (build) => ({
+				url: `quiz/${build._id}`,
+			}),
+		}),
+
+		updateQuiz: build.mutation<
+			any,
+			{
+				quiz: QuizResponse;
+				_id: string;
+			}
+		>({
+			query: (build) => ({
+				url: `updateQuiz/${build._id}`,
+				method: "PUT",
+				body: build.quiz,
+			}),
 		}),
 	}),
 	overrideExisting: false,

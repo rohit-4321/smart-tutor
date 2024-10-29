@@ -1,6 +1,5 @@
 export interface QuizResponse {
 	topic: string;
-	_id: string;
 	total_no_of_questions: number;
 	questions: Question[];
 }

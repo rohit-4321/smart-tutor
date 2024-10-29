@@ -31,3 +31,11 @@ def db_update_quiz(document_id: str, quiz: Quiz):
 
     # If result.modified_count greater that 0 than update successfully otherwise not update
     return result.modified_count;
+
+
+def db_get_quiz_by_id(_id: str):
+
+    quiz = mongo.db.quizzes.find_one({"_id": ObjectId(_id)})
+
+
+    return quiz

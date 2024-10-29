@@ -76,7 +76,7 @@ const CreateQuizDialog: FC<CreateQuizDialogType> = (props) => {
 			.unwrap()
 			.then((res) => {
 				console.log(res);
-				dispatch(setQuiz(res.result));
+				dispatch(setQuiz(res.result.quiz));
 				navigate(`/quiz/${res.result._id}?newQuiz=true`);
 			});
 	};

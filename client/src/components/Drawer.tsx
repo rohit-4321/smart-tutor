@@ -3,6 +3,7 @@ import style from "./Drawer.module.css";
 import { Box, Stack } from "@mui/material";
 import homeApi from "../api/home.api";
 import { Loader } from "./utils/Loading";
+import { useLocation } from "react-router-dom";
 type SideDrawerProps = {
 	open: boolean;
 };
@@ -60,7 +61,11 @@ export const SideDrawer: FC<SideDrawerProps> = (props) => {
 						</Box>
 					)}
 					{allQuiz?.result.map((topic) => (
-						<a href="/asd" className={style.quizLink} key={topic._id}>
+						<a
+							href={`/quiz/${topic._id}`}
+							className={style.quizLink}
+							key={topic._id}
+						>
 							<span>{topic.topic}</span>
 						</a>
 					))}

@@ -1,11 +1,7 @@
-import { Box, Checkbox, Radio, Stack } from "@mui/material";
-import { memo, type FC } from "react";
-import { useAppDispatch, useAppSelector } from "../../../redux/store";
-import style from "./QuestionList.module.css";
-import {
-	setMultipleChoiceOption,
-	setSingleChoiceOption,
-} from "../../../redux/slices/quizSlice";
+import { Box } from "@mui/material";
+import { useAppSelector } from "../../../redux/store";
+import { SingleChoiceQuestion } from "./questions/SingleChoiceQuestion";
+import { MultipleChoiceQuestion } from "./questions/MultipleChoiceQuestion";
 
 export const QuestionList = () => {
 	const questionList = useAppSelector((rd) => rd.quiz.value?.questions);
@@ -48,96 +44,3 @@ export const QuestionList = () => {
 		</Box>
 	);
 };
-
-type SingleChoiceQuestionProps = {
-	question: string;
-	questionNumber: number;
-	options: string[];
-	correctOption: number[];
-	description: string;
-	userAnswer: number[];
-};
-const SingleChoiceQuestion: FC<SingleChoiceQuestionProps> = memo((props) => {
-	const { options, questionNumber, question, userAnswer } = props;
-	const dispatch = useAppDispatch();
-	return (
-		<Box>
-			<Box>
-				<span className={style.questionNumber}>{questionNumber + 1}. </span>
-				<span className={style.questionName}>{question}</span>
-			</Box>
-			<Stack mt="0.5rem" gap="10px">
-				{options.map((vl, optionIndex) => (
-					<Stack
-						key={vl}
-						sx={{
-							cursor: "pointer",
-						}}
-						onClick={() => {
-							console.log("clicked");
-							dispatch(
-								setSingleChoiceOption({
-									optionClickedIndex: optionIndex,
-									questionIndex: questionNumber,
-								}),
-							);
-						}}
-						direction="row"
-						alignItems="center"
-					>
-						<Radio checked={userAnswer.includes(optionIndex)} />
-						<span>{vl}</span>
-					</Stack>
-				))}
-			</Stack>
-		</Box>
-	);
-});
-
-type MultipleChoiceQuestionProps = {
-	question: string;
-	questionNumber: number;
-	options: string[];
-	correctOption: number[];
-	description: string;
-	userAnswer: number[];
-};
-const MultipleChoiceQuestion: FC<MultipleChoiceQuestionProps> = memo(
-	(props) => {
-		const { options, questionNumber, question, userAnswer } = props;
-		const dispatch = useAppDispatch();
-
-		return (
-			<Box>
-				<Box>
-					<span className={style.questionNumber}>{questionNumber + 1}. </span>
-					<span className={style.questionName}>{question}</span>
-				</Box>
-				<Stack mt="0.5rem" gap="10px">
-					{options.map((vl, optionIndex) => (
-						<Stack
-							key={vl}
-							sx={{
-								cursor: "pointer",
-							}}
-							onClick={() => {
-								console.log("clicked");
-								dispatch(
-									setMultipleChoiceOption({
-										optionClickedIndex: optionIndex,
-										questionIndex: questionNumber,
-									}),
-								);
-							}}
-							direction="row"
-							alignItems="center"
-						>
-							<Checkbox checked={userAnswer.includes(optionIndex)} />
-							<span>{vl}</span>
-						</Stack>
-					))}
-				</Stack>
-			</Box>
-		);
-	},
-);

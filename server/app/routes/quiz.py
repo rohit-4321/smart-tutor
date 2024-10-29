@@ -1,5 +1,5 @@
 from flask import request, jsonify, current_app
-from app.modals.quiz import insertQuiz, getAllQuizTopicWithId, db_update_quiz
+from app.modals.quiz import insertQuiz, getAllQuizTopicWithId, db_update_quiz, db_get_quiz_by_id
 from pymongo.errors import PyMongoError
 from app.routes import main
 from os import getenv
@@ -85,3 +85,23 @@ def updateQuiz(_id):
     except Exception as e:
         print(str(e))
         return jsonify({'error': f"Server Error: {str(e)}"}), 500; 
+
+
+@main.route('/quiz/<_id>')
+def getQuiz(_id):
+    try:
+        result = db_get_quiz_by_id(str(_id))
+        data = Quiz(**result)
+        return jsonify({
+            'result': {
+                'quiz': data.model_dump(),
+                "_id": str(_id)
+            }
+        }), 200
+    except PyMongoError as e:
+        print(str(e))
+        return jsonify({"error": f'Database Error: {str(e)}'}), 500
+    except Exception as e:
+        print(str(e))
+        return jsonify({'error': f"Server Error: {str(e)}"}), 500;  
+
