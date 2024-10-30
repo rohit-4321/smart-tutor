@@ -1,6 +1,6 @@
 from typing import Literal, List
 from pydantic import BaseModel, Field
-
+from datetime import datetime
 
 class CreateQuizSchema(BaseModel):
     topic:str
@@ -25,10 +25,8 @@ class Quiz(BaseModel):
     status: Literal["draft", "completed"] = "draft"
 
 
-
-
-
-
 class QuizDBCollecction(BaseModel):
-    _id: str
+    _id: str = None
     quiz: Quiz
+    created_at: datetime
+    last_updated_at: datetime

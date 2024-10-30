@@ -1,27 +1,25 @@
 import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import { Home } from "./components/pages/home/Home";
-import { NewQuiz } from "./components/pages/quiz/NewQuiz";
 import { Quiz } from "./components/pages/quiz/Quiz";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { SideDrawer } from "./components/Drawer";
 import { Header } from "./components/header";
 
 const Template = () => {
-	const [drawerOpen, setDrawerOpen] = useState(true);
+	const isDrawerOpenRef = useRef<boolean>(true);
 	const onDrawerOpen = () => {
-		setDrawerOpen((prev) => {
-			if (prev) {
-				document.documentElement.style.setProperty("--drawer-width", "0px");
-			} else {
-				document.documentElement.style.setProperty("--drawer-width", "240px");
-			}
-			return !prev;
-		});
+		if (isDrawerOpenRef.current) {
+			document.documentElement.style.setProperty("--drawer-width", "0px");
+			isDrawerOpenRef.current;
+		} else {
+			document.documentElement.style.setProperty("--drawer-width", "240px");
+		}
+		isDrawerOpenRef.current = !isDrawerOpenRef.current;
 	};
 	return (
 		<div>
 			<Header onDrawerOpen={onDrawerOpen} />
-			<SideDrawer open={drawerOpen} />
+			<SideDrawer />
 			<div className="rightPanel">
 				<div className="page-wrapper">
 					<Outlet />
@@ -41,10 +39,6 @@ const router = createBrowserRouter([
 			{
 				path: "/home",
 				element: <Home />,
-			},
-			{
-				path: "/newquiz",
-				element: <NewQuiz />,
 			},
 			{
 				path: "/quiz/:_id",

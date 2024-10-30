@@ -30,9 +30,9 @@ def createGroup():
                 {"role": "user", "content": payload.model_dump_json()}
                 ],
         )
-        chat_response = completion.model_dump()
+        chat_response = completion.model_dump();
+        print(str(chat_response));
 
-        print(str(chat_response))
         
         content = chat_response['choices'][0]['message']['content'];
         
@@ -70,7 +70,6 @@ def updateQuiz(_id):
         data = Quiz(**payload_quiz)
 
         count = db_update_quiz(str(_id), data)
-
         if count > 0:
             return jsonify({'result': "Updated Successfully"}), 200
         else:
@@ -92,7 +91,9 @@ def getQuiz(_id):
         return jsonify({
             'result': {
                 'quiz': db_result.quiz.model_dump(),
-                "_id": str(_id)
+                "_id": str(_id),
+                "last_updated_at": db_result.last_updated_at,
+                "created_at": db_result.created_at
             }
         }), 200
     except PyMongoError as e:

@@ -6,7 +6,6 @@ export const QuizHeader = () => {
 		(reduxState) => reduxState.quiz.value?.topic,
 	);
 	const attempted = useAppSelector((reduxState) => reduxState.quiz.attempted);
-	const remaining = useAppSelector((reduxState) => reduxState.quiz.remaining);
 	const no_of_question = useAppSelector(
 		(reduxState) => reduxState.quiz.value?.total_no_of_questions,
 	);
@@ -42,7 +41,11 @@ export const QuizHeader = () => {
 				fontSize="1.2rem"
 			>
 				<span>Attempted: {attempted}</span>
-				<span>Question Remaining: {remaining} </span>
+				<span>
+					Question Remaining:{" "}
+					{no_of_question !== undefined ? no_of_question - attempted : ""}
+					{""}
+				</span>
 			</Stack>
 		</Box>
 	);

@@ -1,9 +1,14 @@
 from app import mongo
 from schema.quiz import Quiz
 from bson import ObjectId
+from datetime import datetime, timezone
+
 def insertQuiz(quiz: Quiz):
+
     result = mongo.db.quizzes.insert_one({
         "quiz": quiz,
+        "created_at": datetime.now(timezone.utc),
+        "last_updated_at": datetime.now(timezone.utc)
     })
     return result
 
@@ -29,12 +34,13 @@ def db_update_quiz(document_id: str, quiz: Quiz):
     result = mongo.db.quizzes.update_one(
         {"_id": document_id},
         {"$set": {
-            "quiz": quiz.model_dump()
-        }}
+        "quiz": quiz.model_dump(),
+        "last_updated": datetime.now(timezone.utc)
+    }}
     )
 
     # If result.modified_count greater that 0 than update successfully otherwise not update
-    return result.modified_count;
+    return result.matched_count;
 
 
 def db_get_quiz_by_id(_id: str):

@@ -1,20 +1,8 @@
 import baseApi from "./baseApi";
 import type { QuizResponse } from "./home.interface";
 
-type CreateGroupPayload = {
-	name: string;
-};
 const homeApi = baseApi.injectEndpoints({
 	endpoints: (build) => ({
-		// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-		createGroup: build.mutation<any, CreateGroupPayload>({
-			query: (payload) => ({
-				url: "createGroup",
-				method: "POST",
-				body: payload,
-			}),
-		}),
-
 		getAllQuizTopic: build.query<
 			{ result: { _id: string; topic: string }[] },
 			null
@@ -44,6 +32,7 @@ const homeApi = baseApi.injectEndpoints({
 			query: (build) => ({
 				url: `quiz/${build._id}`,
 			}),
+			providesTags: ["updateQuiz"],
 		}),
 
 		updateQuiz: build.mutation<
@@ -58,6 +47,7 @@ const homeApi = baseApi.injectEndpoints({
 				method: "PUT",
 				body: build.quiz,
 			}),
+			invalidatesTags: ["updateQuiz"],
 		}),
 	}),
 	overrideExisting: false,
