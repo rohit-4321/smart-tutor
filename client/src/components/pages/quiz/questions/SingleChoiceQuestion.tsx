@@ -1,5 +1,5 @@
 import { Box, Stack, Radio, type SxProps, type Theme } from "@mui/material";
-import { type FC, memo } from "react";
+import { type FC, memo, useMemo } from "react";
 import { setSingleChoiceOption } from "../../../../redux/slices/quizSlice";
 import { useAppDispatch } from "../../../../redux/store";
 import style from "./SingleChoiceQuestion.module.css";
@@ -16,7 +16,13 @@ export const SingleChoiceQuestion: FC<SingleChoiceQuestionProps> = memo(
 		const { options, questionNumber, question, userAnswer } = props;
 		const dispatch = useAppDispatch();
 		return (
-			<Box>
+			<Box
+				sx={{
+					borderRadius: "10px",
+					padding: "2rem",
+					// backgroundColor: "red",
+				}}
+			>
 				<Box>
 					<span className={style.questionNumber}>{questionNumber + 1}. </span>
 					<span className={style.questionName}>{question}</span>
@@ -50,59 +56,59 @@ export const SingleChoiceQuestion: FC<SingleChoiceQuestionProps> = memo(
 	},
 );
 
-// export const SingleChoiceQuestionResult: FC<SingleChoiceQuestionProps> = memo(
-// 	(props) => {
-// 		const {
-// 			options,
-// 			questionNumber,
-// 			question,
-// 			userAnswer,
-// 			correctOption,
-// 			description,
-// 		} = props;
-// 		const getStyle = (
-// 			user_index: number,
-// 			correct_index: number,
-// 			option_index: number,
-// 		) => {
-// 			if (correct_index === option_index && user_index === correct_index) {
-// 				return {
-// 					backgroundColor: "lightgreen",
-// 				} as SxProps<Theme>;
-// 			}
-// 			if (correct_index === option_index && user_index !== correct_index) {
-// 				return {
-// 					backgroundColor: "lightgreen",
-// 				} as SxProps<Theme>;
-// 			}
-// 			if (correct_index !== option_index && user_index === correct_index) {
-// 				return {
-// 					backgroundColor: "red",
-// 				} as SxProps<Theme>;
-// 			}
-// 			if (correct_index !== option_index && user_index !== correct_index) {
-// 				return {
-// 					backgroundColor: "lightgreen",
-// 				} as SxProps<Theme>;
-// 			}
-// 			return {} as SxProps<Theme>;
-// 		};
+export const SingleChoiceQuestionResult: FC<SingleChoiceQuestionProps> = memo(
+	(props) => {
+		const {
+			options,
+			questionNumber,
+			question,
+			userAnswer,
+			correctOption,
+			description,
+		} = props;
+		const isQuestionCorrect = useMemo(() => {
+			if (userAnswer.length === 0) return false;
+			return correctOption[0] === userAnswer[0];
+		}, [correctOption, userAnswer]);
 
-// 		return (
-// 			<Box>
-// 				<Box>
-// 					<span className={style.questionNumber}>{questionNumber + 1}. </span>
-// 					<span className={style.questionName}>{question}</span>
-// 				</Box>
-// 				<Stack mt="0.5rem" gap="10px">
-// 					{options.map((vl, optionIndex) => (
-// 						<Stack key={vl} sx={getStyle(userAnswer)} direction="row" alignItems="center">
-// 							<Radio disabled checked={userAnswer.includes(optionIndex)} />
-// 							<span>{vl}</span>
-// 						</Stack>
-// 					))}
-// 				</Stack>
-// 			</Box>
-// 		);
-// 	},
-// );
+		return (
+			<Box
+				sx={{
+					borderRadius: "10px",
+					padding: "2rem",
+					backgroundColor: isQuestionCorrect
+						? "var(--right-answer-background)"
+						: "var(--wrong-answer-background)",
+				}}
+			>
+				<Box>
+					<span className={style.questionNumber}>{questionNumber + 1}. </span>
+					<span className={style.questionName}>{question}</span>
+				</Box>
+				<Stack mt="0.5rem" gap="10px">
+					{options.map((vl, optionIndex) => (
+						<Stack
+							key={vl}
+							direction="row"
+							alignItems="center"
+							sx={{
+								borderRadius: "10px",
+								...(optionIndex === correctOption[0] && !isQuestionCorrect
+									? { backgroundColor: "var(--right-option-background)" }
+									: {}),
+							}}
+						>
+							<Radio disabled checked={userAnswer.includes(optionIndex)} />
+							<span>{vl}</span>
+						</Stack>
+					))}
+				</Stack>
+				{!isQuestionCorrect && (
+					<Box mt="0.5rem" ml="1rem" fontWeight={400}>
+						DISCRIPTION : <span>{description}</span>
+					</Box>
+				)}
+			</Box>
+		);
+	},
+);

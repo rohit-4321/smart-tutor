@@ -2,6 +2,7 @@ export interface QuizResponse {
 	topic: string;
 	total_no_of_questions: number;
 	questions: Question[];
+	status: "draft" | "completed";
 }
 
 export interface Question {

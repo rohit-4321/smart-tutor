@@ -17,6 +17,10 @@
 
 	--text-color: #000000c4;
 
+	--wrong-answer-background: #ffe8e8;
+	--right-answer-background: #deffda;
+	--right-option-background: #bfebbb;
+
 	--header-height: 4rem;
 	--drawer-width: 240px;
 
