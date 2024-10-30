@@ -8,7 +8,7 @@ import os
 import json
 from app.prompt import system_prompt
 
-from schema.quiz import CreateQuizSchema, Quiz
+from schema.quiz import CreateQuizSchema, Quiz, QuizDBCollecction
 
 # AI Client
 SAMBANOVA_API_KEY = getenv("SAMBANOVA_API_KEY")
@@ -18,33 +18,30 @@ client = OpenAI(
     api_key=SAMBANOVA_API_KEY
 )
 
-create_quiz_schema = CreateQuizSchema()
-
-
-def load_quiz_data():
-    file_path = os.path.join('schema', 'newQuiz.json')
-    with open(file_path, 'r') as file:
-        quiz_data = json.load(file)
-    return quiz_data
 
 @main.route('/createQuiz', methods=['POST'])
 def createGroup():
     try:
-        # payload = create_quiz_schema.load(request.json)
-        json_response = load_quiz_data();
-        data = Quiz(**json_response);
-        # result = insertQuiz(data.model_dump())
-        # completion = client.chat.completions.create(
-        #     model="Meta-Llama-3.1-405B-Instruct",
-        #     messages = [
-        #         {"role": "system", "content": "Answer the question in a couple sentences."},
-        #         {"role": "user", "content": "Share a happy story with me with only 10 words"}
-        #         ],
-        # )
+        payload = CreateQuizSchema(**request.json)
+        completion = client.chat.completions.create(
+            model="Meta-Llama-3.1-8B-Instruct",
+            messages = [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": payload.model_dump_json()}
+                ],
+        )
+        chat_response = completion.model_dump()
+
+        print(str(chat_response))
+        
+        content = chat_response['choices'][0]['message']['content'];
+        
+        quiz_data = Quiz.model_validate_json(content)
+        result = insertQuiz(quiz_data.model_dump())
         
         return jsonify({'result': {
-            '_id': '671f38d6c1c67815e6896a31',
-            'quiz': data.model_dump() 
+            '_id': str(result.inserted_id),
+            'quiz': quiz_data.model_dump() 
         } }), 200
     
     except PyMongoError as e:
@@ -91,10 +88,10 @@ def updateQuiz(_id):
 def getQuiz(_id):
     try:
         result = db_get_quiz_by_id(str(_id))
-        data = Quiz(**result)
+        db_result = QuizDBCollecction(**result);
         return jsonify({
             'result': {
-                'quiz': data.model_dump(),
+                'quiz': db_result.quiz.model_dump(),
                 "_id": str(_id)
             }
         }), 200

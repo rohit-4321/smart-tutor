@@ -27,7 +27,7 @@ const homeApi = baseApi.injectEndpoints({
 		}),
 		createQuiz: build.mutation<
 			{ result: { _id: string; quiz: QuizResponse } },
-			{ no_of_questions: number; question_type: string[]; topic_name: string }
+			{ no_of_questions: number; question_types: string[]; topic: string }
 		>({
 			query: (build) => ({
 				url: "createQuiz",

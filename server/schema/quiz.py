@@ -1,13 +1,12 @@
-from marshmallow import Schema, fields
 from typing import Literal, List
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
-class CreateQuizSchema(Schema):
-    topic_name = fields.Str(required=True)
-    question_type = fields.List(fields.Str(), required=True)
-    no_of_questions = fields.Int(required=True, validate=lambda x: x > 0)
 
-create_quiz_schema = CreateQuizSchema()
+class CreateQuizSchema(BaseModel):
+    topic:str
+    question_types: List[Literal["single_choice", "multiple_choice"]]
+    no_of_questions: int = Field(..., gt=0, lt=20) 
+
 
 
 # Ai reponse Schema
@@ -24,3 +23,12 @@ class Quiz(BaseModel):
     total_no_of_questions: int
     questions: List[Question]
     status: Literal["draft", "completed"] = "draft"
+
+
+
+
+
+
+class QuizDBCollecction(BaseModel):
+    _id: str
+    quiz: Quiz

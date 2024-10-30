@@ -2,7 +2,9 @@ from app import mongo
 from schema.quiz import Quiz
 from bson import ObjectId
 def insertQuiz(quiz: Quiz):
-    result = mongo.db.quizzes.insert_one(quiz)
+    result = mongo.db.quizzes.insert_one({
+        "quiz": quiz,
+    })
     return result
 
 
@@ -11,7 +13,7 @@ def getAllQuizTopicWithId():
         {
             "$project": {
                 "_id": { "$toString": "$_id" },
-                "topic": 1
+                "topic": "$quiz.topic"
             }
         }
     ]
@@ -26,7 +28,9 @@ def db_update_quiz(document_id: str, quiz: Quiz):
 
     result = mongo.db.quizzes.update_one(
         {"_id": document_id},
-        {"$set": quiz.model_dump()}
+        {"$set": {
+            "quiz": quiz.model_dump()
+        }}
     )
 
     # If result.modified_count greater that 0 than update successfully otherwise not update
@@ -35,7 +39,7 @@ def db_update_quiz(document_id: str, quiz: Quiz):
 
 def db_get_quiz_by_id(_id: str):
 
-    quiz = mongo.db.quizzes.find_one({"_id": ObjectId(_id)})
+    data = mongo.db.quizzes.find_one({"_id": ObjectId(_id)})
 
-
-    return quiz
+    data["_id"] = str(data["_id"]) 
+    return data

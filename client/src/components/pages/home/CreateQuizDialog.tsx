@@ -70,8 +70,8 @@ const CreateQuizDialog: FC<CreateQuizDialogType> = (props) => {
 		console.log(value);
 		createQuizTrigger({
 			no_of_questions: value.noOfQuestion,
-			question_type: value.questionTypes,
-			topic_name: value.topic,
+			question_types: value.questionTypes,
+			topic: value.topic,
 		})
 			.unwrap()
 			.then((res) => {
