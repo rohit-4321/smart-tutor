@@ -1,0 +1,82 @@
+{
+    "topic": "Computer Performance Optimization",
+    "total_no_of_questions": 8,
+    "questions": [
+        {
+            "question_type": "single_choice",
+            "question": "What is a common reason for a computer to slow down over time?",
+            "correct_answer": [0],
+            "options": ["Accumulation of temporary files", "Good internet connection", "Regular software updates", "High disk space"],
+            "description": "Temporary files can build up on a computer over time, taking up space and slowing down performance."
+        },
+        {
+            "question_type": "multiple_choice",
+            "question": "Which of these can help improve a computer's speed?",
+            "correct_answer": [0, 2, 3],
+            "options": [
+                "Adding more RAM",
+                "Decreasing screen brightness",
+                "Uninstalling unused applications",
+                "Upgrading to an SSD"
+            ],
+            "description": "Adding RAM, removing unused applications, and using an SSD are effective ways to improve performance."
+        },
+        {
+            "question_type": "single_choice",
+            "question": "Which component is most likely to cause lag when running multiple applications?",
+            "correct_answer": [1],
+            "options": ["Graphics card", "RAM", "Monitor", "Keyboard"],
+            "description": "RAM is a key component for multitasking. Low RAM can cause lag when multiple applications are open."
+        },
+        {
+            "question_type": "multiple_choice",
+            "question": "What should be done to prevent malware from slowing down your computer?",
+            "correct_answer": [0, 1],
+            "options": [
+                "Install antivirus software",
+                "Avoid clicking on suspicious links",
+                "Use an external keyboard",
+                "Increase screen resolution"
+            ],
+            "description": "Antivirus software and safe browsing habits help prevent malware that can slow down a computer."
+        },
+        {
+            "question_type": "single_choice",
+            "question": "Which part upgrade typically gives the biggest boost to computer speed for everyday tasks?",
+            "correct_answer": [2],
+            "options": ["CPU", "Graphics card", "SSD", "Power supply"],
+            "description": "Switching from a hard drive to an SSD generally offers significant speed improvements for daily tasks."
+        },
+        {
+            "question_type": "multiple_choice",
+            "question": "Which of these actions can help reduce startup time?",
+            "correct_answer": [0, 2],
+            "options": [
+                "Disabling startup applications",
+                "Increasing screen size",
+                "Using a faster hard drive or SSD",
+                "Changing desktop background"
+            ],
+            "description": "Disabling unnecessary startup applications and using an SSD can significantly reduce startup time."
+        },
+        {
+            "question_type": "single_choice",
+            "question": "What does defragmenting a hard drive do?",
+            "correct_answer": [1],
+            "options": ["Increases storage capacity", "Organizes data for faster access", "Improves internet speed", "Removes all files"],
+            "description": "Defragmenting a hard drive organizes data, making it quicker for the system to access files."
+        },
+        {
+            "question_type": "multiple_choice",
+            "question": "Which tasks can free up space on your computer?",
+            "correct_answer": [0, 2, 3],
+            "options": [
+                "Deleting temporary files",
+                "Playing music",
+                "Removing unused applications",
+                "Clearing the recycle bin"
+            ],
+            "description": "Deleting temporary files, uninstalling unused applications, and clearing the recycle bin help free up space."
+        }
+    ]
+}

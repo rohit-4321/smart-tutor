@@ -1,0 +1,36 @@
+.container{
+    margin-top: 3rem;
+    margin-left: 3rem;
+    margin-right: 3rem;
+    display: flex;
+    gap: 1.5rem;
+}
+
+.newTopicText {
+    font-weight: 600;
+    font-size: 1.4rem;
+}
+
+
+.topicContainer {
+    flex: 1;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    display: flex;
+}
+.topic {
+    all: unset;
+    background-color: var(--background-color-secondary);
+    padding: 0.3rem 0.9rem;
+    border-radius: 5px;
+    border: 1px solid var(--gray-100);
+    cursor: pointer;
+    height: 3rem;
+}
+.topic:hover {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.2);
+}
+.topic > span  {
+    font-size: 1.3rem;
+    font-weight: 500;
+}
