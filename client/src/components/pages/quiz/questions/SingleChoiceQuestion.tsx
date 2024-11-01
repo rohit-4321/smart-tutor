@@ -105,7 +105,7 @@ export const SingleChoiceQuestionResult: FC<SingleChoiceQuestionProps> = memo(
 				</Stack>
 				{!isQuestionCorrect && (
 					<Box mt="0.5rem" ml="1rem" fontWeight={400}>
-						DISCRIPTION : <span>{description}</span>
+						DESCRIPTION : <span>{description}</span>
 					</Box>
 				)}
 			</Box>

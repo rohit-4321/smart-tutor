@@ -80,6 +80,39 @@ const CreateQuizDialog: FC<CreateQuizDialogType> = (props) => {
 				navigate(`/quiz/${res.result._id}?newQuiz=true`);
 			});
 	};
+
+	if (isCreateQuizLoading) {
+		return (
+			<Dialog
+				open={open}
+				sx={{
+					"& .MuiDialog-container": {
+						"& .MuiPaper-root": {
+							width: "100%",
+							maxWidth: "40rem",
+							height: "25rem",
+							display: "flex",
+							alignItems: "center",
+							justifyContent: "center",
+							flexDirection: "column",
+							gap: "1rem",
+						},
+					},
+				}}
+			>
+				<span
+					style={{
+						fontSize: "1.4rem",
+						fontWeight: "600",
+						color: "var(--text-color)",
+					}}
+				>
+					This may take a while. Please wait!!
+				</span>
+				<CircularProgress />
+			</Dialog>
+		);
+	}
 	return (
 		<Dialog
 			open={open}
@@ -89,6 +122,7 @@ const CreateQuizDialog: FC<CreateQuizDialogType> = (props) => {
 					"& .MuiPaper-root": {
 						width: "100%",
 						maxWidth: "40rem", // Set your width here
+						height: "25rem",
 					},
 				},
 			}}

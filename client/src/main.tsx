@@ -5,12 +5,27 @@ import "./index.css";
 import { store } from "./redux/store.ts";
 import { Provider } from "react-redux";
 import { SnackbarProvider } from "notistack";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
+
+const theme = createTheme({
+	components: {
+		MuiDialog: {
+			styleOverrides: {
+				paper: {
+					boxShadow: "none",
+				},
+			},
+		},
+	},
+});
 
 createRoot(document.getElementById("root")!).render(
 	<StrictMode>
 		<Provider store={store}>
 			<SnackbarProvider>
-				<App />
+				<ThemeProvider theme={theme}>
+					<App />
+				</ThemeProvider>
 			</SnackbarProvider>
 		</Provider>
 	</StrictMode>,
