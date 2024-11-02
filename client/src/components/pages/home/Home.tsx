@@ -3,6 +3,7 @@ import style from "./Home.module.css";
 import { Recommended } from "./Recommended";
 import CreateQuizDialog, { type NewQuiz } from "./CreateQuizDialog";
 import { useCallback, useState } from "react";
+// import userApi from "../../../api/user.api";
 export const Home = () => {
 	const [dialogOpen, setIsDialogOpen] = useState(false);
 	const [quizAttr, _setQuizAttr] = useState<NewQuiz>({
@@ -26,6 +27,7 @@ export const Home = () => {
 		setQuizAttr("topic", topicName);
 		setIsDialogOpen(true);
 	};
+
 	return (
 		<div className={style.home}>
 			<CreateQuizDialog
