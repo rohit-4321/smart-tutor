@@ -1,14 +1,13 @@
-from flask import request, jsonify, current_app
+from flask import request, jsonify, current_app, session
 from app.modals.quiz import insertQuiz, getAllQuizTopicWithId, db_update_quiz, db_get_quiz_by_id
 from pymongo.errors import PyMongoError
 from app.routes import main
 from os import getenv
 from openai import OpenAI
-import os
-import json
 from app.prompt import system_prompt
 
 from schema.quiz import CreateQuizSchema, Quiz, QuizDBCollecction
+from app.routes.auth import login_required
 
 # AI Client
 SAMBANOVA_API_KEY = getenv("SAMBANOVA_API_KEY")
@@ -20,8 +19,10 @@ client = OpenAI(
 
 
 @main.route('/createQuiz', methods=['POST'])
+@login_required
 def createGroup():
     try:
+        user_id = session['user_info']['id']
         payload = CreateQuizSchema(**request.json)
         completion = client.chat.completions.create(
             model="Meta-Llama-3.1-8B-Instruct",
@@ -37,7 +38,7 @@ def createGroup():
         content = chat_response['choices'][0]['message']['content'];
         
         quiz_data = Quiz.model_validate_json(content)
-        result = insertQuiz(quiz_data.model_dump())
+        result = insertQuiz(quiz_data.model_dump(), user_id)
         
         return jsonify({'result': {
             '_id': str(result.inserted_id),
@@ -54,8 +55,9 @@ def createGroup():
 
 
 @main.route('/allTopics')
+@login_required
 def getQuizTopic():
-    result = getAllQuizTopicWithId()
+    result = getAllQuizTopicWithId(session['user_info']['id'])
 
     return jsonify({
         'result': result
@@ -63,6 +65,7 @@ def getQuizTopic():
 
 
 @main.route('/updateQuiz/<_id>', methods=['PUT'])
+@login_required
 def updateQuiz(_id):
     try:
         payload_quiz = request.json
@@ -84,6 +87,7 @@ def updateQuiz(_id):
 
 
 @main.route('/quiz/<_id>')
+@login_required
 def getQuiz(_id):
     try:
         result = db_get_quiz_by_id(str(_id))
