@@ -1,10 +1,12 @@
-import { Button, TextField } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import style from "./Home.module.css";
 import { Recommended } from "./Recommended";
 import CreateQuizDialog, { type NewQuiz } from "./CreateQuizDialog";
 import { useCallback, useState } from "react";
-// import userApi from "../../../api/user.api";
+import { HomeInputBox } from "../../ui/HomeInputBox";
+import { useAppSelector } from "../../../redux/store";
 export const Home = () => {
+	const userName = useAppSelector((rd) => rd.user.value?.given_name);
 	const [dialogOpen, setIsDialogOpen] = useState(false);
 	const [quizAttr, _setQuizAttr] = useState<NewQuiz>({
 		topic: "",
@@ -37,24 +39,16 @@ export const Home = () => {
 				setValue={setQuizAttr}
 			/>
 			<div className={style.textFieldContainer}>
-				<TextField
-					variant="outlined"
-					placeholder="Enter Quiz Topic"
+				<Box sx={{}}>
+					<span style={{ fontSize: "1.7rem" }}>
+						{userName
+							? `Hii 👋 ${userName}! You have somthing in mind?`
+							: "You have somthing in mind ?"}
+					</span>
+				</Box>
+				<HomeInputBox
 					value={quizAttr.topic}
 					onChange={(e) => setQuizAttr("topic", e.target.value)}
-					slotProps={{
-						input: {
-							style: {
-								color: "var(--text-color)", // Label color
-								fontSize: "1.2rem", // Label font size
-								fontWeight: "bold", // Label font weight
-							},
-						},
-					}}
-					sx={{
-						width: "40%",
-						marginX: "auto",
-					}}
 				/>
 				<Button
 					variant="contained"

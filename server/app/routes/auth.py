@@ -41,4 +41,4 @@ def get_user_info():
 @login_required
 def log_out():
     session.clear()
-    return jsonify({'result': 'unauthorized'}), 401
+    return jsonify({'result': 'true'}), 200

@@ -37,7 +37,7 @@ and use that as quiz topic. Remember that topic should be related to the user "t
 
 
 -> Do not give me python code but the actual quiz json only
--> Your response should be as a string. That json should not be enclose in ``` and should not include "\n". Json string should be parse of JSON.parse javascript function
+-> Remember that your response should be as a string. That json should not be enclose in ``` and should not include "\n". Json string should be parse of JSON.parse javascript function
 Priority:
 1.You first priority should be to return only the json response that matchs Quiz Type in the above python Schema of Quiz and nothing else.
 2.If there is any issue than just return a text that is delimited by ###.

@@ -20,6 +20,12 @@ const userApi = baseApi.injectEndpoints({
 				method: "GET",
 			}),
 		}),
+		logout: build.query<any, any>({
+			query: () => ({
+				url: "logout",
+				method: "GET",
+			}),
+		}),
 	}),
 	overrideExisting: false,
 });

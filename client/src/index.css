@@ -1,8 +1,23 @@
 :root {
 
 
-	--background-color-secondary: #dbf4ff;
+	--background-color-secondary: rgba(242,242,242, 1);
 	--background-color-primary: #fdfdfd;
+	--primary-color: #7e22ced3;
+	 /* Lighter Shades */
+	 --primary-color-light-90: #f0e5fdde;
+	 --primary-color-light-80: #e1cbfb;
+	 --primary-color-light-60: #c38ff6d8;
+	 --primary-color-light-40: #a354f1d2;
+	 --primary-color-light-20: #8e32e4e1;
+   
+	 /* Darker Shades */
+	 --primary-color-dark-10: #711fb9de;
+	 --primary-color-dark-20: #671ca4dc;
+	 --primary-color-dark-30: #5a188f;
+	 --primary-color-dark-40: #4e147ada;
+	 --primary-color-dark-50: #421165dc;
+	 --primary-color-dark-90: #300d49e0;
 	--gray-0: #fff;
     --gray-50: #e9ebf0;
     --gray-100: #cbced4;
@@ -49,6 +64,7 @@ body{
 
 .rightPanel {
     margin-left: var(--drawer-width);
+	background-color: var(--background-color-secondary);
 }
 
 .page-wrapper{

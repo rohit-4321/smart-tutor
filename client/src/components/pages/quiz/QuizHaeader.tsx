@@ -13,7 +13,9 @@ export const QuizHeader = () => {
 	return (
 		<Box
 			sx={{
-				mb: "3rem",
+				pb: "3rem",
+				paddingX: "2rem",
+				borderBottom: "1px solid var(--gray-100)",
 			}}
 		>
 			<Stack

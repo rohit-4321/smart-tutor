@@ -46,7 +46,10 @@ export const SingleChoiceQuestion: FC<SingleChoiceQuestionProps> = memo(
 							direction="row"
 							alignItems="center"
 						>
-							<Radio checked={userAnswer.includes(optionIndex)} />
+							<Radio
+								style={{ color: "var(--primary-color)" }}
+								checked={userAnswer.includes(optionIndex)}
+							/>
 							<span>{vl}</span>
 						</Stack>
 					))}
@@ -98,7 +101,11 @@ export const SingleChoiceQuestionResult: FC<SingleChoiceQuestionProps> = memo(
 									: {}),
 							}}
 						>
-							<Radio disabled checked={userAnswer.includes(optionIndex)} />
+							<Radio
+								style={{ color: "var(--primary-color)" }}
+								disabled
+								checked={userAnswer.includes(optionIndex)}
+							/>
 							<span>{vl}</span>
 						</Stack>
 					))}

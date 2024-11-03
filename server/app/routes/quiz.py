@@ -32,7 +32,9 @@ def createGroup():
                 ],
         )
         chat_response = completion.model_dump();
+        print('CHAT REPONSE')
         print(str(chat_response));
+        print('CHAT REPONSE')
 
         
         content = chat_response['choices'][0]['message']['content'];
