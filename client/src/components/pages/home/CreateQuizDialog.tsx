@@ -1,23 +1,22 @@
 import {
-	Button,
+	Box,
 	Checkbox,
 	Dialog,
 	DialogActions,
 	DialogContent,
 	DialogTitle,
-	FormControl,
 	FormControlLabel,
-	FormGroup,
-	FormLabel,
 	Stack,
 	TextField,
 } from "@mui/material";
 import type { FC } from "react";
 import homeApi from "../../../api/home.api";
-import CircularProgress from "@mui/material/CircularProgress";
 import { useDispatch } from "react-redux";
 import { setQuiz } from "../../../redux/slices/quizSlice";
 import { useNavigate } from "react-router-dom";
+import { ContainedButton, OutlineButton } from "../../ui/Button";
+import bouncing_svg from "../../../assets/bouncing-circles.svg";
+import { DialogInput } from "../../ui/DialogInput";
 
 export type NewQuiz = {
 	topic: string;
@@ -104,48 +103,50 @@ const CreateQuizDialog: FC<CreateQuizDialogType> = (props) => {
 					style={{
 						fontSize: "1.4rem",
 						fontWeight: "600",
-						color: "var(--text-color)",
+						color: "var(--gray-500)",
+						fontFamily: "inherit",
 					}}
 				>
 					This may take a while. Please wait!!
 				</span>
-				<CircularProgress />
+				<img src={bouncing_svg} alt="as" width="50px" />
 			</Dialog>
 		);
 	}
 	return (
 		<Dialog
 			open={open}
-			// onClose={() => setOpen(false)}
 			sx={{
 				"& .MuiDialog-container": {
 					"& .MuiPaper-root": {
 						width: "100%",
-						maxWidth: "40rem", // Set your width here
+						maxWidth: "40rem",
 						height: "25rem",
 					},
 				},
 			}}
 		>
-			<DialogTitle>{value.topic}</DialogTitle>
+			<DialogTitle sx={{ fontFamily: "Open Sans" }}>{value.topic}</DialogTitle>
 			<DialogContent>
 				<Stack direction="column">
-					<TextField
+					{/* <TextField
+						type="number"
 						variant="outlined"
 						placeholder="Number of Question"
 						onChange={onQuestionNumberChange}
+					/> */}
+					<DialogInput
+						type="number"
+						placeholder="Number of Question"
+						onChange={onQuestionNumberChange}
 					/>
-					<FormControl
-						required
-						component="fieldset"
-						sx={{ mt: 3 }}
-						variant="standard"
-					>
-						<FormLabel component="legend">Pick Question Types</FormLabel>
-						<FormGroup>
+					<Box my="1rem">
+						<span>Pick Question Type: </span>
+						<Stack>
 							<FormControlLabel
 								control={
 									<Checkbox
+										style={{ color: "var(--primary-color)" }}
 										checked={value.questionTypes.includes("single_choice")}
 										onChange={() => toggleQuestionType("single_choice")}
 										name="gilad"
@@ -156,6 +157,7 @@ const CreateQuizDialog: FC<CreateQuizDialogType> = (props) => {
 							<FormControlLabel
 								control={
 									<Checkbox
+										style={{ color: "var(--primary-color)" }}
 										checked={value.questionTypes.includes("multiple_choice")}
 										onChange={() => toggleQuestionType("multiple_choice")}
 										name="jason"
@@ -163,17 +165,13 @@ const CreateQuizDialog: FC<CreateQuizDialogType> = (props) => {
 								}
 								label="Multiple Choice"
 							/>
-						</FormGroup>
-					</FormControl>
+						</Stack>
+					</Box>
 				</Stack>
 			</DialogContent>
 			<DialogActions>
-				<Button onClick={() => setOpen(false)} variant="text">
-					Cancel
-				</Button>
-				<Button onClick={onQuizCreateClicked} variant="outlined">
-					{isCreateQuizLoading ? <CircularProgress /> : "Create"}
-				</Button>
+				<OutlineButton onClick={() => setOpen(false)}>Cancel</OutlineButton>
+				<ContainedButton onClick={onQuizCreateClicked}>Create</ContainedButton>
 			</DialogActions>
 		</Dialog>
 	);

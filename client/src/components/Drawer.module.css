@@ -2,10 +2,11 @@
     position: fixed;
     left: 0px;
     bottom: 0px;
+    height: calc(100vh - var(--header-height));
+    overflow-y: hidden;
     top: var(--header-height);
     background-color: var(--background-color-primary);
     width: var(--drawer-width);
-    overflow: hidden;
     transition: width 0.1s ease;
     border-right: 1px solid var(--gray-100);
 }
@@ -13,17 +14,19 @@
 .homeLink{
     all:unset;
     padding: 10px 12px;
-    font-size: 1.3rem;
-    font-weight: 600;
+    font-size: 1.1rem;
+    font-weight: 500;
     border-radius: 5px;
 }
 
 .selected {
-    background-color: var(--background-color-secondary)
+    background-color: var(--primary-color-dark-20);
+    color: var(--background-color-primary) !important;
 }
 .homeLink:hover{
     cursor: pointer;
-    background-color: var(--background-color-secondary)
+    color: var(--background-color-primary);
+    background-color: var(--primary-color-light-20)
 }
 
 .quizLinksHeading{
@@ -33,15 +36,15 @@
     border-radius: 5px;
 }
 
-
-
 .quizLink{
     /* all:unset; */
     text-decoration: none;
-    color: var(--text-color);
+    width: 100%;
+    height: 100%;
     white-space: nowrap;        
-    overflow: hidden;          
+    overflow: hidden;      
     text-overflow: ellipsis;   
+    color: inherit;
     display: inline-block; 
     padding: 3px 10px;
     font-size: 1rem;
@@ -49,7 +52,16 @@
     border-radius: 5px;
 }
 
-.quizLink:hover{
+
+.quizLinkContainer {
+    border-radius: 4px;
+    display: flex;
+    justify-content: center;
+    color: var(--text-color);
+    align-items: center;   
+}
+.quizLinkContainer:hover{
     cursor: pointer;
-    background-color: var(--background-color-secondary)
+    color: var(--background-color-primary) !important;
+    background-color: var(--primary-color-light-20)
 }

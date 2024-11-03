@@ -1,9 +1,12 @@
-import { Button, TextField } from "@mui/material";
+import { Box, Button } from "@mui/material";
 import style from "./Home.module.css";
 import { Recommended } from "./Recommended";
 import CreateQuizDialog, { type NewQuiz } from "./CreateQuizDialog";
 import { useCallback, useState } from "react";
+import { HomeInputBox } from "../../ui/HomeInputBox";
+import { useAppSelector } from "../../../redux/store";
 export const Home = () => {
+	const userName = useAppSelector((rd) => rd.user.value?.given_name);
 	const [dialogOpen, setIsDialogOpen] = useState(false);
 	const [quizAttr, _setQuizAttr] = useState<NewQuiz>({
 		topic: "",
@@ -26,6 +29,7 @@ export const Home = () => {
 		setQuizAttr("topic", topicName);
 		setIsDialogOpen(true);
 	};
+
 	return (
 		<div className={style.home}>
 			<CreateQuizDialog
@@ -35,24 +39,16 @@ export const Home = () => {
 				setValue={setQuizAttr}
 			/>
 			<div className={style.textFieldContainer}>
-				<TextField
-					variant="outlined"
-					placeholder="Enter Quiz Topic"
+				<Box sx={{}}>
+					<span style={{ fontSize: "1.7rem" }}>
+						{userName
+							? `Hii 👋 ${userName}! You have somthing in mind?`
+							: "You have somthing in mind ?"}
+					</span>
+				</Box>
+				<HomeInputBox
 					value={quizAttr.topic}
 					onChange={(e) => setQuizAttr("topic", e.target.value)}
-					slotProps={{
-						input: {
-							style: {
-								color: "var(--text-color)", // Label color
-								fontSize: "1.2rem", // Label font size
-								fontWeight: "bold", // Label font weight
-							},
-						},
-					}}
-					sx={{
-						width: "40%",
-						marginX: "auto",
-					}}
 				/>
 				<Button
 					variant="contained"
@@ -61,9 +57,10 @@ export const Home = () => {
 					disableTouchRipple
 					onClick={() => setIsDialogOpen(true)}
 					sx={{
-						backgroundColor: "#E8F0FE",
+						backgroundColor: "var(--primary-color-light-80)",
 						color: "var(--text-color)",
-						border: "1px solid var(--gray-50)",
+						border: "1px solid var(--gray-100)",
+						boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.1)",
 						":hover": {
 							boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.2)",
 						},

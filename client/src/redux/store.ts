@@ -6,12 +6,15 @@ import {
 	type TypedUseSelectorHook,
 } from "react-redux";
 import quizSlice from "./slices/quizSlice";
+import userSlice from "./slices/userSlice";
 
 export const store = configureStore({
 	reducer: {
 		[baseApi.reducerPath]: baseApi.reducer,
 		quiz: quizSlice,
+		user: userSlice,
 	},
+	devTools: process.env.NODE_ENV !== "production",
 	middleware: (getDefaultMiddleware) =>
 		getDefaultMiddleware().concat(baseApi.middleware),
 });

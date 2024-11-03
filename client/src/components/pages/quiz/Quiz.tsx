@@ -3,11 +3,12 @@ import homeApi from "../../../api/home.api";
 import { useEffect } from "react";
 import { store, useAppDispatch, useAppSelector } from "../../../redux/store";
 import { setQuiz } from "../../../redux/slices/quizSlice";
-import { Box, Stack, Button, CircularProgress } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { QuestionList } from "./QuestionList";
 import { QuizHeader } from "./QuizHaeader";
 import { useSnackbar } from "notistack";
 import { QuizLoading } from "./QuizLoading";
+import { ContainedButton, OutlineButton } from "../../ui/Button";
 
 export const Quiz = () => {
 	const { enqueueSnackbar } = useSnackbar();
@@ -76,24 +77,38 @@ export const Quiz = () => {
 		return <QuizLoading />;
 	return (
 		<Box mx="3rem" mb="3rem">
-			<QuizHeader />
-			<Box mt="2rem">
-				<QuestionList />
+			<Box
+				sx={{
+					maxWidth: "70rem",
+					marginX: "auto",
+					backgroundColor: "var(--background-color-primary)",
+					paddingTop: "2rem",
+					paddingBottom: "2rem",
+					boxShadow:
+						"0 4px 8px rgba(30, 21, 39, 0.082), 0 6px 20px rgba(22, 22, 22, 0.048)",
+				}}
+			>
+				<QuizHeader />
+				<Box
+					mt="2rem"
+					sx={{
+						paddingX: "2rem",
+					}}
+				>
+					<QuestionList />
+				</Box>
+				{status === "completed" ? null : (
+					<Stack my="1rem" paddingX="2rem" gap={2} direction="row-reverse">
+						<OutlineButton
+							onClick={onSaveAsDraft}
+							disabled={isUpdateQuizLoading}
+						>
+							Save As Draft
+						</OutlineButton>
+						<ContainedButton onClick={onSubmit}>Submit</ContainedButton>
+					</Stack>
+				)}
 			</Box>
-			{status === "completed" ? null : (
-				<Stack my="2rem" gap={5} direction="row-reverse">
-					<Button variant="outlined" onClick={onSubmit}>
-						Submit
-					</Button>
-					<Button
-						variant="contained"
-						onClick={onSaveAsDraft}
-						disabled={isUpdateQuizLoading}
-					>
-						Save As Draft
-					</Button>
-				</Stack>
-			)}
 		</Box>
 	);
 };

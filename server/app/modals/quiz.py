@@ -3,18 +3,24 @@ from schema.quiz import Quiz
 from bson import ObjectId
 from datetime import datetime, timezone
 
-def insertQuiz(quiz: Quiz):
+def insertQuiz(quiz: Quiz, user_id: str):
 
     result = mongo.db.quizzes.insert_one({
         "quiz": quiz,
         "created_at": datetime.now(timezone.utc),
-        "last_updated_at": datetime.now(timezone.utc)
+        "last_updated_at": datetime.now(timezone.utc),
+        'user_id': user_id
     })
     return result
 
 
-def getAllQuizTopicWithId():
+def getAllQuizTopicWithId(user_id: str):
     pipeline = [
+        {
+            "$match": {
+                "user_id": user_id,
+            }
+        },
         {
             "$project": {
                 "_id": { "$toString": "$_id" },

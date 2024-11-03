@@ -46,7 +46,10 @@ export const MultipleChoiceQuestion: FC<MultipleChoiceQuestionProps> = memo(
 							direction="row"
 							alignItems="center"
 						>
-							<Checkbox checked={userAnswer.includes(optionIndex)} />
+							<Checkbox
+								style={{ color: "var(--primary-color)" }}
+								checked={userAnswer.includes(optionIndex)}
+							/>
 							<span>{vl}</span>
 						</Stack>
 					))}
@@ -105,7 +108,11 @@ export const MultipleChoiceQuestionResult: FC<MultipleChoiceQuestionProps> =
 							direction="row"
 							alignItems="center"
 						>
-							<Checkbox disabled checked={userAnswer.includes(optionIndex)} />
+							<Checkbox
+								disabled
+								style={{ color: "var(--primary-color)" }}
+								checked={userAnswer.includes(optionIndex)}
+							/>
 							<span>{vl}</span>
 						</Stack>
 					))}
