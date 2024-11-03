@@ -1,0 +1,30 @@
+.dialogInputContainer {
+    width: 100%; /* Makes container fill its parent's width */
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    /* overflow: hidden; */
+}
+.dialogLabel {
+    color: var(--gray-500);
+    font-size: 0.9rem;
+}
+.dialogInput {
+    all: unset;
+    border: 2px solid var(--gray-100);
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.1);
+}
+.dialogInput:hover{
+    border: 2px solid var(--primary-color-light-20);
+}
+
+.dialogInput:focus{
+    border: 2px solid var(--primary-color-dark-20);
+}
+
+
+.dialogInput::placeholder{
+    color: var(--gray-300)
+}

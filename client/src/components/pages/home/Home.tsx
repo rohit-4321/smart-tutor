@@ -57,9 +57,10 @@ export const Home = () => {
 					disableTouchRipple
 					onClick={() => setIsDialogOpen(true)}
 					sx={{
-						backgroundColor: "#E8F0FE",
+						backgroundColor: "var(--primary-color-light-80)",
 						color: "var(--text-color)",
-						border: "1px solid var(--gray-50)",
+						border: "1px solid var(--gray-100)",
+						boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.1)",
 						":hover": {
 							boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.2)",
 						},

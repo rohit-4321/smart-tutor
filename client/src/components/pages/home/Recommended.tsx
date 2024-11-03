@@ -1,49 +1,107 @@
 import type { FC } from "react";
 import style from "./Recommended.module.css";
+import { Box, Stack } from "@mui/material";
+import french_revolution from "../../../assets/french_revolution.webp";
+import The_Rise_and_Fall_of_the_Roman_Empire from "../../../assets/The Rise and Fall of the Roman Empire.webp";
+import the_impact_of_industrial_revolution from "../../../assets/the_impact_of_indutrial_revolution.jpeg";
+import women_suffrage_movement from "../../../assets/women_suffrage_movement.jpeg";
+import invention_and_discoveries from "../../../assets/invention_and_discoveries.jpeg";
+import tech_history from "../../../assets/tech_history.jpeg";
 
 const topics = [
-	"The Rise and Fall of the Roman Empire",
-	"French Revolution",
-	"The Impact of the Industrial Revolution",
-	"Womens Suffrage Movement",
-	"French Revolution",
-	"The Impact of the Industrial Revolution",
-	"Womens Suffrage Movement",
+	{
+		image: french_revolution,
+		name: "French Revolution",
+	},
+	{
+		image: The_Rise_and_Fall_of_the_Roman_Empire,
+		name: "The Rise and Fall of the Roman Empire",
+	},
+	{
+		name: "Inventions and Discoveries",
+		image: invention_and_discoveries,
+	},
+	{
+		image: women_suffrage_movement,
+		name: "Women Suffrage Movement",
+	},
+	{
+		name: "Tech History",
+		image: tech_history,
+	},
+	{
+		image: the_impact_of_industrial_revolution,
+		name: "The Impact Of Industrial Revolution",
+	},
 ];
+
 type RecommendedType = {
 	onRecommendedClick: (topicName: string) => void;
 };
 export const Recommended: FC<RecommendedType> = ({ onRecommendedClick }) => {
 	return (
-		<div className={style.container}>
-			<div>
-				<span className={style.newTopicText}>Try these Topic : </span>
-			</div>
-			<div className={style.topicContainer}>
+		<Box
+			sx={{
+				marginY: "3rem",
+				marginX: "4rem",
+			}}
+		>
+			<span className={style.newTopicText}>Try these Topic : </span>
+			<Stack
+				direction="row"
+				sx={{
+					paddingX: "1rem",
+					paddingY: "2rem",
+					overflowX: "auto",
+					"&::-webkit-scrollbar": {
+						display: "none",
+					},
+					"-ms-overflow-style": "none",
+					"scrollbar-width": "none",
+				}}
+				gap={5}
+			>
 				{topics.map((topic) => (
 					<Topic
-						key={topic}
-						name={topic}
+						key={topic.name}
+						name={topic.name}
+						image={topic.image}
 						onRecommendedClick={onRecommendedClick}
 					/>
 				))}
-			</div>
-		</div>
+			</Stack>
+		</Box>
 	);
 };
 
 type TopicProps = {
 	name: string;
+	image: string;
 	onRecommendedClick: (topicName: string) => void;
 };
-const Topic: FC<TopicProps> = ({ name, onRecommendedClick }) => {
+const Topic: FC<TopicProps> = ({ name, image, onRecommendedClick }) => {
 	return (
-		<button
-			type="button"
-			className={style.topic}
+		// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+		<div
 			onClick={() => onRecommendedClick(name)}
+			className={style.module}
+			style={{
+				background: `
+          linear-gradient(
+            to bottom,
+            rgba(0, 0, 0, 0),
+            rgba(0, 0, 0, 0.9)
+          ),
+          url(${image})
+        `,
+				backgroundSize: "cover",
+				backgroundPosition: "center",
+				backgroundRepeat: "no-repeat",
+			}}
 		>
-			<span>{name}</span>
-		</button>
+			<header>
+				<span>{name}</span>
+			</header>
+		</div>
 	);
 };

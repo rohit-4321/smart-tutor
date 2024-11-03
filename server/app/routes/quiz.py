@@ -25,7 +25,7 @@ def createGroup():
         user_id = session['user_info']['id']
         payload = CreateQuizSchema(**request.json)
         completion = client.chat.completions.create(
-            model="Meta-Llama-3.1-8B-Instruct",
+            model="Meta-Llama-3.1-70B-Instruct",
             messages = [
                 {"role": "system", "content": system_prompt},
                 {"role": "user", "content": payload.model_dump_json()}

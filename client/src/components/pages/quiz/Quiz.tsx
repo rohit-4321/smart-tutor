@@ -3,11 +3,12 @@ import homeApi from "../../../api/home.api";
 import { useEffect } from "react";
 import { store, useAppDispatch, useAppSelector } from "../../../redux/store";
 import { setQuiz } from "../../../redux/slices/quizSlice";
-import { Box, Stack, Button, CircularProgress } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { QuestionList } from "./QuestionList";
 import { QuizHeader } from "./QuizHaeader";
 import { useSnackbar } from "notistack";
 import { QuizLoading } from "./QuizLoading";
+import { ContainedButton, OutlineButton } from "../../ui/Button";
 
 export const Quiz = () => {
 	const { enqueueSnackbar } = useSnackbar();
@@ -97,17 +98,14 @@ export const Quiz = () => {
 					<QuestionList />
 				</Box>
 				{status === "completed" ? null : (
-					<Stack my="2rem" gap={5} direction="row-reverse">
-						<Button variant="outlined" onClick={onSubmit}>
-							Submit
-						</Button>
-						<Button
-							variant="contained"
+					<Stack my="1rem" paddingX="2rem" gap={2} direction="row-reverse">
+						<OutlineButton
 							onClick={onSaveAsDraft}
 							disabled={isUpdateQuizLoading}
 						>
 							Save As Draft
-						</Button>
+						</OutlineButton>
+						<ContainedButton onClick={onSubmit}>Submit</ContainedButton>
 					</Stack>
 				)}
 			</Box>
