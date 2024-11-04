@@ -62,7 +62,14 @@ export const SideDrawer = () => {
 				>
 					{(isLoading || isFetching) && (
 						<Box>
-							<LinearProgress color="info" />
+							<LinearProgress
+								sx={{
+									backgroundColor: "var(--primary-color-light-60)",
+									"& .MuiLinearProgress-bar": {
+										backgroundColor: "var(--primary-color)",
+									},
+								}}
+							/>
 						</Box>
 					)}
 					{allQuiz?.result.map((topic) => (

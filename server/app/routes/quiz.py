@@ -4,7 +4,7 @@ from pymongo.errors import PyMongoError
 from app.routes import main
 from os import getenv
 from openai import OpenAI
-from app.prompt import system_prompt
+from app.prompt import system_prompt, system_prompt_2
 
 from schema.quiz import CreateQuizSchema, Quiz, QuizDBCollecction
 from app.routes.auth import login_required
@@ -27,14 +27,15 @@ def createGroup():
         completion = client.chat.completions.create(
             model="Meta-Llama-3.1-70B-Instruct",
             messages = [
-                {"role": "system", "content": system_prompt},
+                {"role": "system", "content": system_prompt_2},
                 {"role": "user", "content": payload.model_dump_json()}
                 ],
         )
+        print(system_prompt_2);
         chat_response = completion.model_dump();
-        print('CHAT REPONSE')
-        print(str(chat_response));
-        print('CHAT REPONSE')
+        # print('CHAT REPONSE')
+        # print(str(chat_response));
+        # print('CHAT REPONSE')
 
         
         content = chat_response['choices'][0]['message']['content'];

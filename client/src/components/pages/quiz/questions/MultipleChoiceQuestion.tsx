@@ -25,7 +25,10 @@ export const MultipleChoiceQuestion: FC<MultipleChoiceQuestionProps> = memo(
 			>
 				<Box>
 					<span className={style.questionNumber}>{questionNumber + 1}. </span>
-					<span className={style.questionName}>{question}</span>
+					<span
+						className={style.questionName}
+						dangerouslySetInnerHTML={{ __html: question }}
+					></span>
 				</Box>
 				<Stack mt="0.5rem" gap="10px">
 					{options.map((vl, optionIndex) => (
@@ -50,7 +53,7 @@ export const MultipleChoiceQuestion: FC<MultipleChoiceQuestionProps> = memo(
 								style={{ color: "var(--primary-color)" }}
 								checked={userAnswer.includes(optionIndex)}
 							/>
-							<span>{vl}</span>
+							<span dangerouslySetInnerHTML={{ __html: vl }}></span>
 						</Stack>
 					))}
 				</Stack>
