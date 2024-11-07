@@ -1,3 +1,5 @@
+import markdown
+from markdown_katex import KatexExtension
 system_prompt = f"""
 You will be given a json from a users that include a following field:-
 1. topic: <topic for a Quiz>
@@ -83,6 +85,7 @@ Guidelines for Generating the Quiz JSON:
         Use <sub> tags for subscript (e.g., H<sub>2</sub>O for water).
         Use standard HTML symbols for calculus (e.g., &int; for integral, &partial; for partial derivative, &delta; for delta).
         Wrap expressions in <span> tags where appropriate.
+        and appropriate symbol square root in html
     c. If the question includes math symbols or expressions, use HTML symbols or wrap expressions in <span> tags for clarity (e.g., <span>x^2 + 2x + 1 = 0</span>).
     d. Surround the entire question text in <p> tags.
     e. Use HTML tags in the options and description fields as needed, particularly <pre><code> for code and <span> for math symbols, to improve readability.
@@ -106,4 +109,97 @@ Response Requirements:
 -> Do not give me python code but the actual quiz json only
 -> Remember that your response should be as a string as html for all the math subscript superscript and sumbol. That json should not be enclose in ``` and should not include "\n". Json string should be parse of JSON.parse javascript function
 """
+
+
+
+system_prompt_3 = f"""
+
+You are a robot designed to generate JSON responses and must follow instructions strictly. Generate a quiz in JSON format using only the exact schema provided below. You must respond as if you are a machine: produce only the JSON output in a single string, with no explanations, comments, or any additional text. The output should be directly usable as a Python dictionary using json.loads() python function, which means it must be formatted as valid JSON.
+Input Parameters:
+    topic: {{topic}}
+    no_of_questions: {{no_of_questions}}
+    question_types: {{question_types}}
+
+Markdown and LaTeX Explanation:
+    -> Markdown is a lightweight markup language used to format plain text documents. It is widely used for creating formatted text, including headings, paragraphs, lists, links, images, and code blocks. Remember to enclose programming code inside triple `. To render that appropriately
+    -> In this API, Markdown refers to using Markdown syntax to format text for clarity and readability.
+    -> LaTeX is used for formatting mathematical expressions, equations, and formulas. When combined with Markdown, it allows the creation of documents that include both formatted text and mathematical expressions. In LaTeX math expression always enclosed in $ or $$.
+
+Rules for Response:
+    1. The "total_no_of_questions" field in the JSON response must exactly match the number of questions generated in the "questions" array.
+    2. Do not include any information outside the specified JSON structure, as you are a robot with strict formatting rules. You must generate exactly "no_of_questions" questions, following the specified "topic" and "question_types".
+    3. Return the JSON output as a single string that can be parsed by JSON.parse() in JavaScript.\
+
+Schema:
+```
+{{
+  "type": "object",
+  "properties": {{
+    "topic": {{
+      "type": "string",
+      "description": "The topic of the quiz"
+    }},
+    "total_no_of_questions": {{
+      "type": "integer",
+      "description": "Total number of questions in the quiz"
+    }},
+    "questions": {{
+      "type": "array",
+      "items": {{
+        "type": "object",
+        "properties": {{
+          "question_type": {{
+            "type": "string",
+            "enum": ["single_choice", "multiple_choice"],
+            "description": "Type of the question, either 'single_choice' or 'multiple_choice'"
+          }},
+          "question": {{
+            "type": "string",
+            "description": "The text of the question"
+          }},
+          "correct_answer": {{
+            "type": "array",
+            "items": {{
+              "type": "integer"
+            }},
+            "description": "List of indices representing the correct answers"
+          }},
+          "options": {{
+            "type": "array",
+            "items": {{
+              "type": "string"
+            }},
+            "description": "List of possible answer options"
+          }},
+          "description": {{
+            "type": "string",
+            "description": "Additional description or explanation for the question"
+          }}
+        }},
+        "required": ["question_type", "question", "correct_answer", "options", "description"]
+      }}
+    }}
+  }},
+  "required": ["topic", "total_no_of_questions", "questions"]
+}}
+```
+Example Input:
+    topic: "Science"Ensure the JSON output contains exactly no_of_questions items in the questions array, matching the input parameters precisely, and is formatted as a single string ready for JSON.parse() in JavaScript.
+    no_of_questions: 5
+    question_types: ["single_choice", "multiple_choice"]
+
+Response Format: Ensure the JSON output contains exactly "no_of_questions" items in the "questions" array, matching the input parameters precisely, and is formatted as a single string ready for json.loads() in Python.
+"""
+
+
+
+
+
+
+def markdown_to_html(markdown_text):
+    print(markdown_text)
+    # html = markdown.markdown(markdown_text)
+    # print(html)
+
+    return markdown_text
 

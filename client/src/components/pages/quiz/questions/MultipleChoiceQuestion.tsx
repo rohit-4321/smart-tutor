@@ -3,6 +3,8 @@ import { type FC, memo, useMemo } from "react";
 import { setMultipleChoiceOption } from "../../../../redux/slices/quizSlice";
 import { useAppDispatch } from "../../../../redux/store";
 import style from "./MultipleChoiceQuestion.module.css";
+import Latex from "../../../ui/RenderMarkDownLatex";
+import ReactMarkdown from "react-markdown";
 type MultipleChoiceQuestionProps = {
 	question: string;
 	questionNumber: number;
@@ -25,10 +27,9 @@ export const MultipleChoiceQuestion: FC<MultipleChoiceQuestionProps> = memo(
 			>
 				<Box>
 					<span className={style.questionNumber}>{questionNumber + 1}. </span>
-					<span
-						className={style.questionName}
-						dangerouslySetInnerHTML={{ __html: question }}
-					></span>
+					<Latex>
+						<ReactMarkdown>{question}</ReactMarkdown>
+					</Latex>
 				</Box>
 				<Stack mt="0.5rem" gap="10px">
 					{options.map((vl, optionIndex) => (
@@ -53,7 +54,9 @@ export const MultipleChoiceQuestion: FC<MultipleChoiceQuestionProps> = memo(
 								style={{ color: "var(--primary-color)" }}
 								checked={userAnswer.includes(optionIndex)}
 							/>
-							<span dangerouslySetInnerHTML={{ __html: vl }}></span>
+							<Latex>
+								<ReactMarkdown>{vl}</ReactMarkdown>
+							</Latex>
 						</Stack>
 					))}
 				</Stack>
@@ -96,7 +99,9 @@ export const MultipleChoiceQuestionResult: FC<MultipleChoiceQuestionProps> =
 			>
 				<Box>
 					<span className={style.questionNumber}>{questionNumber + 1}. </span>
-					<span className={style.questionName}>{question}</span>
+					<Latex>
+						<ReactMarkdown>{question}</ReactMarkdown>
+					</Latex>
 				</Box>
 				<Stack mt="0.5rem" gap="10px">
 					{options.map((vl, optionIndex) => (
@@ -116,13 +121,18 @@ export const MultipleChoiceQuestionResult: FC<MultipleChoiceQuestionProps> =
 								style={{ color: "var(--primary-color)" }}
 								checked={userAnswer.includes(optionIndex)}
 							/>
-							<span>{vl}</span>
+							<Latex>
+								<ReactMarkdown>{vl}</ReactMarkdown>
+							</Latex>
 						</Stack>
 					))}
 				</Stack>
 				{!isQuestionCorrect && (
 					<Box mt="0.5rem" ml="1rem" fontWeight={400}>
-						DESCRIPTION : <span>{description}</span>
+						DESCRIPTION :{" "}
+						<Latex>
+							<ReactMarkdown>{description}</ReactMarkdown>
+						</Latex>
 					</Box>
 				)}
 			</Box>
