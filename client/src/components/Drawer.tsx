@@ -13,7 +13,7 @@ export const SideDrawer = () => {
 		trigger,
 		{ isLoading: isLogOutLoading, isFetching: isLogoutFetching },
 	] = userApi.useLazyLogoutQuery();
-	const isHomeScreen = location.pathname === "/home";
+	const isHomeScreen = location.pathname.startsWith("/home");
 	const currentQuizId = useMemo(() => {
 		const arr = location.pathname.split("/").filter(Boolean);
 		console.log(arr);
@@ -46,7 +46,7 @@ export const SideDrawer = () => {
 				}}
 			>
 				<Link
-					to="/home"
+					to="/home/quiz"
 					className={`${style.homeLink} ${isHomeScreen ? style.selected : ""}`}
 				>
 					<span>Home</span>

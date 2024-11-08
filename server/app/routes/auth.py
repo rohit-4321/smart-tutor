@@ -13,7 +13,7 @@ def google_auth_callback():
     user_info = resp.json();
 
     session["user_info"] = user_info
-    return redirect('http://localhost:5173/home')
+    return redirect('http://localhost:5173/home/quiz')
 
 
 def login_required(f):
