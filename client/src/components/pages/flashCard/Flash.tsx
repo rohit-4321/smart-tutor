@@ -1,5 +1,8 @@
+import flashCard from "../../../api/flashCard.api";
 import { CreateFlashCard } from "../../ui/CreateFlashCard";
 import style from "./Flash.module.css";
+import { ActionMenu } from "./ActionMenu";
+import { useNavigate } from "react-router-dom";
 
 const decks = [
 	{
@@ -18,7 +21,27 @@ const decks = [
 	},
 	// Add more deck data as needed
 ];
+
+function formatDate(dateStr: string) {
+	const date = new Date(dateStr);
+
+	const day = String(date.getUTCDate()).padStart(2, "0");
+	const month = String(date.getUTCMonth() + 1).padStart(2, "0");
+	const year = String(date.getUTCFullYear()).slice(2);
+
+	return `${day}-${month}-${year}`;
+}
+
 export const Flash = () => {
+	const { data, isLoading, isFetching } = flashCard.useGetDecksQuery(null);
+	const navigate = useNavigate();
+	console.log(data);
+	const onPracticeClick = (_id: string) => {
+		console.log("practice", _id);
+	};
+	const onListItemClicked = (_id: string) => {
+		console.log("item clicked", _id);
+	};
 	return (
 		<div className={style.container}>
 			<table className={style.deckTable}>
@@ -29,19 +52,36 @@ export const Flash = () => {
 						<th>No of Cards</th>
 						<th>Last Attempt At</th>
 						<th>Last Attempt Progress (%)</th>
+						<th>Actions</th>
 					</tr>
 				</thead>
 				<tbody>
-					{decks.map((deck, index) => (
-						<tr key={index}>
+					{data?.result.map((deck) => (
+						// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+						<tr
+							onClickCapture={() => {
+								navigate(`${deck._id}`);
+							}}
+							key={deck._id}
+							onClick={() => {
+								onListItemClicked(deck._id);
+							}}
+						>
 							<td>{deck.name}</td>
-							<td>{deck.createdAt || "N/A"}</td>
-							<td>{deck.noOfCards}</td>
-							<td>{deck.lastAttemptAt || "N/A"}</td>
+							<td>{formatDate(deck.created_at)}</td>
+							<td>{deck.cards_count}</td>
 							<td>
-								{deck.lastAttemptProgress
-									? `${deck.lastAttemptProgress}%`
-									: "N/A"}
+								{deck.last_attempt_at !== "NA"
+									? formatDate(deck.last_attempt_at)
+									: "NA"}
+							</td>
+							<td>
+								{typeof deck.last_attempt_score === "number"
+									? `${deck.last_attempt_score}%`
+									: "NA"}
+							</td>
+							<td>
+								<ActionMenu />
 							</td>
 						</tr>
 					))}

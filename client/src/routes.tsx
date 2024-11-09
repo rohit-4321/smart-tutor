@@ -10,6 +10,7 @@ import { useAppDispatch } from "./redux/store";
 import { setUser } from "./redux/slices/userSlice";
 import { HomeTab } from "./components/ui/HomeTab";
 import { Flash } from "./components/pages/flashCard/Flash";
+import { Deck } from "./components/pages/flashCard/Deck";
 const Template = () => {
 	const isDrawerOpenRef = useRef<boolean>(true);
 	const dispatch = useAppDispatch();
@@ -45,30 +46,19 @@ const router = createBrowserRouter([
 		children: [
 			{
 				path: "/",
-				element: <Navigate to="/home/quiz" />,
+				element: <Navigate to="/quiz" />,
 			},
 			{
-				path: "/home",
-				element: <Navigate to="/home/quiz" />,
+				path: "/quiz",
+				element: <Home />,
 			},
 			{
-				path: "/home",
-				element: (
-					<div>
-						<HomeTab />
-						<Outlet />
-					</div>
-				),
-				children: [
-					{
-						path: "quiz",
-						element: <Home />,
-					},
-					{
-						path: "flashcard",
-						element: <Flash />,
-					},
-				],
+				path: "/flashcard",
+				element: <Flash />,
+			},
+			{
+				path: "/flashcard/:_id",
+				element: <Deck />,
 			},
 			{
 				path: "/quiz/:_id",

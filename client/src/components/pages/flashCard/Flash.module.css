@@ -21,13 +21,18 @@
   .deckTable td {
     padding: 12px 15px;
     text-align: left;
-    border-bottom: 1px solid #ddd;
+    /* border-bottom: 1px solid #ddd; */
   }
+
   
   .deckTable th {
-    background-color: var(--gray-50);
+    background-color: var(--background-color-primary);
+    font-size: 0.8rem;
+    color: var(--gray-300);
   }
 
   .deckTable tr {
     background-color: var(--background-color-primary);
+    font-size: 0.8rem;
+    color: var(--gray-600);
   }

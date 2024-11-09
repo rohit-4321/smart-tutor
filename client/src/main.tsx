@@ -16,6 +16,13 @@ const theme = createTheme({
 				},
 			},
 		},
+		MuiMenu: {
+			styleOverrides: {
+				paper: {
+					boxShadow: "none",
+				},
+			},
+		},
 	},
 });
 
