@@ -24,7 +24,7 @@ const baseQueryWithRedirect = async (
 export const baseApi = createApi({
 	reducerPath: "api",
 	baseQuery: baseQueryWithRedirect,
-	tagTypes: ["quiz", "updateQuiz", "updateDecks"],
+	tagTypes: ["quiz", "updateQuiz", "updateDecks", "updateCard"],
 	endpoints: () => ({}),
 });
 export default baseApi;

@@ -10,7 +10,7 @@ import { useAppDispatch } from "./redux/store";
 import { setUser } from "./redux/slices/userSlice";
 import { HomeTab } from "./components/ui/HomeTab";
 import { Flash } from "./components/pages/flashCard/Flash";
-import { Deck } from "./components/pages/flashCard/Deck";
+import { Deck } from "./components/pages/deck/Deck";
 const Template = () => {
 	const isDrawerOpenRef = useRef<boolean>(true);
 	const dispatch = useAppDispatch();

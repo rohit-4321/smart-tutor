@@ -13,3 +13,10 @@ class CreateFlashCardPayload(BaseModel):
     last_attempt_at: Union[datetime, str] = "NA"
     last_attempt_score: Union[int, str] = "NA"
     cards: List[Card]
+
+
+
+class AddCardPayload(BaseModel):
+    _id: int = None
+    question: str
+    answer: str
