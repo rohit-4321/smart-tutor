@@ -7,8 +7,8 @@ from os import getenv
 from openai import OpenAI
 
 from app.routes.auth import login_required
-from app.modals.flashCard import db_get_decks, db_insert_deck, db_add_card, db_get_cards, db_update_card
-from schema.flashCard import CreateFlashCardPayload , AddCardPayload
+from app.modals.flashCard import db_get_decks, db_insert_deck, db_add_card, db_get_cards, db_update_card, db_update_deck_score
+from schema.flashCard import CreateFlashCardPayload , AddCardPayload, UpdateDeckResultPayload
 
 @main.route('/createFlashCardDeck', methods=['POST'])
 @login_required
@@ -102,3 +102,25 @@ def updateCard(deck_id, card_id):
     except Exception as e:
         print(str(e))
         return jsonify({'error': f"Server Error: {str(e)}"}), 500;
+
+
+
+
+@main.route('/deck/updateScore/<deck_id>', methods=['PUT'])
+@login_required
+def update_deck_score(deck_id):
+    try:
+        user_id = session['user_info']['id'];
+        temp = UpdateDeckResultPayload(**request.json)
+        print(request.json);
+        result = db_update_deck_score(user_id=user_id, deck_id=deck_id, payload=temp.model_dump() )
+        return jsonify({
+            'result': result.modified_count
+        }), 200
+    except PyMongoError as e:
+        print(str(e))
+        return jsonify({"error": f'Database Error: {str(e)}'}), 500
+    except Exception as e:
+        print(str(e))
+        return jsonify({'error': f"Server Error: {str(e)}"}), 500;
+

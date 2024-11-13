@@ -3,7 +3,7 @@ from schema.quiz import Quiz
 from bson.objectid import ObjectId
 from datetime import datetime, timezone
 
-from schema.flashCard import AddCardPayload, CreateFlashCardPayload
+from schema.flashCard import AddCardPayload, CreateFlashCardPayload, UpdateDeckResultPayload
 
 def db_insert_deck(deck: CreateFlashCardPayload, user_id: str):
 
@@ -75,5 +75,15 @@ def db_update_card(user_id, deck_id, card_id, card):
         {"_id": ObjectId(deck_id), "user_id": user_id},
         {"$set": update_object},
         array_filters=[{"elem._id": card_id}] 
+    )
+    return result
+
+
+def db_update_deck_score(user_id, deck_id, payload: UpdateDeckResultPayload):
+    payload['last_attempt_at'] = datetime.now(timezone.utc)
+
+    result = mongo.db.deck.update_one(
+        {"_id": ObjectId(deck_id), "user_id": user_id},
+        {"$set": payload }
     )
     return result

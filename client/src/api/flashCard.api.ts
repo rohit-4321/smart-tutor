@@ -69,6 +69,26 @@ const flashCard = baseApi.injectEndpoints({
 			},
 			invalidatesTags: ["updateCard"],
 		}),
+		updateDeckScore: build.mutation<
+			{
+				result: number;
+			},
+			{
+				deck_id: string;
+				last_attempt_at?: number | string;
+				last_attempt_score: number | string;
+			}
+		>({
+			query: (build) => {
+				const { deck_id, ...rest } = build;
+				return {
+					url: `/deck/updateScore/${deck_id}`,
+					method: "PUT",
+					body: rest,
+				};
+			},
+			invalidatesTags: ["updateDecks"],
+		}),
 	}),
 	overrideExisting: false,
 });
