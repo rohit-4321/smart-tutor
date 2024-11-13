@@ -7,12 +7,14 @@ import {
 } from "react-redux";
 import quizSlice from "./slices/quizSlice";
 import userSlice from "./slices/userSlice";
+import flashCardSlice from "./slices/flashCardSlice";
 
 export const store = configureStore({
 	reducer: {
 		[baseApi.reducerPath]: baseApi.reducer,
 		quiz: quizSlice,
 		user: userSlice,
+		flashCard: flashCardSlice,
 	},
 	devTools: process.env.NODE_ENV !== "production",
 	middleware: (getDefaultMiddleware) =>

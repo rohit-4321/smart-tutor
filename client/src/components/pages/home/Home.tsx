@@ -5,6 +5,7 @@ import CreateQuizDialog, { type NewQuiz } from "./CreateQuizDialog";
 import { useCallback, useState } from "react";
 import { HomeInputBox } from "../../ui/HomeInputBox";
 import { useAppSelector } from "../../../redux/store";
+import { HomeTab } from "../../ui/HomeTab";
 export const Home = () => {
 	const userName = useAppSelector((rd) => rd.user.value?.given_name);
 	const [dialogOpen, setIsDialogOpen] = useState(false);
@@ -31,7 +32,9 @@ export const Home = () => {
 	};
 
 	return (
-		<div className={style.home}>
+		// <div className={style.home}>
+		<>
+			{/* <HomeTab /> */}
 			<CreateQuizDialog
 				open={dialogOpen}
 				setOpen={setIsDialogOpen}
@@ -70,6 +73,7 @@ export const Home = () => {
 				</Button>
 			</div>
 			<Recommended onRecommendedClick={onRecommendedClick} />
-		</div>
+		</>
+		// </div>
 	);
 };

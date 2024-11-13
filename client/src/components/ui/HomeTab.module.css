@@ -1,0 +1,56 @@
+.tabContainer{
+    /* background-color: var(--background-color-primary); */
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+    padding: 1rem 0;
+    justify-content: center;
+    height: auto;
+    border-radius: 5px;
+}
+
+.tab{
+    all: unset;
+    position: relative;
+    width: 6rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--gray-100);
+    font-family: 'Open Sans' Arial, sans-serif;
+    cursor: pointer;
+}
+.tab:hover{
+    background-color: var(--gray-50);
+}
+
+.tabContainer .tab:first-child {
+    border-start-start-radius: 5px;
+    border-end-start-radius: 5px;
+    border-right: none;
+    font-weight: bold;
+}
+  
+.tabContainer .tab:last-child {
+    border-start-end-radius: 5px;
+    border-left: none;
+    border-end-end-radius: 5px;
+    font-weight: bold; 
+}
+
+.tab[data-selected="true"] {
+    background-color: var(--primary-color-light-90) !important ; /* Change to your desired color */
+    color: var(--primary-color-light-dark-20); /* Change to your desired color */
+    font-weight: bold; /* Optional: make the text bold */
+    overflow: hidden;
+}
+.tab[data-selected="true"]::before {
+  content: ""; /* Necessary for pseudo-elements */
+  position: absolute; /* Position it relative to the tab */
+  left: 0; /* Align it to the left */
+  right: 0; /* Align it to the right */
+  bottom: 0; /* Align it to the bottom */
+  height: 3px; /* Adjust the height of the underline */
+  background-color: var(--primary-color-light-20); /* Change to your desired underline color */
+}

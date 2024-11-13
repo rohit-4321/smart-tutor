@@ -10,13 +10,21 @@ const initialState: State = {
 	value: null,
 	attempted: 0,
 };
+
+const calculateAttemptedQuiz = (questionList: QuizResponse["questions"]) => {
+	let count = 0;
+	for (let i = 0; i <= questionList.length - 1; i++) {
+		if (questionList[i].user_answer.length > 0) count++;
+	}
+	return count;
+};
 export const quizSlice = createSlice({
 	name: "counter",
 	initialState,
 	reducers: {
 		setQuiz: (state, action: PayloadAction<QuizResponse>) => {
 			state.value = action.payload;
-			state.attempted = 0;
+			state.attempted = calculateAttemptedQuiz(action.payload.questions);
 		},
 
 		updateQuizStatus: (

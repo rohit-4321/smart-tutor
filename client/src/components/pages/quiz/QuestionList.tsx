@@ -21,7 +21,7 @@ export const QuestionList = () => {
 			{questionList.map((vl, index) => {
 				if (vl.question_type === "single_choice") {
 					return status === "completed" ? (
-						<div key={vl.question}>
+						<div key={index}>
 							<SingleChoiceQuestionResult
 								correctOption={vl.correct_answer}
 								description={vl.description}
@@ -29,11 +29,10 @@ export const QuestionList = () => {
 								question={vl.question}
 								questionNumber={index}
 								userAnswer={vl.user_answer}
-								key={vl.question}
 							/>
 						</div>
 					) : (
-						<div key={vl.question}>
+						<div key={index}>
 							<SingleChoiceQuestion
 								correctOption={vl.correct_answer}
 								description={vl.description}
@@ -41,32 +40,29 @@ export const QuestionList = () => {
 								question={vl.question}
 								questionNumber={index}
 								userAnswer={vl.user_answer}
-								key={vl.question}
 							/>
 						</div>
 					);
 				}
 				return status === "completed" ? (
-					<div key={vl.question}>
+					<div key={index}>
 						<MultipleChoiceQuestionResult
 							correctOption={vl.correct_answer}
 							description={vl.description}
 							options={vl.options}
 							question={vl.question}
 							questionNumber={index}
-							key={vl.question}
 							userAnswer={vl.user_answer}
 						/>
 					</div>
 				) : (
-					<div key={vl.question}>
+					<div key={index}>
 						<MultipleChoiceQuestion
 							correctOption={vl.correct_answer}
 							description={vl.description}
 							options={vl.options}
 							question={vl.question}
 							questionNumber={index}
-							key={vl.question}
 							userAnswer={vl.user_answer}
 						/>
 					</div>

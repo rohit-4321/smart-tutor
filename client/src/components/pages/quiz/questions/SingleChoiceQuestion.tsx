@@ -1,8 +1,10 @@
-import { Box, Stack, Radio, type SxProps, type Theme } from "@mui/material";
+import { Box, Stack, Radio } from "@mui/material";
 import { type FC, memo, useMemo } from "react";
 import { setSingleChoiceOption } from "../../../../redux/slices/quizSlice";
 import { useAppDispatch } from "../../../../redux/store";
+import ReactMarkdown from "react-markdown";
 import style from "./SingleChoiceQuestion.module.css";
+import Latex from "../../../ui/RenderMarkDownLatex";
 type SingleChoiceQuestionProps = {
 	question: string;
 	questionNumber: number;
@@ -25,7 +27,19 @@ export const SingleChoiceQuestion: FC<SingleChoiceQuestionProps> = memo(
 			>
 				<Box>
 					<span className={style.questionNumber}>{questionNumber + 1}. </span>
-					<span className={style.questionName}>{question}</span>
+					<Latex>
+						<ReactMarkdown>
+							{/* {
+								"What does the following PHP code do? ``` $x = 5; $y = $x; echo $y; ```"
+							} */}
+							{question}
+						</ReactMarkdown>
+						{/* <span
+							className={style.questionName}
+							dangerouslySetInnerHTML={{ __html: question }}
+						/> */}
+					</Latex>
+					{/* <RenderMarkDown markdownString={question} /> */}
 				</Box>
 				<Stack mt="0.5rem" gap="10px">
 					{options.map((vl, optionIndex) => (
@@ -50,7 +64,14 @@ export const SingleChoiceQuestion: FC<SingleChoiceQuestionProps> = memo(
 								style={{ color: "var(--primary-color)" }}
 								checked={userAnswer.includes(optionIndex)}
 							/>
-							<span>{vl}</span>
+							<Latex>
+								<ReactMarkdown>{vl}</ReactMarkdown>
+								{/* <span
+							className={style.questionName}
+							dangerouslySetInnerHTML={{ __html: question }}
+						/> */}
+							</Latex>
+							{/* <span dangerouslySetInnerHTML={{ __html: vl }} /> */}
 						</Stack>
 					))}
 				</Stack>
@@ -86,7 +107,9 @@ export const SingleChoiceQuestionResult: FC<SingleChoiceQuestionProps> = memo(
 			>
 				<Box>
 					<span className={style.questionNumber}>{questionNumber + 1}. </span>
-					<span className={style.questionName}>{question}</span>
+					<Latex>
+						<ReactMarkdown>{question}</ReactMarkdown>
+					</Latex>
 				</Box>
 				<Stack mt="0.5rem" gap="10px">
 					{options.map((vl, optionIndex) => (
@@ -112,7 +135,10 @@ export const SingleChoiceQuestionResult: FC<SingleChoiceQuestionProps> = memo(
 				</Stack>
 				{!isQuestionCorrect && (
 					<Box mt="0.5rem" ml="1rem" fontWeight={400}>
-						DESCRIPTION : <span>{description}</span>
+						DESCRIPTION :{" "}
+						<Latex>
+							<ReactMarkdown>{description}</ReactMarkdown>
+						</Latex>
 					</Box>
 				)}
 			</Box>
