@@ -14,7 +14,7 @@ export const SideDrawer = () => {
 		{ isLoading: isLogOutLoading, isFetching: isLogoutFetching },
 	] = userApi.useLazyLogoutQuery();
 	const isHomeScreen = location.pathname === "/quiz";
-	const isFlashCardScreen = location.pathname === "/flashcard";
+	const isFlashCardScreen = location.pathname.startsWith("/flashcard");
 	const currentQuizId = useMemo(() => {
 		const arr = location.pathname.split("/").filter(Boolean);
 		console.log(arr);

@@ -8,9 +8,9 @@ import { Login } from "./components/pages/auth/Login";
 import userApi from "./api/user.api";
 import { useAppDispatch } from "./redux/store";
 import { setUser } from "./redux/slices/userSlice";
-import { HomeTab } from "./components/ui/HomeTab";
 import { Flash } from "./components/pages/flashCard/Flash";
 import { Deck } from "./components/pages/deck/Deck";
+import { FlashCardPlay } from "./components/pages/flashcardplay/FlashCardPlay";
 const Template = () => {
 	const isDrawerOpenRef = useRef<boolean>(true);
 	const dispatch = useAppDispatch();
@@ -55,6 +55,10 @@ const router = createBrowserRouter([
 			{
 				path: "/flashcard",
 				element: <Flash />,
+			},
+			{
+				path: "flashcard/play/:_id",
+				element: <FlashCardPlay />,
 			},
 			{
 				path: "/flashcard/:_id",

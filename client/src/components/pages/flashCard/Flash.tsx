@@ -4,24 +4,6 @@ import style from "./Flash.module.css";
 import { ActionMenu } from "./ActionMenu";
 import { useNavigate } from "react-router-dom";
 
-const decks = [
-	{
-		name: "Science Basics",
-		createdAt: "2024-11-01",
-		noOfCards: 20,
-		lastAttemptAt: "2024-11-05",
-		lastAttemptProgress: 80,
-	},
-	{
-		name: "Math Essentials",
-		createdAt: "2024-10-20",
-		noOfCards: 15,
-		lastAttemptAt: null,
-		lastAttemptProgress: null,
-	},
-	// Add more deck data as needed
-];
-
 function formatDate(dateStr: string) {
 	const date = new Date(dateStr);
 
@@ -60,7 +42,7 @@ export const Flash = () => {
 						// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
 						<tr
 							onClickCapture={() => {
-								navigate(`${deck._id}`);
+								// navigate(`${deck._id}`);
 							}}
 							key={deck._id}
 							onClick={() => {
@@ -81,7 +63,7 @@ export const Flash = () => {
 									: "NA"}
 							</td>
 							<td>
-								<ActionMenu />
+								<ActionMenu deck_id={deck._id} />
 							</td>
 						</tr>
 					))}

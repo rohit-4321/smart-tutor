@@ -2,16 +2,23 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { Fade, Menu, MenuItem } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
-import React from "react";
+import React, { type FC } from "react";
+import { useNavigate } from "react-router-dom";
 
-export const ActionMenu = () => {
+export const ActionMenu: FC<{ deck_id: string }> = ({ deck_id }) => {
+	const navigate = useNavigate();
 	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 	const open = Boolean(anchorEl);
 	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
+		event.stopPropagation();
 		setAnchorEl(event.currentTarget);
 	};
 	const handleClose = () => {
+		navigate(`${deck_id}`);
 		setAnchorEl(null);
+	};
+	const onPlayClick = () => {
+		navigate(`play/${deck_id}`);
 	};
 	return (
 		<div>
@@ -59,6 +66,20 @@ export const ActionMenu = () => {
 				>
 					<EditIcon sx={{ fontSize: "0.9rem" }} />
 					Edit
+				</MenuItem>
+				<MenuItem
+					sx={{
+						fontSize: "0.8rem",
+						fontFamily: "inherit",
+						display: "flex",
+						alignItems: "center",
+						width: "6rem",
+						gap: "0.5rem",
+					}}
+					onClick={onPlayClick}
+				>
+					{/* <EditIcon sx={{ fontSize: "0.9rem" }} /> */}
+					Play
 				</MenuItem>
 				<MenuItem
 					sx={{

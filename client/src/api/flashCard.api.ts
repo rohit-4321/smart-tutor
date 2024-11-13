@@ -1,5 +1,9 @@
 import baseApi from "./baseApi";
-import type { DeckResponse, FlashCard } from "./flashCard.interface";
+import type {
+	CardResponse,
+	DeckResponse,
+	FlashCard,
+} from "./flashCard.interface";
 
 const flashCard = baseApi.injectEndpoints({
 	endpoints: (build) => ({
@@ -41,7 +45,7 @@ const flashCard = baseApi.injectEndpoints({
 		getCards: build.query<
 			{
 				result: {
-					cards: { _id: string; question: string; answer: string }[];
+					cards: CardResponse[];
 				};
 			},
 			{ deck_id: string }

@@ -70,7 +70,6 @@ def addCard(deck_id):
 @login_required
 def getCards(deck_id):
     try:
-        sleep(2.5) 
         user_id = session['user_info']['id']
         result = db_get_cards(user_id=user_id, deck_id=deck_id)
         del result['_id']

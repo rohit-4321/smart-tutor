@@ -24,3 +24,5 @@ export type ResponseDeckItem = {
 export type DeckResponse = {
 	result: ResponseDeckItem[]; // Array of ResultItem objects
 };
+
+export type CardResponse = { _id: string; question: string; answer: string };
