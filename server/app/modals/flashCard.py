@@ -79,6 +79,14 @@ def db_update_card(user_id, deck_id, card_id, card):
     return result
 
 
+def db_delete_card(user_id, deck_id, card_id):
+    result = mongo.db.deck.update_one(
+                {"_id": ObjectId(deck_id), "user_id": user_id},
+                {"$pull": {"cards": {"_id": card_id}}}
+            )
+    return result
+
+
 def db_update_deck_score(user_id, deck_id, payload: UpdateDeckResultPayload):
     payload['last_attempt_at'] = datetime.now(timezone.utc)
 

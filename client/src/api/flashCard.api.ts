@@ -69,6 +69,15 @@ const flashCard = baseApi.injectEndpoints({
 			},
 			invalidatesTags: ["updateCard"],
 		}),
+		deleteCard: build.mutation<any, { deck_id: string; card_id: string }>({
+			query: (build) => {
+				const { deck_id, card_id } = build;
+				return {
+					url: `/deck/card/delete/${deck_id}/${card_id}`,
+					method: "DELETE",
+				};
+			},
+		}),
 		updateDeckScore: build.mutation<
 			{
 				result: number;

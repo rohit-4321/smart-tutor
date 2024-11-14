@@ -39,6 +39,13 @@
 	--header-height: 4rem;
 	--drawer-width: 240px;
 
+
+	--flash-card-front-background: #FFF9C4;
+	--flash-card-front-font-color:#4E342E;
+
+	--flash-card-back-background: #FF7043;
+	--flash-card-back-font-color:#FFFFFF;
+
 	font-family: "Open Sans", Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 	line-height: 1.5;
 	font-weight: 400;
