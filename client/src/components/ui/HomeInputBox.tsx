@@ -4,14 +4,16 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import style from "./HomeInputBox.module.css";
 type HomeIputBox = {
 	value: string;
-	onChange: any;
+	onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+	error: boolean;
 };
-export const HomeInputBox: FC<HomeIputBox> = ({ value, onChange }) => {
+export const HomeInputBox: FC<HomeIputBox> = ({ value, onChange, error }) => {
 	const inputRef = useRef<HTMLInputElement>(null);
 	const [isInputFocused, setIsInputFocused] = useState(false);
 	return (
 		<Box
 			sx={{
+				position: "relative",
 				padding: "1rem 0.5rem 1rem 0rem",
 				display: "flex",
 				alignItems: "center",
@@ -23,7 +25,9 @@ export const HomeInputBox: FC<HomeIputBox> = ({ value, onChange }) => {
 
 				border: isInputFocused
 					? "2px solid var(--primary-color) !important"
-					: "2px solid transparent",
+					: error
+						? "2px solid #f74c4c"
+						: "2px solid transparent",
 				":hover": {
 					border: "2px solid var(--primary-color-light-40)",
 				},
@@ -46,6 +50,19 @@ export const HomeInputBox: FC<HomeIputBox> = ({ value, onChange }) => {
 					fontSize: "2rem",
 				}}
 			/>
+			{error && (
+				<span
+					style={{
+						position: "absolute",
+						bottom: -20,
+						left: 5,
+						color: "red",
+						fontSize: "0.8rem",
+					}}
+				>
+					Enter a valid topic
+				</span>
+			)}
 		</Box>
 	);
 };

@@ -2,9 +2,21 @@
     padding: 2rem;
     margin-bottom: 2rem;
     display: grid;
-    grid-template-columns: repeat(4, 1fr); /* 4 equal columns */
-    gap: 10px; /* Optional: space between items */
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px; 
     grid-auto-rows: 10rem;
+}
+
+@media (max-width: 768px) {
+    .container {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+@media (max-width: 480px) {
+.container {
+    grid-template-columns: 1fr;
+}
 }
 
 
@@ -44,6 +56,7 @@
     border-radius: 5px;
     padding: 10px;
     display: flex;
+    gap: 0.5rem;
     overflow: hidden;
     font-size: 0.9rem;
     font-family: inherit;
@@ -55,10 +68,23 @@
 
 }
 .itemQuestion {
-    text-overflow: ellipsis ;
+    text-overflow: ellipsis;
     font-family: inherit;
+    padding: 1px 2px;
+    border-radius: 4px;
     font-weight: 500;
-    color:var(--gray-400);
+    color:var(--gray-700);
+    overflow: hidden; /* Hide overflowed content */
+    white-space: nowrap;
+}
+
+.itemAnswer {
+    text-overflow: ellipsis;
+    font-family: inherit;
+    padding: 1px 2px;
+    border-radius: 4px;
+    font-weight: 500;
+    color:var(--gray-600);
     overflow: hidden; /* Hide overflowed content */
     white-space: nowrap;
 }

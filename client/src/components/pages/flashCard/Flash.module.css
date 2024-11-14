@@ -16,7 +16,6 @@
     margin-bottom: 2rem ;
     border: 1px solid var(--gray-100);
   }
-  
   .deckTable th,
   .deckTable td {
     padding: 12px 15px;
@@ -28,7 +27,7 @@
   .deckTable th {
     background-color: var(--background-color-primary);
     font-size: 0.8rem;
-    color: var(--gray-300);
+
   }
 
   .deckTable tr {

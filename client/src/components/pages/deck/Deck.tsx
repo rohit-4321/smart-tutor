@@ -1,11 +1,9 @@
 import { useParams } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../../redux/store";
-import { motion } from "framer-motion";
 import create_card_svg from "../../../assets/create-card.svg";
 
 import style from "./Deck.module.css";
 import { CreateCardDialog } from "./CreateCardDialog";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import flashCard from "../../../api/flashCard.api";
 import CardDialog from "./CardDialog";
 import { Box, LinearProgress } from "@mui/material";
@@ -46,24 +44,25 @@ export const Deck = () => {
 				/>
 			</Box>
 			<div className={style.container}>
-				<motion.button
-					layoutId="create"
+				<button
+					type="button"
 					className={style.addCard}
 					onClick={() => !isLoading && setCreateCardDialogOpen(true)}
 				>
 					<img src={create_card_svg} alt="as" width="27px" />
 					<span>Add Card</span>
-				</motion.button>
+				</button>
 				{result?.result.cards.map((vl, ind) => {
 					return (
-						<motion.div
+						// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
+						<div
 							onClick={() => setSelectedCard(ind)}
 							key={vl._id}
 							className={style.item}
 						>
 							<span className={style.itemQuestion}>{vl.question}</span>
 							<span className={style.itemAnswer}>{vl.answer}</span>
-						</motion.div>
+						</div>
 					);
 				})}
 			</div>

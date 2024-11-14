@@ -24,6 +24,10 @@
     border: 2px solid var(--primary-color-dark-20);
 }
 
+.dialogInput[data-error="true"] {
+    border: 2px solid rgb(250, 49, 49);
+}
+
 
 .dialogInput::placeholder{
     color: var(--gray-300)

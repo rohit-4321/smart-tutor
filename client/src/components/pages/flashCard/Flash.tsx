@@ -3,10 +3,10 @@ import { CreateFlashCard } from "../../ui/CreateFlashCard";
 import style from "./Flash.module.css";
 import { ActionMenu } from "./ActionMenu";
 import { useNavigate } from "react-router-dom";
+import { CircularProgress, Stack } from "@mui/material";
 
 function formatDate(dateStr: string) {
 	const date = new Date(dateStr);
-
 	const day = String(date.getUTCDate()).padStart(2, "0");
 	const month = String(date.getUTCMonth() + 1).padStart(2, "0");
 	const year = String(date.getUTCFullYear()).slice(2);
@@ -17,13 +17,21 @@ function formatDate(dateStr: string) {
 export const Flash = () => {
 	const { data, isLoading, isFetching } = flashCard.useGetDecksQuery(null);
 	const navigate = useNavigate();
-	console.log(data);
-	const onPracticeClick = (_id: string) => {
-		console.log("practice", _id);
-	};
-	const onListItemClicked = (_id: string) => {
-		console.log("item clicked", _id);
-	};
+	if (isFetching || isLoading) {
+		return (
+			<div className={style.container}>
+				<Stack
+					width="100%"
+					sx={{}}
+					height="500px"
+					justifyContent="center"
+					alignItems="center"
+				>
+					<CircularProgress />
+				</Stack>
+			</div>
+		);
+	}
 	return (
 		<div className={style.container}>
 			<table className={style.deckTable}>
@@ -37,18 +45,10 @@ export const Flash = () => {
 						<th>Actions</th>
 					</tr>
 				</thead>
+
 				<tbody>
 					{data?.result.map((deck) => (
-						// biome-ignore lint/a11y/useKeyWithClickEvents: <explanation>
-						<tr
-							onClickCapture={() => {
-								// navigate(`${deck._id}`);
-							}}
-							key={deck._id}
-							onClick={() => {
-								onListItemClicked(deck._id);
-							}}
-						>
+						<tr key={deck._id}>
 							<td>{deck.name}</td>
 							<td>{formatDate(deck.created_at)}</td>
 							<td>{deck.cards_count}</td>

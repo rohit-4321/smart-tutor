@@ -7,9 +7,8 @@ import {
 	DialogTitle,
 	FormControlLabel,
 	Stack,
-	TextField,
 } from "@mui/material";
-import type { FC } from "react";
+import { useState, type FC } from "react";
 import homeApi from "../../../api/home.api";
 import { useDispatch } from "react-redux";
 import { setQuiz } from "../../../redux/slices/quizSlice";
@@ -35,6 +34,9 @@ const CreateQuizDialog: FC<CreateQuizDialogType> = (props) => {
 	const { value, setValue, open, setOpen } = props;
 	const [createQuizTrigger, { isLoading: isCreateQuizLoading }] =
 		homeApi.useCreateQuizMutation();
+
+	// Validation State
+	const [noQuestionError, setNoQuestionError] = useState(false);
 	const onQuestionNumberChange = (
 		e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
 	) => {
@@ -50,7 +52,18 @@ const CreateQuizDialog: FC<CreateQuizDialogType> = (props) => {
 				"Only positive integers are allowed without leading zeros.",
 			);
 		} else {
-			setValue("noOfQuestion", Number.parseInt(input.value));
+			const number_of_question = Number.parseInt(input.value);
+			if (
+				number_of_question <= 0 ||
+				number_of_question > 15 ||
+				Number.isNaN(number_of_question)
+			) {
+				setNoQuestionError(true);
+				setValue("noOfQuestion", number_of_question);
+			} else {
+				setNoQuestionError(false);
+				setValue("noOfQuestion", number_of_question);
+			}
 		}
 	};
 
@@ -66,7 +79,16 @@ const CreateQuizDialog: FC<CreateQuizDialogType> = (props) => {
 		setValue("questionTypes", all);
 	};
 	const onQuizCreateClicked = () => {
-		console.log(value);
+		const number_of_question = value.noOfQuestion;
+		console.log(number_of_question, typeof number_of_question);
+		if (
+			number_of_question <= 0 ||
+			number_of_question > 15 ||
+			Number.isNaN(number_of_question)
+		) {
+			setNoQuestionError(true);
+			return;
+		}
 		createQuizTrigger({
 			no_of_questions: value.noOfQuestion,
 			question_types: value.questionTypes,
@@ -129,14 +151,11 @@ const CreateQuizDialog: FC<CreateQuizDialogType> = (props) => {
 			<DialogTitle sx={{ fontFamily: "Open Sans" }}>{value.topic}</DialogTitle>
 			<DialogContent>
 				<Stack direction="column">
-					{/* <TextField
-						type="number"
-						variant="outlined"
-						placeholder="Number of Question"
-						onChange={onQuestionNumberChange}
-					/> */}
 					<DialogInput
 						type="number"
+						error={noQuestionError}
+						errorLabel="No of question should be between 1 to 15"
+						value={value.noOfQuestion}
 						placeholder="Number of Question"
 						onChange={onQuestionNumberChange}
 					/>

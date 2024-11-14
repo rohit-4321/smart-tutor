@@ -61,7 +61,7 @@ export const CreateFlashCard = () => {
 						setOpen(true);
 					}}
 				>
-					Create Group +{" "}
+					Create Deck +{" "}
 				</ContainedButton>
 				<Dialog
 					open={open}
@@ -104,7 +104,7 @@ export const CreateFlashCard = () => {
 					setOpen(true);
 				}}
 			>
-				Create Group +{" "}
+				Create Deck +{" "}
 			</ContainedButton>
 			<Dialog
 				open={open}
