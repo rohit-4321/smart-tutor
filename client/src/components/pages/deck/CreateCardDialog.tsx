@@ -24,9 +24,26 @@ export const CreateCardDialog: FC<CreateCardDialogProps> = (props) => {
 	const { open, setOpen, deckId } = props;
 	const [prompt, setPrompt] = useState("");
 	const [answer, setAnswer] = useState("");
+
+	//Validation
+	const [promptError, setPromptError] = useState(false);
+	const [answerError, setAnswerError] = useState(false);
 	const [trigger, { isLoading }] = flashCard.useAddCardMutation();
 
 	const onSave = () => {
+		console.log(prompt, answer);
+		if (prompt) {
+			setPromptError(false);
+		} else {
+			setPromptError(true);
+			return;
+		}
+		if (answer) {
+			setAnswerError(false);
+		} else {
+			setAnswerError(true);
+			return;
+		}
 		trigger({
 			deck_id: deckId,
 			answer: answer,
@@ -99,8 +116,10 @@ export const CreateCardDialog: FC<CreateCardDialogProps> = (props) => {
 				Add Card
 			</DialogTitle>
 			<DialogContent>
-				<Stack direction="column" gap={3}>
+				<Stack direction="column" gap={2}>
 					<DialogInput
+						error={promptError}
+						errorLabel="Enter a valid value"
 						label=""
 						type="text"
 						placeholder="Prompt"
@@ -112,6 +131,8 @@ export const CreateCardDialog: FC<CreateCardDialogProps> = (props) => {
 
 					<DialogTextArea
 						label=""
+						error={answerError}
+						errorLabel="Enter a valid value"
 						style={{ height: "100px" }}
 						placeholder="Answer"
 						value={answer}

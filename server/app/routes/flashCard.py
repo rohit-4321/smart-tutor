@@ -7,7 +7,7 @@ from os import getenv
 from openai import OpenAI
 
 from app.routes.auth import login_required
-from app.modals.flashCard import db_get_decks, db_insert_deck, db_add_card, db_get_cards, db_update_card, db_update_deck_score
+from app.modals.flashCard import db_get_decks, db_insert_deck, db_add_card, db_get_cards, db_update_card, db_update_deck_score, db_delete_deck
 from schema.flashCard import CreateFlashCardPayload , AddCardPayload, UpdateDeckResultPayload
 
 @main.route('/createFlashCardDeck', methods=['POST'])
@@ -123,4 +123,23 @@ def update_deck_score(deck_id):
     except Exception as e:
         print(str(e))
         return jsonify({'error': f"Server Error: {str(e)}"}), 500;
+
+
+
+@main.route('/deck/delete/<deck_id>', methods=["DELETE"])
+@login_required
+def delete_deck(deck_id):
+    try:
+        user_id = session['user_info']['id'];
+        result = db_delete_deck(user_id=user_id, deck_id=deck_id)
+        return jsonify({
+            'result': result.deleted_count
+        }), 200
+    except PyMongoError as e:
+        print(str(e))
+        return jsonify({"error": f'Database Error: {str(e)}'}), 500
+    except Exception as e:
+        print(str(e))
+        return jsonify({'error': f"Server Error: {str(e)}"}), 500;
+
 

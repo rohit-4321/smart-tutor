@@ -17,20 +17,28 @@ export const CreateFlashCard = () => {
 	const [open, setOpen] = useState(false);
 	const [deckName, setDeckName] = useState("");
 	const [description, setDescription] = useState("");
+
+	//Validation
+	const [deckNameError, setDeckNameError] = useState(false);
+	const [deckDescriptionError, setDeckDescriptionError] = useState(false);
+
 	const [createDeckTrigger, { isLoading }] = flashCard.useCreateDeckMutation();
 
 	const onDeckNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.value.length > 0) setDeckNameError(false);
 		setDeckName(e.target.value);
 	};
 	const onDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		if (e.target.value.length > 0) setDeckDescriptionError(false);
 		setDescription(e.target.value);
 	};
 	const onCreateNewDeck = () => {
-		if (!(deckName && description)) {
-			enqueueSnackbar("Missing Name or Description", {
-				variant: "error",
-				autoHideDuration: 2000,
-			});
+		if (!deckName) {
+			setDeckNameError(true);
+			return;
+		}
+		if (!description) {
+			setDeckDescriptionError(true);
 			return;
 		}
 		createDeckTrigger({
@@ -120,16 +128,20 @@ export const CreateFlashCard = () => {
 			>
 				<DialogTitle sx={{ fontFamily: "Open Sans" }}>Create Deck</DialogTitle>
 				<DialogContent>
-					<Stack direction="column" gap={2}>
+					<Stack direction="column" gap={1}>
 						<DialogInput
 							label="Name"
 							type="text"
+							error={deckNameError}
+							errorLabel="Enter a valid name"
 							placeholder="Name"
 							value={deckName}
 							onChange={onDeckNameChange}
 						/>
 						<DialogInput
 							type="text"
+							error={deckDescriptionError}
+							errorLabel="Enter valid description "
 							label="Description"
 							value={description}
 							placeholder="Description"

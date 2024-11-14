@@ -5,7 +5,7 @@ import {
 	DialogTitle,
 	Stack,
 } from "@mui/material";
-import type { FC } from "react";
+import { useState, type FC } from "react";
 import { useDispatch } from "react-redux";
 import { ContainedButton, OutlineButton } from "../../ui/Button";
 import bouncing_svg from "../../../assets/bouncing-circles.svg";
@@ -26,8 +26,25 @@ export const CardDialog: FC<CardDialogProps> = (props) => {
 	const dispatch = useDispatch();
 	const { open, closeDialog, index, deckId } = props;
 	const card = useAppSelector((rd) => rd.flashCard.data[index]);
+
+	//Validation
+	const [promptError, setPromptError] = useState(false);
+	const [answerError, setAnswerError] = useState(false);
+
 	const [trigger, { isLoading }] = flashCard.useUpdateCardMutation();
 	const onSave = () => {
+		if (card.question) {
+			setPromptError(false);
+		} else {
+			setPromptError(true);
+			return;
+		}
+		if (card.answer) {
+			setAnswerError(false);
+		} else {
+			setAnswerError(true);
+			return;
+		}
 		trigger({
 			card_id: card._id,
 			deck_id: deckId,
@@ -116,10 +133,12 @@ export const CardDialog: FC<CardDialogProps> = (props) => {
 				Card
 			</DialogTitle>
 			<DialogContent>
-				<Stack direction="column" gap={3}>
+				<Stack direction="column" gap={2}>
 					<DialogInput
 						label=""
 						type="text"
+						error={promptError}
+						errorLabel="Enter a valid value"
 						placeholder="Prompt"
 						value={card.question}
 						onChange={(e) => {
@@ -130,6 +149,8 @@ export const CardDialog: FC<CardDialogProps> = (props) => {
 					<DialogTextArea
 						label=""
 						style={{ height: "100px" }}
+						error={answerError}
+						errorLabel="Enter a valid value"
 						placeholder="Answer"
 						value={card.answer}
 						onChange={(e) => {

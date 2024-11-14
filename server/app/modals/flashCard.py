@@ -87,3 +87,8 @@ def db_update_deck_score(user_id, deck_id, payload: UpdateDeckResultPayload):
         {"$set": payload }
     )
     return result
+
+
+def db_delete_deck(user_id, deck_id):
+    result = mongo.db.deck.delete_one({"_id": ObjectId(deck_id), "user_id": user_id})
+    return result;
