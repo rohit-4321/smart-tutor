@@ -78,6 +78,17 @@ const flashCard = baseApi.injectEndpoints({
 				};
 			},
 		}),
+		addAiGeneratedCard: build.mutation<any, { deck_id: string }>({
+			query: (build) => {
+				const { deck_id, ...rest } = build;
+				return {
+					url: `/deck/card/aigenerate/${build.deck_id}`,
+					method: "PUT",
+					body: rest,
+				};
+			},
+			invalidatesTags: ["updateCard"],
+		}),
 		updateDeckScore: build.mutation<
 			{
 				result: number;

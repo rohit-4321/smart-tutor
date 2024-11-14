@@ -41,16 +41,24 @@ def db_get_decks(user_id: str):
     return result;
 
 
-def db_add_card(user_id: str, deck_id: str, card: AddCardPayload):
-    card['_id'] = str(ObjectId())
-    print(user_id)
+def db_get_deck_name_description(deck_id, user_id):
+    document = mongo.db.deck.find_one(
+    {"_id": ObjectId(deck_id), "user_id": user_id},
+    {"name": 1, "description": 1})
+    return document
+
+
+
+def db_add_card(user_id: str, deck_id: str, cards: list):
+    for card in cards:
+        card['_id'] = str(ObjectId()) 
+
     result = mongo.db.deck.update_one(
         {"_id": ObjectId(deck_id), "user_id": user_id},
-        {"$push": {"cards": card}}
+        {"$push": {"cards": {"$each": cards}}}  
     )
-    print(result)
 
-    return result;
+    return result
 
 
 def db_get_cards(user_id: str, deck_id: str):

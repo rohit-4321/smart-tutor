@@ -2,20 +2,12 @@ from flask import request, jsonify, current_app, session
 from app.modals.quiz import insertQuiz, getAllQuizTopicWithId, db_update_quiz, db_get_quiz_by_id
 from pymongo.errors import PyMongoError
 from app.routes import main
-from os import getenv
-from openai import OpenAI
-from app.prompt import system_prompt, system_prompt_2, system_prompt_3, markdown_to_html
 
+from app.prompt import system_prompt, system_prompt_2, system_prompt_3
 from schema.quiz import CreateQuizSchema, Quiz, QuizDBCollecction
 from app.routes.auth import login_required
 
-# AI Client
-SAMBANOVA_API_KEY = getenv("SAMBANOVA_API_KEY")
-
-client = OpenAI(
-    base_url="https://api.sambanova.ai/v1",
-    api_key=SAMBANOVA_API_KEY
-)
+from app import ai_client 
 
 
 @main.route('/createQuiz', methods=['POST'])
@@ -24,7 +16,7 @@ def createGroup():
     try:
         user_id = session['user_info']['id']
         payload = CreateQuizSchema(**request.json)
-        completion = client.chat.completions.create(
+        completion = ai_client.chat.completions.create(
             model="Meta-Llama-3.1-70B-Instruct",
             messages = [
                 {"role": "system", "content": system_prompt_3},
@@ -45,10 +37,6 @@ def createGroup():
         
         quiz_data = Quiz.model_validate_json(content);
 
-        # for question in quiz_data.questions:
-        #     question.description = markdown_to_html(question.description)        
-        #     question.options = [markdown_to_html(option) for option in question.options]
-        #     question.question = markdown_to_html(question.question) 
         
         result = insertQuiz(quiz_data.model_dump(), user_id)
         
@@ -105,10 +93,6 @@ def getQuiz(_id):
         result = db_get_quiz_by_id(str(_id))
         db_result = QuizDBCollecction(**result);
 
-        for question in db_result.quiz.questions:
-            question.description = markdown_to_html(question.description)        
-            question.options = [markdown_to_html(option) for option in question.options]
-            question.question = markdown_to_html(question.question) 
         return jsonify({
             'result': {
                 'quiz': db_result.quiz.model_dump(),

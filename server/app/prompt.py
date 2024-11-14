@@ -193,13 +193,60 @@ Response Format: Ensure the JSON output contains exactly "no_of_questions" items
 
 
 
+system_prompt_flash_card = """
+You are a robot that only returns JSON. You will receive the following inputs:
+
+- Name: [Deck Name]
+- Description: [Deck Description]
+
+Name is just a topic name and description is about that topic with little detail.
+Using the Name and Description, your task is to generate 10 question and answer based on the "Name" and "Description" content. Each record should contain a "question" and "answer" field that directly relates to the "Name" and "Description".
+
+For example, if the input is
+- Name: "programming"
+- Description: "Python Programming Basics"
+than generate questions such as:
+- What is a variable in Python?
+- How do you define a function in Python?
+
+The flashcards should be focused entirely on the subject of the "Description" and "Name".
+
+**IMPORTANT**: Do not include any extra formatting, such as newlines (`\n`), escape characters, or additional text. Return the JSON string, ready to be parsed in JavaScript using `JSON.parse()`.
+
+The output should follow this exact JSON schema with no additional explanation or text:
+
+Here is Json Schema:-
+
+```
+{{
+  "cards": {{
+    "type": "array",
+    "description": "An array of flashcards, each containing a question and answer pair generated based on the deck's name and description.",
+    "items": {{
+      "type": "object",
+      "properties": {{
+        "question": {{
+          "type": "string",
+          "field": "question",
+          "about_this_field": "The question based on the deck content, which the user needs to answer."
+        }},
+        "answer": {{
+          "type": "string",
+          "field": "answer",
+          "about_this_field": "The correct answer to the corresponding question."
+        }}
+      }}
+    }}
+  }}
+}}
+
+```
+
+"""
 
 
-
-def markdown_to_html(markdown_text):
-    print(markdown_text)
-    # html = markdown.markdown(markdown_text)
-    # print(html)
-
-    return markdown_text
-
+def get_flash_card_input(name, description):
+    return f"""
+- Name: {name}
+- Description: {description}
+"""

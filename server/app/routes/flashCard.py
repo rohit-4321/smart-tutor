@@ -5,10 +5,12 @@ from pymongo.errors import PyMongoError
 from app.routes import main
 from os import getenv
 from openai import OpenAI
+from app import ai_client
+from app.prompt import system_prompt_flash_card, get_flash_card_input
 
 from app.routes.auth import login_required
-from app.modals.flashCard import db_get_decks, db_insert_deck, db_add_card, db_get_cards, db_update_card, db_update_deck_score, db_delete_deck, db_delete_card
-from schema.flashCard import CreateFlashCardPayload , AddCardPayload, UpdateDeckResultPayload
+from app.modals.flashCard import db_get_decks, db_insert_deck, db_add_card, db_get_cards, db_update_card, db_update_deck_score, db_delete_deck, db_delete_card, db_get_deck_name_description
+from schema.flashCard import CreateFlashCardPayload , AddCardPayload, UpdateDeckResultPayload, CreateFlashCardAIPayload, FlashCardAIResponseSchema
 
 @main.route('/createFlashCardDeck', methods=['POST'])
 @login_required
@@ -55,7 +57,7 @@ def addCard(deck_id):
     try:
         user_id = session['user_info']['id']
         card = AddCardPayload(**request.json)
-        result = db_add_card(user_id=user_id, card=card.model_dump(), deck_id=deck_id)
+        result = db_add_card(user_id=user_id, cards=[card.model_dump()], deck_id=deck_id)
         return jsonify({
             'result': result.upserted_id
         }), 200
@@ -152,6 +154,46 @@ def delete_card(deck_id, card_id):
         return jsonify({
             'result': result.modified_count
         }), 200
+    except PyMongoError as e:
+        print(str(e))
+        return jsonify({"error": f'Database Error: {str(e)}'}), 500
+    except Exception as e:
+        print(str(e))
+        return jsonify({'error': f"Server Error: {str(e)}"}), 500;
+
+
+
+
+@main.route('/deck/card/aigenerate/<deck_id>', methods=['PUT'])
+@login_required
+def ai_generate_flash_card(deck_id):
+    try:
+        user_id = session['user_info']['id'];
+        # payload =  CreateFlashCardAIPayload(**request.json)
+        document = db_get_deck_name_description(deck_id=deck_id, user_id=user_id)
+        # Check Document  
+        if not document or 'name' not in document or 'description' not in document:
+            return jsonify({'error': f"Server Errord: {str(e)}"}), 500;
+    
+        # print(get_flash_card_input(name=document.name, description=document.description))
+        completion = ai_client.chat.completions.create(
+            model="Meta-Llama-3.1-70B-Instruct",
+            messages = [
+                {"role": "system", "content": system_prompt_flash_card},
+                {"role": "user", "content": get_flash_card_input(name=document['name'], description=document['description'])}
+                ],
+        )
+        chat_response = completion.model_dump();        
+        content = chat_response['choices'][0]['message']['content'];
+        data = FlashCardAIResponseSchema.model_validate_json(content);
+        data = data.model_dump();
+
+        result = db_add_card(user_id=user_id, cards=data['cards'], deck_id=deck_id)
+        
+        return jsonify({'result': {
+            '_id': result.upserted_id,
+            'cards_count': len(data['cards'])
+        } }), 200
     except PyMongoError as e:
         print(str(e))
         return jsonify({"error": f'Database Error: {str(e)}'}), 500

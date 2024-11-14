@@ -25,3 +25,13 @@ class AddCardPayload(BaseModel):
 class UpdateDeckResultPayload(BaseModel):
     last_attempt_at: Union[datetime, str] = "NA"
     last_attempt_score: Union[int, str, float]
+
+
+class CreateFlashCardAIPayload(BaseModel):
+    name: str
+    description: str
+
+
+
+class FlashCardAIResponseSchema(BaseModel):
+    cards: List[Card]  

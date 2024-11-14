@@ -93,11 +93,13 @@ export const Deck = () => {
 					);
 				})}
 			</div>
-			<CreateCardDialog
-				deckId={_id}
-				open={createCardDialogOpen}
-				setOpen={setCreateCardDialogOpen}
-			/>
+			{createCardDialogOpen && (
+				<CreateCardDialog
+					deckId={_id}
+					open={createCardDialogOpen}
+					setOpen={setCreateCardDialogOpen}
+				/>
+			)}
 			{selectedCard !== undefined && (
 				<CardDialog
 					deckId={_id}
