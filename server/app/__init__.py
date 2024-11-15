@@ -31,15 +31,15 @@ def create_app():
     from .routes import main
     app.register_blueprint(main)
 
-    if os.getenv('FLASK_ENV') == 'development':
-        redirect_uri = 'http://localhost:3000/login/google/authorized'
-    else:
-        redirect_uri = 'https://smart-tutor-788l.onrender.com/login/google/authorized'
+    # if os.getenv('FLASK_ENV') == 'development':
+    redirect_uri = 'http://localhost:3000'
+    # else:
+        # redirect_uri = 'https://smart-tutor-788l.onrender.com/login/google/authorized'
 
     google_bp = make_google_blueprint(
         redirect_to="main.google_auth_callback",
         scope=["profile", "email"],
-        redirect_url=redirect_uri
+        # redirect_url=redirect_uri
     )
     app.register_blueprint(google_bp, url_prefix="/login")
 
