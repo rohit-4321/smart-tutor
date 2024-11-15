@@ -4,10 +4,11 @@ import smart_tutor_logo from "../../../assets/smart_tutor_logo.png";
 import google_logo from "../../../assets/google.png";
 import style from "./Login.module.css";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import { baseUrl } from "../../../api/baseApi";
 
 export const Login = () => {
 	const handleLogin = () => {
-		window.open("http://localhost:3000/login/google", "_self");
+		window.open(`${baseUrl}login/google`, "_self");
 	};
 
 	return (
