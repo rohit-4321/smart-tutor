@@ -54,4 +54,4 @@ def log_out():
 
 @main.route("/ping")
 def ping_pong():
-    return jsonify({'result': 'pong'}), 200
+    return jsonify({'result': 'pong..'}), 200
