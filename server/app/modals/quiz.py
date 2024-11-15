@@ -45,7 +45,6 @@ def db_update_quiz(document_id: str, quiz: Quiz):
     }}
     )
 
-    # If result.modified_count greater that 0 than update successfully otherwise not update
     return result.matched_count;
 
 
