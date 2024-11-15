@@ -1,8 +1,8 @@
 :root {
 
 
-	--background-color-secondary: rgba(242,242,242, 1);
-	--background-color-primary: #fdfdfd;
+	--background-color-secondary: #f7f7f1;
+	--background-color-primary: #ffffff;
 	--primary-color: #7e22ced3;
 	 /* Lighter Shades */
 	 --primary-color-light-90: #f0e5fdde;
@@ -38,6 +38,13 @@
 
 	--header-height: 4rem;
 	--drawer-width: 240px;
+
+
+	--flash-card-front-background: #FFF9C4;
+	--flash-card-front-font-color:#4E342E;
+
+	--flash-card-back-background: #FF7043;
+	--flash-card-back-font-color:#FFFFFF;
 
 	font-family: "Open Sans", Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
 	line-height: 1.5;

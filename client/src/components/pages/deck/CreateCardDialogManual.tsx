@@ -1,56 +1,59 @@
 import {
-	Dialog,
+	Box,
 	DialogActions,
 	DialogContent,
 	DialogTitle,
 	Stack,
 } from "@mui/material";
 import { useState, type FC } from "react";
-import { useDispatch } from "react-redux";
 import { ContainedButton, OutlineButton } from "../../ui/Button";
 import bouncing_svg from "../../../assets/bouncing-circles.svg";
 import { DialogInput } from "../../ui/DialogInput";
 import { DialogTextArea } from "../../ui/DialogTextArea";
 import flashCard from "../../../api/flashCard.api";
 import { enqueueSnackbar } from "notistack";
-import { useAppSelector } from "../../../redux/store";
-import { updateCard } from "../../../redux/slices/flashCardSlice";
 
-export type CardDialogProps = {
-	index: number;
+export type CreateCardDialogManualProps = {
 	deckId: string;
-	open: boolean;
-	closeDialog: () => void;
+	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
-export const CardDialog: FC<CardDialogProps> = (props) => {
-	const dispatch = useDispatch();
-	const { open, closeDialog, index, deckId } = props;
-	const card = useAppSelector((rd) => rd.flashCard.data[index]);
+export const CreateCardDialogManual: FC<CreateCardDialogManualProps> = (
+	props,
+) => {
+	// const navigate = useNavigate();
+	// const dispatch = useDispatch();
+	const { setOpen, deckId } = props;
+	const [prompt, setPrompt] = useState("");
+	const [answer, setAnswer] = useState("");
 
 	//Validation
 	const [promptError, setPromptError] = useState(false);
 	const [answerError, setAnswerError] = useState(false);
+	const [trigger, { isLoading }] = flashCard.useAddCardMutation();
 
-	const [trigger, { isLoading }] = flashCard.useUpdateCardMutation();
 	const onSave = () => {
-		if (card.question) {
+		console.log(prompt, answer);
+		if (prompt) {
 			setPromptError(false);
 		} else {
 			setPromptError(true);
 			return;
 		}
-		if (card.answer) {
+		if (answer) {
 			setAnswerError(false);
 		} else {
 			setAnswerError(true);
 			return;
 		}
 		trigger({
-			card_id: card._id,
 			deck_id: deckId,
-			...card,
+			answer: answer,
+			question: prompt,
 		})
 			.unwrap()
+			.then(() => {
+				setOpen(false);
+			})
 			.catch(() => {
 				enqueueSnackbar("Error while saving", {
 					variant: "error",
@@ -58,42 +61,17 @@ export const CardDialog: FC<CardDialogProps> = (props) => {
 				});
 			});
 	};
-	const onPromptChange = (value: string) => {
-		dispatch(
-			updateCard({
-				index,
-				answer: card.answer,
-				question: value,
-			}),
-		);
-	};
-	const onAnswerChange = (value: string) => {
-		dispatch(
-			updateCard({
-				index,
-				question: card.question,
-				answer: value,
-			}),
-		);
-	};
-
 	if (isLoading) {
 		return (
-			<Dialog
-				open={open}
+			<Box
 				sx={{
-					"& .MuiDialog-container": {
-						"& .MuiPaper-root": {
-							width: "100%",
-							maxWidth: "40rem",
-							height: "25rem",
-							display: "flex",
-							alignItems: "center",
-							justifyContent: "center",
-							flexDirection: "column",
-							gap: "1rem",
-						},
-					},
+					width: "100%",
+					height: "100%",
+					display: "flex",
+					alignItems: "center",
+					justifyContent: "center",
+					flexDirection: "column",
+					gap: "1rem",
 				}}
 			>
 				<span
@@ -107,64 +85,53 @@ export const CardDialog: FC<CardDialogProps> = (props) => {
 					Saving...
 				</span>
 				<img src={bouncing_svg} alt="as" width="50px" />
-			</Dialog>
+			</Box>
 		);
 	}
 	return (
-		<Dialog
-			open={open}
-			sx={{
-				"& .MuiDialog-container": {
-					"& .MuiPaper-root": {
-						width: "100%",
-						maxWidth: "40rem",
-						height: "25rem",
-					},
-				},
-			}}
-		>
-			<DialogTitle
+		<>
+			{/* <DialogTitle
 				sx={{
 					fontFamily: "Open Sans",
 					color: "var(--gray-500)",
 					fontWeight: "600",
 				}}
 			>
-				Card
-			</DialogTitle>
+				Add Card
+			</DialogTitle> */}
 			<DialogContent>
 				<Stack direction="column" gap={2}>
 					<DialogInput
-						label=""
-						type="text"
 						error={promptError}
 						errorLabel="Enter a valid value"
+						label=""
+						type="text"
 						placeholder="Prompt"
-						value={card.question}
+						value={prompt}
 						onChange={(e) => {
-							onPromptChange(e.target.value);
+							setPrompt(e.target.value);
 						}}
 					/>
 
 					<DialogTextArea
 						label=""
-						style={{ height: "100px" }}
 						error={answerError}
 						errorLabel="Enter a valid value"
+						style={{ height: "100px" }}
 						placeholder="Answer"
-						value={card.answer}
+						value={answer}
 						onChange={(e) => {
-							onAnswerChange(e.target.value);
+							setAnswer(e.target.value);
 						}}
 					/>
 				</Stack>
 			</DialogContent>
 			<DialogActions>
-				<OutlineButton onClick={() => closeDialog()}>Cancel</OutlineButton>
+				<OutlineButton onClick={() => setOpen(false)}>Cancel</OutlineButton>
 				<ContainedButton onClick={onSave}>Save</ContainedButton>
 			</DialogActions>
-		</Dialog>
+		</>
 	);
 };
 
-export default CardDialog;
+export default CreateCardDialogManual;

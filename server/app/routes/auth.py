@@ -7,13 +7,19 @@ from app.routes import main
 def google_auth_callback():
     if not google.authorized:
         return redirect(url_for("google.login"))
-
+    
+    referer = request.headers.get('Referer', 'No Referer')
+    if referer == 'No Referer':
+        return jsonify({"result": "unkown_client_url"}), 401
+    
     resp = google.get("/oauth2/v1/userinfo")
     assert resp.ok, resp.text
     user_info = resp.json();
 
     session["user_info"] = user_info
-    return redirect('http://localhost:5173/quiz')
+    redirect_url = f"{referer}quiz"
+
+    return redirect(redirect_url)
 
 
 def login_required(f):
@@ -42,3 +48,10 @@ def get_user_info():
 def log_out():
     session.clear()
     return jsonify({'result': 'true'}), 200
+
+
+
+
+@main.route("/ping")
+def ping_pong():
+    return jsonify({'result': 'pong'}), 200

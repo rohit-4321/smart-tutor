@@ -3,7 +3,7 @@ from schema.quiz import Quiz
 from bson.objectid import ObjectId
 from datetime import datetime, timezone
 
-from schema.flashCard import AddCardPayload, CreateFlashCardPayload
+from schema.flashCard import AddCardPayload, CreateFlashCardPayload, UpdateDeckResultPayload
 
 def db_insert_deck(deck: CreateFlashCardPayload, user_id: str):
 
@@ -41,16 +41,24 @@ def db_get_decks(user_id: str):
     return result;
 
 
-def db_add_card(user_id: str, deck_id: str, card: AddCardPayload):
-    card['_id'] = str(ObjectId())
-    print(user_id)
+def db_get_deck_name_description(deck_id, user_id):
+    document = mongo.db.deck.find_one(
+    {"_id": ObjectId(deck_id), "user_id": user_id},
+    {"name": 1, "description": 1})
+    return document
+
+
+
+def db_add_card(user_id: str, deck_id: str, cards: list):
+    for card in cards:
+        card['_id'] = str(ObjectId()) 
+
     result = mongo.db.deck.update_one(
         {"_id": ObjectId(deck_id), "user_id": user_id},
-        {"$push": {"cards": card}}
+        {"$push": {"cards": {"$each": cards}}}  
     )
-    print(result)
 
-    return result;
+    return result
 
 
 def db_get_cards(user_id: str, deck_id: str):
@@ -75,5 +83,36 @@ def db_update_card(user_id, deck_id, card_id, card):
         {"_id": ObjectId(deck_id), "user_id": user_id},
         {"$set": update_object},
         array_filters=[{"elem._id": card_id}] 
+    )
+    return result
+
+
+def db_delete_card(user_id, deck_id, card_id):
+    result = mongo.db.deck.update_one(
+                {"_id": ObjectId(deck_id), "user_id": user_id},
+                {"$pull": {"cards": {"_id": card_id}}}
+            )
+    return result
+
+
+def db_update_deck_score(user_id, deck_id, payload: UpdateDeckResultPayload):
+    payload['last_attempt_at'] = datetime.now(timezone.utc)
+
+    result = mongo.db.deck.update_one(
+        {"_id": ObjectId(deck_id), "user_id": user_id},
+        {"$set": payload }
+    )
+    return result
+
+
+def db_delete_deck(user_id, deck_id):
+    result = mongo.db.deck.delete_one({"_id": ObjectId(deck_id), "user_id": user_id})
+    return result;
+
+
+def db_update_deck_name_and_description(user_id, deck_id, deck_info):
+    result = mongo.db.deck.update_one(
+        {"_id": ObjectId(deck_id), "user_id": user_id},
+        {"$set": deck_info }
     )
     return result

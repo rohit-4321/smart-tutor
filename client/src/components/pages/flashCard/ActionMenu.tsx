@@ -1,107 +1,176 @@
 import DeleteIcon from "@mui/icons-material/Delete";
-import { Fade, Menu, MenuItem } from "@mui/material";
-import EditIcon from "@mui/icons-material/Edit";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
-import React, { type FC } from "react";
+import {
+	Box,
+	CircularProgress,
+	Dialog,
+	DialogActions,
+	DialogContent,
+	DialogTitle,
+	Stack,
+	Tooltip,
+} from "@mui/material";
+import { useState, type FC } from "react";
 import { useNavigate } from "react-router-dom";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
+import EditIcon from "@mui/icons-material/Edit";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
+import { ContainedButton, OutlineButton } from "../../ui/Button";
+import flashCard from "../../../api/flashCard.api";
+import { enqueueSnackbar } from "notistack";
+import bouncing_ball from "../../../assets/bouncing-circles.svg";
+import type { ResponseDeckItem } from "../../../api/flashCard.interface";
 
-export const ActionMenu: FC<{ deck_id: string }> = ({ deck_id }) => {
+export const ActionMenu: FC<{
+	deck: ResponseDeckItem;
+	onDeckEdit: (tmp: ResponseDeckItem) => void;
+}> = ({ deck, onDeckEdit }) => {
+	const { _id: deck_id } = deck;
 	const navigate = useNavigate();
-	const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
-	const open = Boolean(anchorEl);
-	const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-		event.stopPropagation();
-		setAnchorEl(event.currentTarget);
+	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+	const [deleteDeckTrigger, { isLoading: isDeleting }] =
+		flashCard.useDeleteDeckMutation();
+	const onDelete = () => {
+		console.log("Delete", deck_id);
+		deleteDeckTrigger(deck_id)
+			.unwrap()
+			.then(() => {
+				setDeleteDialogOpen(false);
+			})
+			.catch(() => {
+				enqueueSnackbar("Error in deleting the record", {
+					variant: "error",
+					autoHideDuration: 2000,
+				});
+			});
 	};
-	const handleClose = () => {
+	const onView = () => {
 		navigate(`${deck_id}`);
-		setAnchorEl(null);
 	};
 	const onPlayClick = () => {
 		navigate(`play/${deck_id}`);
 	};
 	return (
-		<div>
-			<button
-				id="fade-button"
-				aria-controls={open ? "fade-menu" : undefined}
-				aria-haspopup="true"
-				aria-expanded={open ? "true" : undefined}
-				onClick={handleClick}
-				type="button"
-				style={{
-					all: "unset",
-					cursor: "pointer",
-					fontSize: "0.9rem",
-				}}
-			>
-				<MoreVertIcon sx={{ fontSize: "1.3rem" }} />
-			</button>
-			<Menu
-				id="fade-menu"
-				MenuListProps={{
-					"aria-labelledby": "fade-button",
-				}}
-				anchorEl={anchorEl}
-				open={open}
-				onClose={handleClose}
-				TransitionComponent={Fade}
-				sx={{
-					".MuiMenu-paper": {
-						border: "1px solid var(--gray-50)",
-						boxShadow: "0px 2px 6px rgba(0, 0, 0, 0.1)",
-					},
-				}}
-			>
-				<MenuItem
-					sx={{
-						fontSize: "0.8rem",
-						fontFamily: "inherit",
-						display: "flex",
-						alignItems: "center",
-						width: "6rem",
-						gap: "0.5rem",
-					}}
-					onClick={handleClose}
-				>
-					<EditIcon sx={{ fontSize: "0.9rem" }} />
-					Edit
-				</MenuItem>
-				<MenuItem
-					sx={{
-						fontSize: "0.8rem",
-						fontFamily: "inherit",
-						display: "flex",
-						alignItems: "center",
-						width: "6rem",
-						gap: "0.5rem",
-					}}
+		<Stack direction="row" gap={2}>
+			<DeleteDeckDialog
+				isLoading={isDeleting}
+				open={deleteDialogOpen}
+				onDelete={onDelete}
+				setOpen={setDeleteDialogOpen}
+			/>
+			<Tooltip placement="top" title="Practice">
+				<button
 					onClick={onPlayClick}
+					type="button"
+					style={{
+						all: "unset",
+						cursor: "pointer",
+						backgroundColor: "#6bc56b",
+						padding: "3px 5px",
+						borderRadius: "3px",
+					}}
 				>
-					{/* <EditIcon sx={{ fontSize: "0.9rem" }} /> */}
-					Play
-				</MenuItem>
-				<MenuItem
-					sx={{
-						fontSize: "0.8rem",
-						fontFamily: "inherit",
+					<MenuBookIcon sx={{ color: "white", fontSize: "1.2rem" }} />
+				</button>
+			</Tooltip>
+			<Tooltip placement="top" title="Edit">
+				<button
+					type="button"
+					onClick={() => onDeckEdit(deck)}
+					style={{
+						all: "unset",
+						cursor: "pointer",
+						backgroundColor: "#dfb40b",
 						display: "flex",
 						alignItems: "center",
-						width: "6rem",
-						gap: "0.5rem",
+						justifyContent: "center",
+						padding: "3px 5px",
+						borderRadius: "3px",
 					}}
-					onClick={handleClose}
 				>
-					<DeleteIcon
-						sx={{
-							fontSize: "1.2rem",
-							// color: "#c05367",
-							cursor: "pointer",
-						}}
-					/>
+					<EditIcon sx={{ color: "white", fontSize: "1.2rem" }} />
+				</button>
+			</Tooltip>
+			<Tooltip placement="top" title="View">
+				<button
+					type="button"
+					onClick={onView}
+					style={{
+						all: "unset",
+						cursor: "pointer",
+						backgroundColor: "#50b6cf",
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "center",
+						padding: "3px 5px",
+						borderRadius: "3px",
+					}}
+				>
+					<RemoveRedEyeIcon sx={{ color: "white", fontSize: "1.2rem" }} />
+				</button>
+			</Tooltip>
+			<Tooltip placement="top" title="Delete">
+				<button
+					type="button"
+					onClick={() => setDeleteDialogOpen(true)}
+					style={{
+						all: "unset",
+						cursor: "pointer",
+						backgroundColor: "#E57373",
+						padding: "3px 5px",
+						borderRadius: "3px",
+					}}
+				>
+					<DeleteIcon sx={{ color: "white", fontSize: "1.2rem" }} />
+				</button>
+			</Tooltip>
+		</Stack>
+	);
+};
+type DeleteDeckDialogProps = {
+	open: boolean;
+	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+	setOpen: any;
+	isLoading?: boolean;
+	onDelete: () => void;
+};
+const DeleteDeckDialog: FC<DeleteDeckDialogProps> = ({
+	onDelete,
+	open,
+	setOpen,
+	isLoading,
+}) => {
+	return (
+		<Dialog open={open} onClose={() => setOpen(false)}>
+			<DialogTitle
+				sx={{
+					fontFamily: "Open Sans",
+					fontWeight: "600",
+					color: "var(--gray-600)",
+				}}
+			>
+				Delete
+			</DialogTitle>
+			<DialogContent sx={{ color: "var(--gray-500)", minWidth: "30rem" }}>
+				{isLoading ? (
+					<Stack justifyContent="center" alignItems={"center"}>
+						<img src={bouncing_ball} alt="as" width="35px" />
+					</Stack>
+				) : (
+					"You how sure you want to delete this Deck?"
+				)}
+			</DialogContent>
+			<DialogActions>
+				<OutlineButton onClick={() => setOpen(false)}>Cancel</OutlineButton>
+				<ContainedButton
+					style={{
+						backgroundColor: "#c75454",
+					}}
+					disabled={isLoading}
+					onClick={onDelete}
+				>
 					Delete
-				</MenuItem>
-			</Menu>
-		</div>
+				</ContainedButton>
+			</DialogActions>
+		</Dialog>
 	);
 };
