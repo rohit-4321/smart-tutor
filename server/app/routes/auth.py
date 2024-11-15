@@ -5,12 +5,11 @@ from app.routes import main
 
 @main.route("/google_auth_callback")
 def google_auth_callback():
+    referer = "http://localhost:5173/"
+    print(google.authorized)
     if not google.authorized:
         return redirect(url_for("google.login"))
     
-    referer = request.headers.get('Referer', 'No Referer')
-    if referer == 'No Referer':
-        return jsonify({"result": "unkown_client_url"}), 401
     
     resp = google.get("/oauth2/v1/userinfo")
     assert resp.ok, resp.text
