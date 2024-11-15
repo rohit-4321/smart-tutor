@@ -9,8 +9,8 @@ from app import ai_client
 from app.prompt import system_prompt_flash_card, get_flash_card_input
 
 from app.routes.auth import login_required
-from app.modals.flashCard import db_get_decks, db_insert_deck, db_add_card, db_get_cards, db_update_card, db_update_deck_score, db_delete_deck, db_delete_card, db_get_deck_name_description
-from schema.flashCard import CreateFlashCardPayload , AddCardPayload, UpdateDeckResultPayload, CreateFlashCardAIPayload, FlashCardAIResponseSchema
+from app.modals.flashCard import db_get_decks, db_insert_deck, db_update_deck_name_and_description ,db_add_card, db_get_cards, db_update_card, db_update_deck_score, db_delete_deck, db_delete_card, db_get_deck_name_description
+from schema.flashCard import CreateFlashCardPayload , AddCardPayload, UpdateDeckNamePayload,UpdateDeckResultPayload, CreateFlashCardAIPayload, FlashCardAIResponseSchema
 
 @main.route('/createFlashCardDeck', methods=['POST'])
 @login_required
@@ -95,6 +95,26 @@ def updateCard(deck_id, card_id):
         card = AddCardPayload(**request.json)
         print(card_id, deck_id)
         result = db_update_card(user_id=user_id, deck_id=deck_id, card_id=card_id, card=card.model_dump() )
+        return jsonify({
+            'result': result.modified_count
+        }), 200
+    except PyMongoError as e:
+        print(str(e))
+        return jsonify({"error": f'Database Error: {str(e)}'}), 500
+    except Exception as e:
+        print(str(e))
+        return jsonify({'error': f"Server Error: {str(e)}"}), 500;
+
+
+
+
+@main.route('/deck/update/<deck_id>', methods=['PUT'])
+@login_required
+def update_deck_name_and_description(deck_id):
+    try:
+        user_id = session['user_info']['id'];
+        deck_info = UpdateDeckNamePayload(**request.json)
+        result = db_update_deck_name_and_description(user_id=user_id, deck_id=deck_id, deck_info=deck_info.model_dump())
         return jsonify({
             'result': result.modified_count
         }), 200

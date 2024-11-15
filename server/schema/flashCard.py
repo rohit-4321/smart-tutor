@@ -35,3 +35,9 @@ class CreateFlashCardAIPayload(BaseModel):
 
 class FlashCardAIResponseSchema(BaseModel):
     cards: List[Card]  
+
+
+
+class UpdateDeckNamePayload(BaseModel):
+    name: str
+    description: str

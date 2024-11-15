@@ -4,6 +4,9 @@ import style from "./Flash.module.css";
 import { ActionMenu } from "./ActionMenu";
 import { useNavigate } from "react-router-dom";
 import { CircularProgress, Stack } from "@mui/material";
+import { EditDeck } from "./EditDeckDialog";
+import { useState } from "react";
+import type { ResponseDeckItem } from "../../../api/flashCard.interface";
 
 function formatDate(dateStr: string) {
 	const date = new Date(dateStr);
@@ -16,7 +19,16 @@ function formatDate(dateStr: string) {
 
 export const Flash = () => {
 	const { data, isLoading, isFetching } = flashCard.useGetDecksQuery(null);
+	const [currentEditDeck, setCurrentEditDeck] = useState<ResponseDeckItem>();
 	const navigate = useNavigate();
+
+	const onDeckEdit = (tmp: ResponseDeckItem) => {
+		setCurrentEditDeck(tmp);
+	};
+
+	const onDeckClose = () => {
+		setCurrentEditDeck(undefined);
+	};
 	if (isFetching || isLoading) {
 		return (
 			<div className={style.container}>
@@ -42,7 +54,7 @@ export const Flash = () => {
 						<th>No of Cards</th>
 						<th>Last Attempt At</th>
 						<th>Last Attempt Progress (%)</th>
-						<th>Actions</th>
+						<th data-type="action">Actions</th>
 					</tr>
 				</thead>
 
@@ -63,13 +75,16 @@ export const Flash = () => {
 									: "NA"}
 							</td>
 							<td>
-								<ActionMenu deck_id={deck._id} />
+								<ActionMenu deck={deck} onDeckEdit={onDeckEdit} />
 							</td>
 						</tr>
 					))}
 				</tbody>
 			</table>
 			<CreateFlashCard />
+			{currentEditDeck && (
+				<EditDeck open={true} onClose={onDeckClose} deck={currentEditDeck} />
+			)}
 		</div>
 	);
 };

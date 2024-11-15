@@ -13,12 +13,18 @@ import { useState, type FC } from "react";
 import { useNavigate } from "react-router-dom";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import EditIcon from "@mui/icons-material/Edit";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { ContainedButton, OutlineButton } from "../../ui/Button";
 import flashCard from "../../../api/flashCard.api";
 import { enqueueSnackbar } from "notistack";
 import bouncing_ball from "../../../assets/bouncing-circles.svg";
+import type { ResponseDeckItem } from "../../../api/flashCard.interface";
 
-export const ActionMenu: FC<{ deck_id: string }> = ({ deck_id }) => {
+export const ActionMenu: FC<{
+	deck: ResponseDeckItem;
+	onDeckEdit: (tmp: ResponseDeckItem) => void;
+}> = ({ deck, onDeckEdit }) => {
+	const { _id: deck_id } = deck;
 	const navigate = useNavigate();
 	const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
 	const [deleteDeckTrigger, { isLoading: isDeleting }] =
@@ -37,7 +43,7 @@ export const ActionMenu: FC<{ deck_id: string }> = ({ deck_id }) => {
 				});
 			});
 	};
-	const handleEdit = () => {
+	const onView = () => {
 		navigate(`${deck_id}`);
 	};
 	const onPlayClick = () => {
@@ -58,7 +64,7 @@ export const ActionMenu: FC<{ deck_id: string }> = ({ deck_id }) => {
 					style={{
 						all: "unset",
 						cursor: "pointer",
-						backgroundColor: "#4caf50",
+						backgroundColor: "#6bc56b",
 						padding: "3px 5px",
 						borderRadius: "3px",
 					}}
@@ -69,16 +75,37 @@ export const ActionMenu: FC<{ deck_id: string }> = ({ deck_id }) => {
 			<Tooltip placement="top" title="Edit">
 				<button
 					type="button"
-					onClick={handleEdit}
+					onClick={() => onDeckEdit(deck)}
 					style={{
 						all: "unset",
 						cursor: "pointer",
-						backgroundColor: "#ff9800",
+						backgroundColor: "#dfb40b",
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "center",
 						padding: "3px 5px",
 						borderRadius: "3px",
 					}}
 				>
 					<EditIcon sx={{ color: "white", fontSize: "1.2rem" }} />
+				</button>
+			</Tooltip>
+			<Tooltip placement="top" title="View">
+				<button
+					type="button"
+					onClick={onView}
+					style={{
+						all: "unset",
+						cursor: "pointer",
+						backgroundColor: "#50b6cf",
+						display: "flex",
+						alignItems: "center",
+						justifyContent: "center",
+						padding: "3px 5px",
+						borderRadius: "3px",
+					}}
+				>
+					<RemoveRedEyeIcon sx={{ color: "white", fontSize: "1.2rem" }} />
 				</button>
 			</Tooltip>
 			<Tooltip placement="top" title="Delete">
@@ -88,7 +115,7 @@ export const ActionMenu: FC<{ deck_id: string }> = ({ deck_id }) => {
 					style={{
 						all: "unset",
 						cursor: "pointer",
-						backgroundColor: "#f44336",
+						backgroundColor: "#E57373",
 						padding: "3px 5px",
 						borderRadius: "3px",
 					}}

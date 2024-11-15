@@ -23,6 +23,24 @@ const flashCard = baseApi.injectEndpoints({
 			}),
 			providesTags: ["updateDecks"],
 		}),
+		updateDeck: build.mutation<
+			any,
+			{
+				deck_id: string;
+				name: string;
+				description: string;
+			}
+		>({
+			query: (build) => {
+				const { deck_id, ...rest } = build;
+				return {
+					url: `deck/update/${deck_id}`,
+					method: "PUT",
+					body: rest,
+				};
+			},
+			invalidatesTags: ["updateDecks"],
+		}),
 		addCard: build.mutation<
 			any,
 			{
