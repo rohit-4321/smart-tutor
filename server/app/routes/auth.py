@@ -1,30 +1,39 @@
+import datetime
 from flask import jsonify, redirect, session, url_for, make_response, request
-from flask_dance.contrib.google import google
 from functools import wraps
 from app.routes import main
 
-@main.route("/google_auth_callback")
+from firebase_admin import auth
+
+
+
+@main.route("/login", methods=['POST'])
 def google_auth_callback():
-    referer = "http://localhost:5173/"
-    print(google.authorized)
-    if not google.authorized:
-        return redirect(url_for("google.login"))
-    
-    
-    resp = google.get("/oauth2/v1/userinfo")
-    assert resp.ok, resp.text
-    user_info = resp.json();
+    id_token = str(request.json['token'])
+    expires_in = datetime.timedelta(days=5)
+    try:
+        session_cookie = auth.create_session_cookie(id_token, expires_in=expires_in)
+        decoded_claim = auth.verify_session_cookie(session_cookie)
+        session['user_info'] = {
+            "name": decoded_claim["name"],
+            "id": decoded_claim["user_id"],
+            "auth_time": decoded_claim["auth_time"],
+            "email": decoded_claim["email"],
+            "exp": decoded_claim["exp"],
+            "picture": decoded_claim["picture"]
+        }
+        return jsonify({'result': 'success'}), 200
+    except Exception as e:
+        print(str(e))
+        return jsonify({'error': f"Server Error Auth: {str(e)}"}), 500;
 
-    session["user_info"] = user_info
-    redirect_url = f"{referer}quiz"
 
-    return redirect(redirect_url)
 
 
 def login_required(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
-        if not google.authorized:
+        if 'user_info' not in session:
             return jsonify({'result': 'unauthorized'}), 401
         return f(*args, **kwargs)
     return decorated_function

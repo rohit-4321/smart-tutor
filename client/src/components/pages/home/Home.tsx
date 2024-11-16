@@ -7,7 +7,8 @@ import { HomeInputBox } from "../../ui/HomeInputBox";
 import { useAppSelector } from "../../../redux/store";
 import { ContainedButton } from "../../ui/Button";
 export const Home = () => {
-	const userName = useAppSelector((rd) => rd.user.value?.given_name);
+	const displayName = useAppSelector((rd) => rd.user.value?.name);
+	const name = displayName ? displayName.split(" ")[0] : "";
 	const [dialogOpen, setIsDialogOpen] = useState(false);
 	const [quizAttr, _setQuizAttr] = useState<NewQuiz>({
 		topic: "",
@@ -56,8 +57,8 @@ export const Home = () => {
 			<div className={style.textFieldContainer}>
 				<Box>
 					<span style={{ fontSize: "1.7rem" }}>
-						{userName
-							? `Hii 👋 ${userName}! You have somthing in mind?`
+						{name
+							? `Hii 👋 ${name.split(" ")[0]}! You have somthing in mind?`
 							: "You have somthing in mind ?"}
 					</span>
 				</Box>

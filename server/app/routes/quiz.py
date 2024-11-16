@@ -1,14 +1,16 @@
+# Standard Library Imports
 from flask import request, jsonify, current_app, session
-from app.modals.quiz import insertQuiz, getAllQuizTopicWithId, db_update_quiz, db_get_quiz_by_id
 from pymongo.errors import PyMongoError
+
+# Third-Party Imports
+from app import ai_client
+
+# Local Application Imports
 from app.routes import main
-
-from app.prompt import system_prompt, system_prompt_2, system_prompt_3
-from schema.quiz import CreateQuizSchema, Quiz, QuizDBCollecction
 from app.routes.auth import login_required
-
-from app import ai_client 
-
+from app.modals.quiz import insertQuiz, getAllQuizTopicWithId, db_update_quiz, db_get_quiz_by_id
+from app.prompt import system_prompt_3
+from schema.quiz import CreateQuizSchema, Quiz, QuizDBCollecction
 
 @main.route('/createQuiz', methods=['POST'])
 @login_required
@@ -23,21 +25,9 @@ def createGroup():
                 {"role": "user", "content": payload.model_dump_json()}
                 ],
         )
-        print(system_prompt_3);
-        chat_response = completion.model_dump();
-        print('CHAT REPONSE')
-        print(str(chat_response));
-        print('CHAT REPONSE')
-
-        
+        chat_response = completion.model_dump();        
         content = chat_response['choices'][0]['message']['content'];
-        print("CONTENT")
-        print(str(content))
-        print("CONTENT")
-        
         quiz_data = Quiz.model_validate_json(content);
-
-        
         result = insertQuiz(quiz_data.model_dump(), user_id)
         
         return jsonify({'result': {
@@ -58,7 +48,6 @@ def createGroup():
 @login_required
 def getQuizTopic():
     result = getAllQuizTopicWithId(session['user_info']['id'])
-
     return jsonify({
         'result': result
     }), 200
@@ -69,15 +58,12 @@ def getQuizTopic():
 def updateQuiz(_id):
     try:
         payload_quiz = request.json
-        
         data = Quiz(**payload_quiz)
-
         count = db_update_quiz(str(_id), data)
         if count > 0:
             return jsonify({'result': "Updated Successfully"}), 200
         else:
             return jsonify({'error': f'No _id match document in db.'}), 304
-        
     except PyMongoError as e:
         print(str(e))
         return jsonify({"error": f'Database Error: {str(e)}'}), 500
@@ -92,7 +78,6 @@ def getQuiz(_id):
     try:
         result = db_get_quiz_by_id(str(_id))
         db_result = QuizDBCollecction(**result);
-
         return jsonify({
             'result': {
                 'quiz': db_result.quiz.model_dump(),

@@ -1,17 +1,18 @@
 import baseApi from "./baseApi";
 
+export interface UserInfo {
+	auth_time: number; // Unix timestamp (seconds)
+	email: string;
+	exp: number; // Unix timestamp (seconds)
+	id: string;
+	name: string;
+	picture: string; // URL to the profile picture
+}
 const userApi = baseApi.injectEndpoints({
 	endpoints: (build) => ({
 		getUserInfo: build.query<
 			{
-				result: {
-					email: string;
-					family_name: string;
-					given_name: string;
-					name: string;
-					picture: string;
-					verified_email: boolean;
-				};
+				result: UserInfo;
 			},
 			null
 		>({

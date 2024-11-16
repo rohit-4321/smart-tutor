@@ -1,17 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import type { PayloadAction } from "@reduxjs/toolkit";
+import type { UserInfo } from "../../api/user.api";
 
 export interface UserState {
-	value:
-		| {
-				email: string;
-				family_name: string;
-				given_name: string;
-				name: string;
-				picture: string;
-				verified_email: boolean;
-		  }
-		| undefined;
+	value: UserInfo | undefined;
 }
 
 const initialState: UserState = {
