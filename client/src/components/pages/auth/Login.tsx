@@ -4,11 +4,38 @@ import smart_tutor_logo from "../../../assets/smart_tutor_logo.png";
 import google_logo from "../../../assets/google.png";
 import style from "./Login.module.css";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-import { baseUrl } from "../../../api/baseApi";
+// import { baseUrl } from "../../../api/baseApi";
+import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
+import { firebaseApp } from "../../../firebase";
+import { useState } from "react";
+import { enqueueSnackbar } from "notistack";
+import authApi from "../../../api/auth.api";
+import { useNavigate } from "react-router-dom";
 
+const provider = new GoogleAuthProvider();
+const auth = getAuth(firebaseApp);
 export const Login = () => {
-	const handleLogin = () => {
-		window.open(`${baseUrl}login/google`, "_self");
+	const navigate = useNavigate();
+	const [isLoading, setIsLoading] = useState(false);
+	const [loginTrigger, { isLoading: serverLoginLoading }] =
+		authApi.useLoginMutation();
+	const handleLogin = async () => {
+		setIsLoading(true);
+		try {
+			const result = await signInWithPopup(auth, provider);
+			const idToken = await result.user.getIdToken();
+
+			await loginTrigger({ token: idToken }).unwrap();
+			navigate("/quiz");
+		} catch (err) {
+			console.error("Error: ", err);
+			enqueueSnackbar("Unexpected Error Occured. Please try again", {
+				variant: "error",
+				autoHideDuration: 4000,
+			});
+		} finally {
+			setIsLoading(false);
+		}
 	};
 
 	return (

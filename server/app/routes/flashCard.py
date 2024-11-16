@@ -1,17 +1,25 @@
-from time import sleep
-from flask import request, jsonify, current_app, session
-from app.modals.quiz import insertQuiz, getAllQuizTopicWithId, db_update_quiz, db_get_quiz_by_id
-from pymongo.errors import PyMongoError
-from app.routes import main
+# Standard Library Imports
 from os import getenv
+
+# Third-Party Imports
+from flask import request, jsonify, current_app, session
+from pymongo.errors import PyMongoError
 from openai import OpenAI
+
+# Local Application Imports
 from app import ai_client
-from app.prompt import system_prompt_flash_card, get_flash_card_input
-
+from app.routes import main
 from app.routes.auth import login_required
-from app.modals.flashCard import db_get_decks, db_insert_deck, db_update_deck_name_and_description ,db_add_card, db_get_cards, db_update_card, db_update_deck_score, db_delete_deck, db_delete_card, db_get_deck_name_description
-from schema.flashCard import CreateFlashCardPayload , AddCardPayload, UpdateDeckNamePayload,UpdateDeckResultPayload, CreateFlashCardAIPayload, FlashCardAIResponseSchema
-
+from app.modals.flashCard import (
+    db_get_decks, db_insert_deck, db_update_deck_name_and_description, 
+    db_add_card, db_get_cards, db_update_card, db_update_deck_score, 
+    db_delete_deck, db_delete_card, db_get_deck_name_description
+)
+from app.prompt import system_prompt_flash_card, get_flash_card_input
+from schema.flashCard import (
+    CreateFlashCardPayload, AddCardPayload, UpdateDeckNamePayload, 
+    UpdateDeckResultPayload, FlashCardAIResponseSchema
+)
 @main.route('/createFlashCardDeck', methods=['POST'])
 @login_required
 def createFlashCard():
@@ -189,7 +197,6 @@ def delete_card(deck_id, card_id):
 def ai_generate_flash_card(deck_id):
     try:
         user_id = session['user_info']['id'];
-        # payload =  CreateFlashCardAIPayload(**request.json)
         document = db_get_deck_name_description(deck_id=deck_id, user_id=user_id)
         # Check Document  
         if not document or 'name' not in document or 'description' not in document:

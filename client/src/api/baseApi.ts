@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-// export const baseUrl = "http://localhost:3000/";
-export const baseUrl = "https://smart-tutor-788l.onrender.com/";
+export const baseUrl = "http://localhost:3000/";
+// export const baseUrl = "https://smart-tutor-788l.onrender.com/";
 const customBaseQuery = fetchBaseQuery({
 	baseUrl: baseUrl,
 	credentials: "include",
