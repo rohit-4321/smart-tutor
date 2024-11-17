@@ -57,7 +57,7 @@ const flashCard = baseApi.injectEndpoints({
 					body: rest,
 				};
 			},
-			invalidatesTags: ["updateCard"],
+			invalidatesTags: ["updateCard", "updateDecks"],
 		}),
 
 		getCards: build.query<
@@ -95,6 +95,7 @@ const flashCard = baseApi.injectEndpoints({
 					method: "DELETE",
 				};
 			},
+			invalidatesTags: ["updateDecks"],
 		}),
 		addAiGeneratedCard: build.mutation<any, { deck_id: string }>({
 			query: (build) => {

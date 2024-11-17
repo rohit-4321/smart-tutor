@@ -45,7 +45,21 @@ export const ActionMenu: FC<{
 		navigate(`${deck_id}`);
 	};
 	const onPlayClick = () => {
-		navigate(`play/${deck_id}`);
+		if (deck.cards_count === 0) {
+			enqueueSnackbar(
+				"You can't practice with this deck. Card count is 0. Add some cards to the deck.",
+				{
+					variant: "info",
+					autoHideDuration: 7000,
+					anchorOrigin: {
+						horizontal: "center",
+						vertical: "top",
+					},
+				},
+			);
+		} else {
+			navigate(`play/${deck_id}`);
+		}
 	};
 	return (
 		<Stack direction="row" gap={2}>

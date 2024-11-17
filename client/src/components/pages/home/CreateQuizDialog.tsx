@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { ContainedButton, OutlineButton } from "../../ui/Button";
 import bouncing_svg from "../../../assets/bouncing-circles.svg";
 import { DialogInput } from "../../ui/DialogInput";
+import { enqueueSnackbar } from "notistack";
 
 export type NewQuiz = {
 	topic: string;
@@ -99,6 +100,12 @@ const CreateQuizDialog: FC<CreateQuizDialogType> = (props) => {
 				console.log(res);
 				dispatch(setQuiz(res.result.quiz));
 				navigate(`/quiz/${res.result._id}?newQuiz=true`);
+			})
+			.catch(() => {
+				enqueueSnackbar("Error in generating Quiz. Please try again", {
+					variant: "error",
+					autoHideDuration: 4000,
+				});
 			});
 	};
 

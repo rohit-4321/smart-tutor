@@ -54,3 +54,12 @@ def db_get_quiz_by_id(_id: str):
 
     data["_id"] = str(data["_id"]) 
     return data
+
+
+
+def db_delete_quiz(_id, user_id):
+    result = mongo.db.quizzes.delete_one({
+        "_id": ObjectId(_id),
+        "user_id": user_id
+    })
+    return result
