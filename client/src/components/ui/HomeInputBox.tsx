@@ -32,6 +32,7 @@ export const HomeInputBox: FC<HomeIputBox> = ({ value, onChange, error }) => {
 					border: "2px solid var(--primary-color-light-40)",
 				},
 				width: "40%",
+				minWidth: "20rem",
 			}}
 		>
 			<input

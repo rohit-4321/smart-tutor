@@ -16,7 +16,7 @@ const provider = new GoogleAuthProvider();
 const auth = getAuth(firebaseApp);
 export const Login = () => {
 	const navigate = useNavigate();
-	const [, setIsLoading] = useState(false);
+	const [isLoading, setIsLoading] = useState(false);
 	const [loginTrigger] = authApi.useLoginMutation();
 	const handleLogin = async () => {
 		setIsLoading(true);
@@ -87,6 +87,7 @@ export const Login = () => {
 					</Box>
 					<button
 						type="button"
+						disabled={isLoading}
 						className={style.googleButton}
 						onClick={handleLogin}
 					>

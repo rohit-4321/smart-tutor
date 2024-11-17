@@ -1,6 +1,6 @@
 import type { FC } from "react";
 import style from "./Recommended.module.css";
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, useTheme } from "@mui/material";
 import french_revolution from "../../../assets/french_revolution.webp";
 import The_Rise_and_Fall_of_the_Roman_Empire from "../../../assets/The Rise and Fall of the Roman Empire.webp";
 import the_impact_of_industrial_revolution from "../../../assets/the_impact_of_indutrial_revolution.jpeg";
@@ -39,11 +39,15 @@ type RecommendedType = {
 	onRecommendedClick: (topicName: string) => void;
 };
 export const Recommended: FC<RecommendedType> = ({ onRecommendedClick }) => {
+	const theme = useTheme();
 	return (
 		<Box
 			sx={{
 				marginY: "3rem",
 				marginX: "4rem",
+				[theme.breakpoints.down("sm")]: {
+					marginX: "1rem",
+				},
 			}}
 		>
 			<span className={style.newTopicText}>Try these Topic : </span>
@@ -58,6 +62,11 @@ export const Recommended: FC<RecommendedType> = ({ onRecommendedClick }) => {
 					},
 					"-ms-overflow-style": "none",
 					"scrollbar-width": "none",
+					[theme.breakpoints.down("sm")]: {
+						paddingX: "0.5rem",
+						paddingY: "1rem",
+						gap: 2,
+					},
 				}}
 				gap={5}
 			>

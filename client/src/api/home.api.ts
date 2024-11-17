@@ -49,6 +49,18 @@ const homeApi = baseApi.injectEndpoints({
 			}),
 			invalidatesTags: ["updateQuiz"],
 		}),
+		deleteQuiz: build.mutation<
+			any,
+			{
+				quiz_id: string;
+			}
+		>({
+			query: (build) => ({
+				url: `quiz/delete/${build.quiz_id}`,
+				method: "DELETE",
+			}),
+			invalidatesTags: ["quiz"],
+		}),
 	}),
 	overrideExisting: false,
 });

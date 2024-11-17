@@ -1,10 +1,7 @@
-// Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
 
-// Your web app's Firebase configuration
 const firebaseConfig = {
+	// Dont need to put that in environment
 	apiKey: "AIzaSyC_miVgdIP2mAj7zOWq3OYWONoQSkJmDbY",
 	authDomain: "smart-tutor-c1502.firebaseapp.com",
 	projectId: "smart-tutor-c1502",
@@ -13,5 +10,4 @@ const firebaseConfig = {
 	appId: "1:230175717579:web:f868c7878f67afd145434e",
 };
 
-// Initialize Firebase
 export const firebaseApp = initializeApp(firebaseConfig);

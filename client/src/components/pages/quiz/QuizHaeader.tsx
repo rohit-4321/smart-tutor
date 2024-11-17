@@ -1,7 +1,8 @@
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, useTheme } from "@mui/material";
 import { useAppSelector } from "../../../redux/store";
 
 export const QuizHeader = () => {
+	const theme = useTheme();
 	const topicName = useAppSelector(
 		(reduxState) => reduxState.quiz.value?.topic,
 	);
@@ -21,8 +22,14 @@ export const QuizHeader = () => {
 			<Stack
 				justifyContent="center"
 				alignItems="center"
-				my={4}
-				fontSize="1.2rem"
+				sx={{
+					fontSize: "1.2rem",
+					marginY: "2rem",
+					[theme.breakpoints.down("sm")]: {
+						fontSize: "0.9rem",
+						marginTop: "0rem",
+					},
+				}}
 			>
 				<h1>{topicName}</h1>
 			</Stack>
@@ -31,7 +38,12 @@ export const QuizHeader = () => {
 				justifyContent="space-between"
 				direction="row"
 				fontWeight={600}
-				fontSize="1.2rem"
+				sx={{
+					fontSize: "1.2rem",
+					[theme.breakpoints.down("sm")]: {
+						fontSize: "0.9rem",
+					},
+				}}
 			>
 				<span>No of Question: {no_of_question}</span>
 				<span>Total Marks: 30</span>
@@ -40,7 +52,12 @@ export const QuizHeader = () => {
 				justifyContent="space-between"
 				direction="row"
 				fontWeight={600}
-				fontSize="1.2rem"
+				sx={{
+					fontSize: "1.2rem",
+					[theme.breakpoints.down("sm")]: {
+						fontSize: "0.9rem",
+					},
+				}}
 			>
 				<span>Attempted: {attempted}</span>
 				<span>

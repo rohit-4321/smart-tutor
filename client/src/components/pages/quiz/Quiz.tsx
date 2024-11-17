@@ -1,17 +1,19 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import homeApi from "../../../api/home.api";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { store, useAppDispatch, useAppSelector } from "../../../redux/store";
 import { setQuiz } from "../../../redux/slices/quizSlice";
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, useTheme } from "@mui/material";
 import { QuestionList } from "./QuestionList";
 import { QuizHeader } from "./QuizHaeader";
-import { useSnackbar } from "notistack";
+import { enqueueSnackbar } from "notistack";
 import { QuizLoading } from "./QuizLoading";
 import { ContainedButton, OutlineButton } from "../../ui/Button";
 
 export const Quiz = () => {
-	const { enqueueSnackbar } = useSnackbar();
+	const theme = useTheme();
+	const isSnackBarVisible = useRef(false);
+	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 
 	const status = useAppSelector((rd) => rd.quiz.value?.status);
@@ -73,11 +75,30 @@ export const Quiz = () => {
 			dispatch(setQuiz(data.result.quiz));
 		}
 	}, [data, dispatch]);
-	if (isError) return <div>Error Occurs</div>;
+	if (isError) {
+		if (!isSnackBarVisible.current) {
+			enqueueSnackbar(`Error occured while fetching quiz with id=${_id}`, {
+				variant: "error",
+				autoHideDuration: 5000,
+			});
+		}
+		isSnackBarVisible.current = true;
+		navigate("/quiz");
+		return null;
+	}
 	if (isGetQuizLoading || isGetQuizFetching || isUpdateQuizLoading || !data)
 		return <QuizLoading />;
 	return (
-		<Box mx="3rem" mb="3rem">
+		<Box
+			sx={{
+				marginX: "3rem",
+				marginBottom: "3rem",
+				[theme.breakpoints.down("sm")]: {
+					marginBottom: "0rem",
+					marginX: "0rem",
+				},
+			}}
+		>
 			<Box
 				sx={{
 					maxWidth: "70rem",

@@ -4,15 +4,11 @@ import { Box, LinearProgress, Stack } from "@mui/material";
 import homeApi from "../api/home.api";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LogoutButton } from "./ui/LogoutButton";
-// import userApi from "../api/user.api";
+import { DrawerLink } from "./ui/DrawerLink";
 
 export const SideDrawer = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
-	// const [
-	// 	trigger,
-	// 	{ isLoading: isLogOutLoading, isFetching: isLogoutFetching },
-	// ] = userApi.useLazyLogoutQuery();
 	const isHomeScreen = location.pathname === "/quiz";
 	const isFlashCardScreen = location.pathname.startsWith("/flashcard");
 	const currentQuizId = useMemo(() => {
@@ -30,11 +26,6 @@ export const SideDrawer = () => {
 	const logOut = () => {
 		localStorage.setItem("authToken", "");
 		navigate("/login");
-		// trigger(null)
-		// 	.unwrap()
-		// 	.finally(() => {
-		// 		navigate("/login");
-		// 	});
 	};
 
 	return (
@@ -81,17 +72,15 @@ export const SideDrawer = () => {
 						</Box>
 					)}
 					{allQuiz?.result.map((topic) => (
-						<div
+						<DrawerLink
 							key={topic._id}
-							className={`${style.quizLinkContainer} ${currentQuizId === topic._id ? style.selected : ""}`}
-						>
-							<Link to={`/quiz/${topic._id}`} className={style.quizLink}>
-								<span>{topic.topic}</span>
-							</Link>
-						</div>
+							_id={topic._id}
+							currentQuizId={currentQuizId}
+							topic={topic.topic}
+						/>
 					))}
 				</Stack>
-				<LogoutButton onClick={logOut} />
+				<LogoutButton onClick={logOut} isLoading={false} />
 			</Box>
 		</div>
 	);

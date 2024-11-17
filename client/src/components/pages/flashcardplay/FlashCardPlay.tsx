@@ -28,9 +28,25 @@ export const FlashCardPlay = () => {
 		deck_id: _id,
 	});
 
+	// biome-ignore lint/correctness/useExhaustiveDependencies: <navigation will present>
 	useEffect(() => {
 		if (result?.result.cards) {
-			setCards(result.result.cards);
+			if (result.result.cards.length === 0) {
+				enqueueSnackbar(
+					"You can't practice with this deck. Card count is 0. Add some cards to the deck.",
+					{
+						variant: "info",
+						autoHideDuration: 7000,
+						anchorOrigin: {
+							horizontal: "center",
+							vertical: "top",
+						},
+					},
+				);
+				navigate("/flashcard");
+			} else {
+				setCards(result.result.cards);
+			}
 		}
 	}, [result]);
 

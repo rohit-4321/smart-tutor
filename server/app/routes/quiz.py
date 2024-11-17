@@ -8,7 +8,7 @@ from app import ai_client
 # Local Application Imports
 from app.routes import main
 from app.routes.auth import login_required
-from app.modals.quiz import insertQuiz, getAllQuizTopicWithId, db_update_quiz, db_get_quiz_by_id
+from app.modals.quiz import insertQuiz, getAllQuizTopicWithId, db_update_quiz, db_get_quiz_by_id, db_delete_quiz
 from app.prompt import system_prompt_3
 from schema.quiz import CreateQuizSchema, Quiz, QuizDBCollecction
 
@@ -24,6 +24,7 @@ def createGroup():
                 {"role": "system", "content": system_prompt_3},
                 {"role": "user", "content": payload.model_dump_json()}
                 ],
+            temperature=0.8
         )
         chat_response = completion.model_dump();        
         content = chat_response['choices'][0]['message']['content'];
@@ -86,6 +87,24 @@ def getQuiz(_id):
                 "last_updated_at": db_result.last_updated_at,
                 "created_at": db_result.created_at
             }
+        }), 200
+    except PyMongoError as e:
+        print(str(e))
+        return jsonify({"error": f'Database Error: {str(e)}'}), 500
+    except Exception as e:
+        print(str(e))
+        return jsonify({'error': f"Server Error: {str(e)}"}), 500;  
+
+
+
+@main.route('/quiz/delete/<_id>', methods=['DELETE'])
+@login_required
+def deleteAuiz(_id):
+    try:
+        user_id = (g.get('user_info', None))['id']
+        result = db_delete_quiz( _id=str(_id), user_id=user_id)
+        return jsonify({
+            'result':  result.deleted_count
         }), 200
     except PyMongoError as e:
         print(str(e))

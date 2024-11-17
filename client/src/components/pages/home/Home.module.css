@@ -7,3 +7,14 @@
     align-items: center;
     padding-top: 5rem;
 }
+
+.homeText{
+    font-size: 1.7rem;
+}
+
+
+@media (max-width: 800px) {
+    .homeText{
+        font-size: 1.1rem;
+    }
+}

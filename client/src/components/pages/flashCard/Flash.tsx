@@ -6,6 +6,7 @@ import { CircularProgress, Stack } from "@mui/material";
 import { EditDeck } from "./EditDeckDialog";
 import { useState } from "react";
 import type { ResponseDeckItem } from "../../../api/flashCard.interface";
+import { NoRowOverlay } from "../../ui/NoRowOverlay";
 
 function formatDate(dateStr: string) {
 	const date = new Date(dateStr);
@@ -77,6 +78,19 @@ export const Flash = () => {
 							</td>
 						</tr>
 					))}
+					{data?.result.length === 0 && (
+						<tr>
+							<td colSpan={6}>
+								<Stack
+									justifyContent="center"
+									alignItems="center"
+									height="10rem"
+								>
+									<NoRowOverlay />
+								</Stack>
+							</td>
+						</tr>
+					)}
 				</tbody>
 			</table>
 			<CreateFlashCard />
