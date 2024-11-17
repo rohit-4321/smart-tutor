@@ -4,15 +4,15 @@ import { Box, LinearProgress, Stack } from "@mui/material";
 import homeApi from "../api/home.api";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { LogoutButton } from "./ui/LogoutButton";
-import userApi from "../api/user.api";
+// import userApi from "../api/user.api";
 
 export const SideDrawer = () => {
 	const location = useLocation();
 	const navigate = useNavigate();
-	const [
-		trigger,
-		{ isLoading: isLogOutLoading, isFetching: isLogoutFetching },
-	] = userApi.useLazyLogoutQuery();
+	// const [
+	// 	trigger,
+	// 	{ isLoading: isLogOutLoading, isFetching: isLogoutFetching },
+	// ] = userApi.useLazyLogoutQuery();
 	const isHomeScreen = location.pathname === "/quiz";
 	const isFlashCardScreen = location.pathname.startsWith("/flashcard");
 	const currentQuizId = useMemo(() => {
@@ -23,17 +23,18 @@ export const SideDrawer = () => {
 	}, [location]);
 	const {
 		data: allQuiz,
-		isError,
 		isLoading,
 		isFetching,
 	} = homeApi.useGetAllQuizTopicQuery(null);
 
 	const logOut = () => {
-		trigger(null)
-			.unwrap()
-			.finally(() => {
-				navigate("/login");
-			});
+		localStorage.setItem("authToken", "");
+		navigate("/login");
+		// trigger(null)
+		// 	.unwrap()
+		// 	.finally(() => {
+		// 		navigate("/login");
+		// 	});
 	};
 
 	return (
@@ -90,10 +91,7 @@ export const SideDrawer = () => {
 						</div>
 					))}
 				</Stack>
-				<LogoutButton
-					onClick={logOut}
-					isLoading={isLogOutLoading || isLogoutFetching}
-				/>
+				<LogoutButton onClick={logOut} />
 			</Box>
 		</div>
 	);

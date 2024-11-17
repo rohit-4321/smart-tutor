@@ -1,5 +1,5 @@
 import { Dialog, Stack, Tab, Tabs } from "@mui/material";
-import { useEffect, useState, type FC } from "react";
+import { useState, type FC } from "react";
 import CreateCardDialogManual from "./CreateCardDialogManual";
 import { CreateCardDialogAI } from "./CreateCardDialogAI";
 
@@ -13,7 +13,7 @@ export const CreateCardDialog: FC<CreateCardDialogProps> = (props) => {
 
 	const [tabValue, setTabValue] = useState(0);
 
-	const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+	const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
 		setTabValue(newValue);
 	};
 	return (

@@ -16,16 +16,19 @@ const provider = new GoogleAuthProvider();
 const auth = getAuth(firebaseApp);
 export const Login = () => {
 	const navigate = useNavigate();
-	const [isLoading, setIsLoading] = useState(false);
-	const [loginTrigger, { isLoading: serverLoginLoading }] =
-		authApi.useLoginMutation();
+	const [, setIsLoading] = useState(false);
+	const [loginTrigger] = authApi.useLoginMutation();
 	const handleLogin = async () => {
 		setIsLoading(true);
 		try {
 			const result = await signInWithPopup(auth, provider);
 			const idToken = await result.user.getIdToken();
 
-			await loginTrigger({ token: idToken }).unwrap();
+			const { token: authToken } = await loginTrigger({
+				token: idToken,
+			}).unwrap();
+
+			localStorage.setItem("authToken", authToken);
 			navigate("/quiz");
 		} catch (err) {
 			console.error("Error: ", err);

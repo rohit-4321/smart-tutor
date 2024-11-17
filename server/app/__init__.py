@@ -40,7 +40,10 @@ firebaseCred = {
 
 def create_app():
     app = Flask(__name__)
-    CORS(app, supports_credentials=True, origins= ["http://localhost:5173"])
+    CORS(app, supports_credentials=True, origins=["http://localhost:5173", "https://smart-tutor-client.vercel.app"], 
+         methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"], 
+         allow_headers=["Content-Type", "Authorization", "Access-Control-Allow-Origin"])
+    
     app.config.from_object(Config)
     app.secret_key = os.getenv("SECRET_KEY")
     mongo.init_app(app)

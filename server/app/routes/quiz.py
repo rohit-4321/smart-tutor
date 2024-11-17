@@ -1,5 +1,5 @@
 # Standard Library Imports
-from flask import request, jsonify, current_app, session
+from flask import request, jsonify, g
 from pymongo.errors import PyMongoError
 
 # Third-Party Imports
@@ -16,7 +16,7 @@ from schema.quiz import CreateQuizSchema, Quiz, QuizDBCollecction
 @login_required
 def createGroup():
     try:
-        user_id = session['user_info']['id']
+        user_id = (g.get('user_info', None))['id']
         payload = CreateQuizSchema(**request.json)
         completion = ai_client.chat.completions.create(
             model="Meta-Llama-3.1-70B-Instruct",
@@ -47,7 +47,8 @@ def createGroup():
 @main.route('/allTopics')
 @login_required
 def getQuizTopic():
-    result = getAllQuizTopicWithId(session['user_info']['id'])
+    user_info = g.get('user_info', None)
+    result = getAllQuizTopicWithId(user_info['id'])
     return jsonify({
         'result': result
     }), 200

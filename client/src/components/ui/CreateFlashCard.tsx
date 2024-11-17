@@ -7,7 +7,7 @@ import {
 	Stack,
 	DialogActions,
 } from "@mui/material";
-import { OutlineButton, ContainedButton } from "./Button";
+import { ContainedButton } from "./Button";
 import { DialogInput } from "./DialogInput";
 import flashCard from "../../api/flashCard.api";
 import { useSnackbar } from "notistack";
