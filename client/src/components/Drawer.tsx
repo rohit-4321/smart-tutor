@@ -23,7 +23,6 @@ export const SideDrawer = () => {
 	}, [location]);
 	const {
 		data: allQuiz,
-		isError,
 		isLoading,
 		isFetching,
 	} = homeApi.useGetAllQuizTopicQuery(null);

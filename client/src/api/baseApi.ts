@@ -1,7 +1,10 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-export const baseUrl = "http://localhost:3000/";
-// export const baseUrl = "https://smart-tutor-788l.onrender.com/";
+// export const baseUrl = "";
+export const baseUrl =
+	import.meta.env.MODE === "development"
+		? "http://localhost:3000/"
+		: "https://smart-tutor-server.vercel.app/";
 const customBaseQuery = fetchBaseQuery({
 	baseUrl: baseUrl,
 	credentials: "include",
@@ -16,10 +19,11 @@ const baseQueryWithRedirect = async (
 	extraOptions: any,
 ) => {
 	const result = await customBaseQuery(args, api, extraOptions);
+	console.log(result);
 	if (result.error && result.error.status === 401) {
-		window.location.href = "/login"; // Change this to your actual login route
+		console.log("ERRRORRRRRRR");
+		// window.location.href = "/login"; // Change this to your actual login route
 	}
-
 	return result;
 };
 

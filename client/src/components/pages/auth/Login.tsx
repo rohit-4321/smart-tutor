@@ -16,9 +16,8 @@ const provider = new GoogleAuthProvider();
 const auth = getAuth(firebaseApp);
 export const Login = () => {
 	const navigate = useNavigate();
-	const [isLoading, setIsLoading] = useState(false);
-	const [loginTrigger, { isLoading: serverLoginLoading }] =
-		authApi.useLoginMutation();
+	const [, setIsLoading] = useState(false);
+	const [loginTrigger] = authApi.useLoginMutation();
 	const handleLogin = async () => {
 		setIsLoading(true);
 		try {

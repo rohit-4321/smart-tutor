@@ -2,7 +2,6 @@ import flashCard from "../../../api/flashCard.api";
 import { CreateFlashCard } from "../../ui/CreateFlashCard";
 import style from "./Flash.module.css";
 import { ActionMenu } from "./ActionMenu";
-import { useNavigate } from "react-router-dom";
 import { CircularProgress, Stack } from "@mui/material";
 import { EditDeck } from "./EditDeckDialog";
 import { useState } from "react";
@@ -20,7 +19,6 @@ function formatDate(dateStr: string) {
 export const Flash = () => {
 	const { data, isLoading, isFetching } = flashCard.useGetDecksQuery(null);
 	const [currentEditDeck, setCurrentEditDeck] = useState<ResponseDeckItem>();
-	const navigate = useNavigate();
 
 	const onDeckEdit = (tmp: ResponseDeckItem) => {
 		setCurrentEditDeck(tmp);

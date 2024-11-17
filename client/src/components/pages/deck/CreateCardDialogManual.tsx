@@ -1,10 +1,4 @@
-import {
-	Box,
-	DialogActions,
-	DialogContent,
-	DialogTitle,
-	Stack,
-} from "@mui/material";
+import { Box, DialogActions, DialogContent, Stack } from "@mui/material";
 import { useState, type FC } from "react";
 import { ContainedButton, OutlineButton } from "../../ui/Button";
 import bouncing_svg from "../../../assets/bouncing-circles.svg";
