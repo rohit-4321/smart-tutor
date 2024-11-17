@@ -24,7 +24,11 @@ export const Login = () => {
 			const result = await signInWithPopup(auth, provider);
 			const idToken = await result.user.getIdToken();
 
-			await loginTrigger({ token: idToken }).unwrap();
+			const { token: authToken } = await loginTrigger({
+				token: idToken,
+			}).unwrap();
+
+			localStorage.setItem("authToken", authToken);
 			navigate("/quiz");
 		} catch (err) {
 			console.error("Error: ", err);

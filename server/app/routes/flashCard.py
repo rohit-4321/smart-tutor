@@ -1,8 +1,6 @@
-# Standard Library Imports
-from os import getenv
 
 # Third-Party Imports
-from flask import request, jsonify, current_app, session
+from flask import request, jsonify, g
 from pymongo.errors import PyMongoError
 from openai import OpenAI
 
@@ -24,7 +22,7 @@ from schema.flashCard import (
 @login_required
 def createFlashCard():
     try:
-        user_id = session['user_info']['id']
+        user_id = (g.get('user_info', None))['id']
         payload = CreateFlashCardPayload(**request.json)
         result = db_insert_deck(payload.model_dump(), user_id);
     
@@ -45,7 +43,7 @@ def createFlashCard():
 @login_required
 def decks():
     try:
-        user_id = session['user_info']['id']
+        user_id = (g.get('user_info', None))['id']
         result = db_get_decks(user_id);
     
         return jsonify({
@@ -63,7 +61,7 @@ def decks():
 @login_required
 def addCard(deck_id):
     try:
-        user_id = session['user_info']['id']
+        user_id = (g.get('user_info', None))['id']
         card = AddCardPayload(**request.json)
         result = db_add_card(user_id=user_id, cards=[card.model_dump()], deck_id=deck_id)
         return jsonify({
@@ -80,7 +78,7 @@ def addCard(deck_id):
 @login_required
 def getCards(deck_id):
     try:
-        user_id = session['user_info']['id']
+        user_id = (g.get('user_info', None))['id']
         result = db_get_cards(user_id=user_id, deck_id=deck_id)
         del result['_id']
         return jsonify({
@@ -99,7 +97,7 @@ def getCards(deck_id):
 @login_required
 def updateCard(deck_id, card_id):
     try:
-        user_id = session['user_info']['id'];
+        user_id = (g.get('user_info', None))['id'];
         card = AddCardPayload(**request.json)
         print(card_id, deck_id)
         result = db_update_card(user_id=user_id, deck_id=deck_id, card_id=card_id, card=card.model_dump() )
@@ -120,7 +118,7 @@ def updateCard(deck_id, card_id):
 @login_required
 def update_deck_name_and_description(deck_id):
     try:
-        user_id = session['user_info']['id'];
+        user_id = (g.get('user_info', None))['id'];
         deck_info = UpdateDeckNamePayload(**request.json)
         result = db_update_deck_name_and_description(user_id=user_id, deck_id=deck_id, deck_info=deck_info.model_dump())
         return jsonify({
@@ -140,7 +138,7 @@ def update_deck_name_and_description(deck_id):
 @login_required
 def update_deck_score(deck_id):
     try:
-        user_id = session['user_info']['id'];
+        user_id = (g.get('user_info', None))['id'];
         temp = UpdateDeckResultPayload(**request.json)
         print(request.json);
         result = db_update_deck_score(user_id=user_id, deck_id=deck_id, payload=temp.model_dump() )
@@ -160,7 +158,7 @@ def update_deck_score(deck_id):
 @login_required
 def delete_deck(deck_id):
     try:
-        user_id = session['user_info']['id'];
+        user_id = (g.get('user_info', None))['id'];
         result = db_delete_deck(user_id=user_id, deck_id=deck_id)
         return jsonify({
             'result': result.deleted_count
@@ -177,7 +175,7 @@ def delete_deck(deck_id):
 @login_required
 def delete_card(deck_id, card_id):
     try:
-        user_id = session['user_info']['id'];
+        user_id = (g.get('user_info', None))['id'];
         result = db_delete_card(user_id=user_id, deck_id=deck_id, card_id=card_id)
         return jsonify({
             'result': result.modified_count
@@ -196,7 +194,7 @@ def delete_card(deck_id, card_id):
 @login_required
 def ai_generate_flash_card(deck_id):
     try:
-        user_id = session['user_info']['id'];
+        user_id = (g.get('user_info', None))['id'];
         document = db_get_deck_name_description(deck_id=deck_id, user_id=user_id)
         # Check Document  
         if not document or 'name' not in document or 'description' not in document:
