@@ -12,6 +12,7 @@
     gap: 10px;
     box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.1);
     transition: box-shadow 0.2s ease;
+    max-width: 16rem;
 }
 
 .googleButton:hover{

@@ -1,10 +1,9 @@
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, useMediaQuery, useTheme } from "@mui/material";
 import class_room from "../../../assets/class_room.webp";
 import smart_tutor_logo from "../../../assets/smart_tutor_logo.png";
 import google_logo from "../../../assets/google.png";
 import style from "./Login.module.css";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
-// import { baseUrl } from "../../../api/baseApi";
 import { GoogleAuthProvider, getAuth, signInWithPopup } from "firebase/auth";
 import { firebaseApp } from "../../../firebase";
 import { useState } from "react";
@@ -16,6 +15,8 @@ const provider = new GoogleAuthProvider();
 const auth = getAuth(firebaseApp);
 export const Login = () => {
 	const navigate = useNavigate();
+	const theme = useTheme();
+	const isSmallScreen = useMediaQuery(theme.breakpoints.down("sm"));
 	const [isLoading, setIsLoading] = useState(false);
 	const [loginTrigger] = authApi.useLoginMutation();
 	const handleLogin = async () => {
@@ -61,6 +62,9 @@ export const Login = () => {
 					borderRadius: "10px",
 					overflow: "hidden",
 					display: "flex",
+					[theme.breakpoints.down("sm")]: {
+						minWidth: "100%",
+					},
 				}}
 			>
 				<Box
@@ -96,11 +100,13 @@ export const Login = () => {
 						<KeyboardDoubleArrowRightIcon sx={{ color: "var(--gray-200)" }} />
 					</button>
 				</Box>
-				<img
-					src={class_room}
-					alt="Class Room"
-					style={{ width: "330px", objectFit: "cover" }}
-				/>
+				{!isSmallScreen && (
+					<img
+						src={class_room}
+						alt="Class Room"
+						style={{ width: "330px", objectFit: "cover" }}
+					/>
+				)}
 			</Box>
 		</Box>
 	);
