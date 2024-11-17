@@ -1,7 +1,7 @@
 import { createBrowserRouter, Navigate, Outlet } from "react-router-dom";
 import { Home } from "./components/pages/home/Home";
 import { Quiz } from "./components/pages/quiz/Quiz";
-import { useEffect, useRef } from "react";
+import { useEffect, useState } from "react";
 import { SideDrawer } from "./components/Drawer";
 import { Header } from "./components/header";
 import { Login } from "./components/pages/auth/Login";
@@ -12,7 +12,7 @@ import { Flash } from "./components/pages/flashCard/Flash";
 import { Deck } from "./components/pages/deck/Deck";
 import { FlashCardPlay } from "./components/pages/flashcardplay/FlashCardPlay";
 const Template = () => {
-	const isDrawerOpenRef = useRef<boolean>(true);
+	const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(true);
 	const dispatch = useAppDispatch();
 	const { data: userDate } = userApi.useGetUserInfoQuery(null);
 
@@ -20,22 +20,19 @@ const Template = () => {
 		dispatch(setUser(userDate?.result));
 	});
 	const onDrawerOpen = () => {
-		if (isDrawerOpenRef.current) {
+		if (isDrawerOpen) {
 			document.documentElement.style.setProperty("--drawer-width", "0px");
-			isDrawerOpenRef.current;
 		} else {
 			document.documentElement.style.setProperty("--drawer-width", "240px");
 		}
-		isDrawerOpenRef.current = !isDrawerOpenRef.current;
+		setIsDrawerOpen((prev) => !prev);
 	};
 	return (
 		<div>
 			<Header onDrawerOpen={onDrawerOpen} />
 			<SideDrawer />
 			<div className="rightPanel">
-				<div className="page-wrapper">
-					<Outlet />
-				</div>
+				<Outlet />
 			</div>
 		</div>
 	);

@@ -83,3 +83,18 @@
     font-size: 1rem;
     font-weight: 500;
   }
+
+  @media (max-width: 800px) {
+    .module {
+      width: 200px;
+      min-width: 200px;
+      height: 130px;
+    }
+    .module > header > span {
+      font-size: 0.9rem
+    }
+
+    .module > header {
+      padding: 5px 10px;
+    }
+  }

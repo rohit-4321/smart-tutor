@@ -3,7 +3,7 @@ import homeApi from "../../../api/home.api";
 import { useEffect, useRef } from "react";
 import { store, useAppDispatch, useAppSelector } from "../../../redux/store";
 import { setQuiz } from "../../../redux/slices/quizSlice";
-import { Box, Stack } from "@mui/material";
+import { Box, Stack, useTheme } from "@mui/material";
 import { QuestionList } from "./QuestionList";
 import { QuizHeader } from "./QuizHaeader";
 import { enqueueSnackbar } from "notistack";
@@ -11,6 +11,7 @@ import { QuizLoading } from "./QuizLoading";
 import { ContainedButton, OutlineButton } from "../../ui/Button";
 
 export const Quiz = () => {
+	const theme = useTheme();
 	const isSnackBarVisible = useRef(false);
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
@@ -88,7 +89,16 @@ export const Quiz = () => {
 	if (isGetQuizLoading || isGetQuizFetching || isUpdateQuizLoading || !data)
 		return <QuizLoading />;
 	return (
-		<Box mx="3rem" mb="3rem">
+		<Box
+			sx={{
+				marginX: "3rem",
+				marginBottom: "3rem",
+				[theme.breakpoints.down("sm")]: {
+					marginBottom: "0rem",
+					marginX: "0rem",
+				},
+			}}
+		>
 			<Box
 				sx={{
 					maxWidth: "70rem",

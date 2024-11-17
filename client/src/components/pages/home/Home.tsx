@@ -56,7 +56,7 @@ export const Home = () => {
 			/>
 			<div className={style.textFieldContainer}>
 				<Box>
-					<span style={{ fontSize: "1.7rem" }}>
+					<span className={style.homeText}>
 						{name
 							? `Hii 👋 ${name.split(" ")[0]}! You have somthing in mind?`
 							: "You have somthing in mind ?"}

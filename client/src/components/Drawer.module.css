@@ -9,6 +9,7 @@
     width: var(--drawer-width);
     transition: width 0.1s ease;
     border-right: 1px solid var(--gray-100);
+    z-index: 99;
 }
 
 .homeLink{

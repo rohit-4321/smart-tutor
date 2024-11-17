@@ -71,10 +71,12 @@ body{
 
 .rightPanel {
     margin-left: var(--drawer-width);
-	background-color: var(--background-color-secondary);
-}
-
-.page-wrapper{
 	height: calc(100vh - var(--header-height));
 	overflow: auto;
+	background-color: var(--background-color-secondary);
+}
+@media (max-width: 800px) {
+	.rightPanel {
+		margin-left: 0;
+	}
 }
