@@ -12,7 +12,8 @@ import { DialogInput } from "./DialogInput";
 import flashCard from "../../api/flashCard.api";
 import { useSnackbar } from "notistack";
 import bouncing_svg from "../../assets/bouncing-circles.svg";
-export const CreateFlashCard = () => {
+import { DialogTextArea } from "./DialogTextArea";
+export const CreateDeck = () => {
 	const { enqueueSnackbar } = useSnackbar();
 	const [open, setOpen] = useState(false);
 	const [deckName, setDeckName] = useState("");
@@ -28,7 +29,7 @@ export const CreateFlashCard = () => {
 		if (e.target.value.length > 0) setDeckNameError(false);
 		setDeckName(e.target.value);
 	};
-	const onDescriptionChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+	const onDescriptionChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 		if (e.target.value.length > 0) setDeckDescriptionError(false);
 		setDescription(e.target.value);
 	};
@@ -138,13 +139,13 @@ export const CreateFlashCard = () => {
 							value={deckName}
 							onChange={onDeckNameChange}
 						/>
-						<DialogInput
-							type="text"
+						<DialogTextArea
 							error={deckDescriptionError}
-							errorLabel="Enter valid description "
+							errorLabel="Enter valid description"
 							label="Description"
 							value={description}
-							placeholder="Description"
+							placeholder="Description about the deck (it will be used for Ai card generation)."
+							rows={4}
 							onChange={onDescriptionChange}
 						/>
 					</Stack>

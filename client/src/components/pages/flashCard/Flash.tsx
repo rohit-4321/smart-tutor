@@ -1,5 +1,5 @@
 import flashCard from "../../../api/flashCard.api";
-import { CreateFlashCard } from "../../ui/CreateFlashCard";
+import { CreateDeck } from "../../ui/CreateDeck";
 import style from "./Flash.module.css";
 import { ActionMenu } from "./ActionMenu";
 import { CircularProgress, Stack } from "@mui/material";
@@ -93,7 +93,7 @@ export const Flash = () => {
 					)}
 				</tbody>
 			</table>
-			<CreateFlashCard />
+			<CreateDeck />
 			{currentEditDeck && (
 				<EditDeck open={true} onClose={onDeckClose} deck={currentEditDeck} />
 			)}
