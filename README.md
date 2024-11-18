@@ -72,5 +72,18 @@ Smart Tutor is an AI-powered application designed to assist students in enhancin
 ### Steps
 1. Clone the repository:
    ```bash
-   git clone https://github.com/your-repo/smart-tutor.git
+   git clone https://github.com/rohit-4321/smart-tutor.git
    cd smart-tutor
+
+2. FrontEnd:
+    - cd client
+    - npm install
+    - npm run dev 
+
+3. Backend:
+    - cd server
+    - python -m venv venv  
+    - source venv/bin/activate  # On Linux/Mac
+      venv\Scripts\activate     # On Windows
+    - pip install -r requirements.txt
+    - flask run --host=0.0.0.0 --port=3000 --debug # Run flask app in debug mode for development
