@@ -1,7 +1,11 @@
 # Smart Tutor - Hackathon Project
 
-Smart Tutor is an AI-powered application designed to assist students in enhancing their learning experience by providing interactive tools for quizzes and flashcards. With AI integration, the app simplifies content creation, making learning both efficient and engaging.
+Smart Tutor is an AI-powered application designed to assist students in enhancing their learning experience by providing interactive tools for quizzes and flashcards. With AI integration, user can get quizzes and flash card in an instant, making learning both efficient and engaging.
 
+
+## Live demo:-
+  You can check out the live demo of the application here: [Live Demo](https://smart-tutor-client.vercel.app)
+  
 ---
 
 ## Features
@@ -71,10 +75,14 @@ Smart Tutor is an AI-powered application designed to assist students in enhancin
 - **API Key for SambaNova API**.  
 
 ### Steps
+
+#### Make sure you have firebse project set up on firebase console and have added all env varaible to you system as that is important for authentication in the app
+
 1. Clone the repository:
    ```bash
    git clone https://github.com/rohit-4321/smart-tutor.git
    cd smart-tutor
+   ```
 
 2. FrontEnd:
     - cd client
