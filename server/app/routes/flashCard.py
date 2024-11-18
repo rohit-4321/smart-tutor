@@ -99,7 +99,6 @@ def updateCard(deck_id, card_id):
     try:
         user_id = (g.get('user_info', None))['id'];
         card = AddCardPayload(**request.json)
-        print(card_id, deck_id)
         result = db_update_card(user_id=user_id, deck_id=deck_id, card_id=card_id, card=card.model_dump() )
         return jsonify({
             'result': result.modified_count
@@ -140,7 +139,6 @@ def update_deck_score(deck_id):
     try:
         user_id = (g.get('user_info', None))['id'];
         temp = UpdateDeckResultPayload(**request.json)
-        print(request.json);
         result = db_update_deck_score(user_id=user_id, deck_id=deck_id, payload=temp.model_dump() )
         return jsonify({
             'result': result.modified_count
@@ -200,7 +198,6 @@ def ai_generate_flash_card(deck_id):
         if not document or 'name' not in document or 'description' not in document:
             return jsonify({'error': f"Server Errord: {str(e)}"}), 500;
     
-        # print(get_flash_card_input(name=document.name, description=document.description))
         completion = ai_client.chat.completions.create(
             model="Meta-Llama-3.1-70B-Instruct",
             messages = [

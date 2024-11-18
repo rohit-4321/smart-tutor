@@ -83,7 +83,6 @@ export const quizSlice = createSlice({
 					);
 				state.value.questions[questionIndex].user_answer.splice(index, 1);
 			} else {
-				console.log(state.value.questions[questionIndex].user_answer);
 				state.value.questions[questionIndex].user_answer.push(
 					optionClickedIndex,
 				);
@@ -94,7 +93,6 @@ export const quizSlice = createSlice({
 			for (let i = 0; i < state.value.questions.length; i++) {
 				if (state.value.questions[i].user_answer.length > 0) attempted++;
 			}
-			console.log(attempted);
 			state.attempted = attempted;
 		},
 	},

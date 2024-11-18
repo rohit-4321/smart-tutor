@@ -3,7 +3,6 @@ import style from "./HomeTab.module.css";
 export const HomeTab = () => {
 	const navigate = useNavigate();
 	const location = useLocation();
-	console.log("Current URL:", location);
 	const isQuizPage = location.pathname === "/home/quiz";
 	const isFlashCardPage = location.pathname === "/home/flashcard";
 

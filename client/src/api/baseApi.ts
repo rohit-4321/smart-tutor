@@ -25,7 +25,6 @@ const baseQueryWithRedirect = async (
 	extraOptions: any,
 ) => {
 	const result = await customBaseQuery(args, api, extraOptions);
-	console.log(result);
 	if (result.error && result.error.status === 401) {
 		window.location.href = "/login";
 	}

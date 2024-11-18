@@ -26,7 +26,6 @@ export const CreateCardDialogManual: FC<CreateCardDialogManualProps> = (
 	const [trigger, { isLoading }] = flashCard.useAddCardMutation();
 
 	const onSave = () => {
-		console.log(prompt, answer);
 		if (prompt) {
 			setPromptError(false);
 		} else {

@@ -28,7 +28,6 @@ export const Home = () => {
 	);
 
 	const onRecommendedClick = (topicName: string) => {
-		console.log("Clicked");
 		setQuizAttr("topic", topicName);
 		setIsDialogOpen(true);
 	};

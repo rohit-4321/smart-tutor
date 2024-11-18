@@ -81,7 +81,6 @@ const CreateQuizDialog: FC<CreateQuizDialogType> = (props) => {
 	};
 	const onQuizCreateClicked = () => {
 		const number_of_question = value.noOfQuestion;
-		console.log(number_of_question, typeof number_of_question);
 		if (
 			number_of_question <= 0 ||
 			number_of_question > 15 ||
@@ -97,7 +96,6 @@ const CreateQuizDialog: FC<CreateQuizDialogType> = (props) => {
 		})
 			.unwrap()
 			.then((res) => {
-				console.log(res);
 				dispatch(setQuiz(res.result.quiz));
 				navigate(`/quiz/${res.result._id}?newQuiz=true`);
 			})
