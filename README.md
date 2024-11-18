@@ -74,3 +74,157 @@ Smart Tutor is an AI-powered application designed to assist students in enhancin
    ```bash
    git clone https://github.com/your-repo/smart-tutor.git
    cd smart-tutor
+---
+
+##Project Structure
+```bash
+.
+├── client
+│   ├── biome.json
+│   ├── dist
+│   │   ├── assets
+│   │   │   ├── class_room-Bz5F8O-X.webp
+│   │   │   ├── french_revolution-BTMgGQ69.webp
+│   │   │   ├── google-DuXP27S6.png
+│   │   │   ├── index-C2AiMS_0.css
+│   │   │   ├── index-O-Iu2Aax.js
+│   │   │   ├── invention_and_discoveries-Dltan6-2.jpeg
+│   │   │   ├── smart_tutor_logo-DuSXCUYb.png
+│   │   │   ├── tech_history-CcVl3KuS.jpeg
+│   │   │   ├── the_impact_of_indutrial_revolution-CXl5JKX5.jpeg
+│   │   │   ├── The Rise and Fall of the Roman Empire-BOoaZj8A.webp
+│   │   │   └── women_suffrage_movement-BfotucKT.jpeg
+│   │   ├── index.html
+│   │   └── vite.svg
+│   ├── index.html
+│   ├── package.json
+│   ├── package-lock.json
+│   ├── public
+│   │   └── vite.svg
+│   ├── README.md
+│   ├── src
+│   │   ├── api
+│   │   │   ├── auth.api.ts
+│   │   │   ├── baseApi.ts
+│   │   │   ├── flashCard.api.ts
+│   │   │   ├── flashCard.interface.ts
+│   │   │   ├── home.api.ts
+│   │   │   ├── home.interface.ts
+│   │   │   └── user.api.ts
+│   │   ├── App.tsx
+│   │   ├── assets
+│   │   │   ├── bouncing-circles.svg
+│   │   │   ├── class_room.webp
+│   │   │   ├── create-card.svg
+│   │   │   ├── french_revolution.webp
+│   │   │   ├── google.png
+│   │   │   ├── invention_and_discoveries.jpeg
+│   │   │   ├── smart_tutor_logo_light.png
+│   │   │   ├── smart_tutor_logo.png
+│   │   │   ├── tech_history.jpeg
+│   │   │   ├── the_impact_of_indutrial_revolution.jpeg
+│   │   │   ├── The Rise and Fall of the Roman Empire.webp
+│   │   │   └── women_suffrage_movement.jpeg
+│   │   ├── components
+│   │   │   ├── Drawer.module.css
+│   │   │   ├── Drawer.tsx
+│   │   │   ├── header.module.css
+│   │   │   ├── header.tsx
+│   │   │   ├── pages
+│   │   │   │   ├── auth
+│   │   │   │   │   ├── Login.module.css
+│   │   │   │   │   └── Login.tsx
+│   │   │   │   ├── deck
+│   │   │   │   │   ├── CardDialog.tsx
+│   │   │   │   │   ├── CreateCardDialogAI.module.css
+│   │   │   │   │   ├── CreateCardDialogAI.tsx
+│   │   │   │   │   ├── CreateCardDialogManual.tsx
+│   │   │   │   │   ├── CreateCardDialog.module.css
+│   │   │   │   │   ├── CreateCardDialog.tsx
+│   │   │   │   │   ├── Deck.module.css
+│   │   │   │   │   ├── Deck.tsx
+│   │   │   │   │   ├── FlipCard.module.css
+│   │   │   │   │   └── FlipCard.tsx
+│   │   │   │   ├── flashCard
+│   │   │   │   │   ├── ActionMenu.tsx
+│   │   │   │   │   ├── EditDeckDialog.tsx
+│   │   │   │   │   ├── Flash.module.css
+│   │   │   │   │   └── Flash.tsx
+│   │   │   │   ├── flashcardplay
+│   │   │   │   │   ├── Card.module.css
+│   │   │   │   │   ├── Card.tsx
+│   │   │   │   │   └── FlashCardPlay.tsx
+│   │   │   │   ├── home
+│   │   │   │   │   ├── CreateQuizDialog.tsx
+│   │   │   │   │   ├── Home.module.css
+│   │   │   │   │   ├── Home.tsx
+│   │   │   │   │   ├── Recommended.module.css
+│   │   │   │   │   └── Recommended.tsx
+│   │   │   │   └── quiz
+│   │   │   │       ├── QuestionList.tsx
+│   │   │   │       ├── questions
+│   │   │   │       │   ├── MultipleChoiceQuestion.module.css
+│   │   │   │       │   ├── MultipleChoiceQuestion.tsx
+│   │   │   │       │   ├── SingleChoiceQuestion.module.css
+│   │   │   │       │   └── SingleChoiceQuestion.tsx
+│   │   │   │       ├── QuizHaeader.tsx
+│   │   │   │       ├── QuizLoading.tsx
+│   │   │   │       └── Quiz.tsx
+│   │   │   └── ui
+│   │   │       ├── Button.module.css
+│   │   │       ├── Button.tsx
+│   │   │       ├── CreateDeck.tsx
+│   │   │       ├── CreateFlashCard.module.css
+│   │   │       ├── DialogInput.module.css
+│   │   │       ├── DialogInput.tsx
+│   │   │       ├── DialogTextArea.tsx
+│   │   │       ├── DrawerLink.module.css
+│   │   │       ├── DrawerLink.tsx
+│   │   │       ├── HomeInputBox.module.css
+│   │   │       ├── HomeInputBox.tsx
+│   │   │       ├── HomeTab.module.css
+│   │   │       ├── HomeTab.tsx
+│   │   │       ├── LogoutButton.module.css
+│   │   │       ├── LogoutButton.tsx
+│   │   │       ├── NoRowOverlay.tsx
+│   │   │       └── RenderMarkDownLatex.tsx
+│   │   ├── firebase.ts
+│   │   ├── index.css
+│   │   ├── main.tsx
+│   │   ├── redux
+│   │   │   ├── slices
+│   │   │   │   ├── counter.ts
+│   │   │   │   ├── flashCardSlice.ts
+│   │   │   │   ├── quizSlice.ts
+│   │   │   │   └── userSlice.ts
+│   │   │   └── store.ts
+│   │   ├── routes.tsx
+│   │   └── vite-env.d.ts
+│   ├── tsconfig.app.json
+│   ├── tsconfig.app.tsbuildinfo
+│   ├── tsconfig.json
+│   ├── tsconfig.node.json
+│   ├── tsconfig.node.tsbuildinfo
+│   └── vite.config.ts
+├── README.md
+└── server
+    ├── app
+    │   ├── __init__.py
+    │   ├── modals
+    │   │   ├── flashCard.py
+    │   │   └── quiz.py
+    │   ├── prompt.py
+    │   └── routes
+    │       ├── auth.py
+    │       ├── flashCard.py
+    │       ├── __init__.py
+    │       └── quiz.py
+    ├── config.py
+    ├── requirements.txt
+    ├── schema
+    │   ├── flashCard.py
+    │   ├── newQuiz.json
+    │   └── quiz.py
+    └── wsgi.py
+
+```
