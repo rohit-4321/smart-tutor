@@ -33,10 +33,11 @@ Smart Tutor is an AI-powered application designed to assist students in enhancin
 ## Technologies Used
 
 ### Frontend
-- **React** with **TypeScript**: For building a responsive and intuitive user interface.  
+- **React** with **TypeScript**: For building a responsive and intuitive user interface.
 
 ### Backend
 - **Flask** (Python): For handling APIs and server-side logic.  
+- **Firebase Admin Sdk**: For user authentication
 
 ### AI Integration
 - **SambaNova API**: Powers the AI-driven quiz and flashcard generation.  
