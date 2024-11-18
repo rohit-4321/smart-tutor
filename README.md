@@ -5,7 +5,7 @@ Smart Tutor is an AI-powered application designed to assist students in enhancin
 
 ## Live demo:-
   You can check out the live demo of the application here: [Live Demo](https://smart-tutor-client.vercel.app)
-  
+
 ---
 
 ## Features
@@ -76,7 +76,7 @@ Smart Tutor is an AI-powered application designed to assist students in enhancin
 
 ### Steps
 
-#### Make sure you have firebse project set up on firebase console and have added all env varaible to you system as that is important for authentication in the app
+#### **Make sure you have firebse project set up on firebase console and have added all env varaible to you system as that is important for authentication in the app**
 
 1. Clone the repository:
    ```bash
