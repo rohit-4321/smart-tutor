@@ -8,8 +8,8 @@ import { Login } from "./components/pages/auth/Login";
 import userApi from "./api/user.api";
 import { useAppDispatch } from "./redux/store";
 import { setUser } from "./redux/slices/userSlice";
-import { Flash } from "./components/pages/flashCard/Flash";
-import { Deck } from "./components/pages/deck/Deck";
+import { Deck } from "./components/pages/decks/Deck";
+import { FlashCard } from "./components/pages/flashCard/FlashCard";
 import { FlashCardPlay } from "./components/pages/flashcardplay/FlashCardPlay";
 const Template = () => {
 	const [isDrawerOpen, setIsDrawerOpen] = useState<boolean>(true);
@@ -51,7 +51,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "/flashcard",
-				element: <Flash />,
+				element: <Deck />,
 			},
 			{
 				path: "flashcard/play/:_id",
@@ -59,7 +59,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "/flashcard/:_id",
-				element: <Deck />,
+				element: <FlashCard />,
 			},
 			{
 				path: "/quiz/:_id",

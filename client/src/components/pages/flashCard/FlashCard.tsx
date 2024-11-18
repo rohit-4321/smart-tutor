@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import create_card_svg from "../../../assets/create-card.svg";
 
-import style from "./Deck.module.css";
+import style from "./FlashCard.module.css";
 import { CreateCardDialog } from "./CreateCardDialog";
 import { useEffect, useState } from "react";
 import flashCard from "../../../api/flashCard.api";
@@ -11,7 +11,7 @@ import FlipCard from "./FlipCard";
 import type { CardResponse } from "../../../api/flashCard.interface";
 import { enqueueSnackbar } from "notistack";
 
-export const Deck = () => {
+export const FlashCard = () => {
 	const { _id } = useParams();
 	if (_id === undefined) return;
 	const [cards, setCard] = useState<CardResponse[]>([]);

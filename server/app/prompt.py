@@ -1,3 +1,4 @@
+# Not include latex and  Wrong output
 system_prompt = f"""
 You will be given a json from a users that include a following field:-
 1. topic: <topic for a Quiz>
