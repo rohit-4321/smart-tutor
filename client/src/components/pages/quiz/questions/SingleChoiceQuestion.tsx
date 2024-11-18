@@ -49,7 +49,6 @@ export const SingleChoiceQuestion: FC<SingleChoiceQuestionProps> = memo(
 								cursor: "pointer",
 							}}
 							onClick={() => {
-								console.log("clicked");
 								dispatch(
 									setSingleChoiceOption({
 										optionClickedIndex: optionIndex,

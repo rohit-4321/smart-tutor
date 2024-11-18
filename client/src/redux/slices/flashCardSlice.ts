@@ -43,7 +43,6 @@ export const flashCardSlice = createSlice({
 		builder
 			.addMatcher(flashCard.endpoints.getCards.matchPending, (state) => {
 				state.isLoading = true;
-				console.log("running", state.isLoading);
 				state.isError = null;
 			})
 			.addMatcher(

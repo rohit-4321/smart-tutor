@@ -28,7 +28,6 @@ export const ActionMenu: FC<{
 	const [deleteDeckTrigger, { isLoading: isDeleting }] =
 		flashCard.useDeleteDeckMutation();
 	const onDelete = () => {
-		console.log("Delete", deck_id);
 		deleteDeckTrigger(deck_id)
 			.unwrap()
 			.then(() => {

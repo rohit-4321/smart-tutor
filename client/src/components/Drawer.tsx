@@ -13,7 +13,6 @@ export const SideDrawer = () => {
 	const isFlashCardScreen = location.pathname.startsWith("/flashcard");
 	const currentQuizId = useMemo(() => {
 		const arr = location.pathname.split("/").filter(Boolean);
-		console.log(arr);
 		if (arr[0] === "quiz") return arr[1];
 		return "";
 	}, [location]);

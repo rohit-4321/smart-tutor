@@ -75,8 +75,6 @@ def db_update_card(user_id, deck_id, card_id, card):
         f"cards.$[elem].{key}": value
         for key, value in card.items()
     }
-    print('asdadsdas')
-    print(str(update_object))
 
     # Update the card where the card_id matches, using array filters
     result = mongo.db.deck.update_one(

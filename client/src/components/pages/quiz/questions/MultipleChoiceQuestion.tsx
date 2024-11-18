@@ -39,7 +39,6 @@ export const MultipleChoiceQuestion: FC<MultipleChoiceQuestionProps> = memo(
 								cursor: "pointer",
 							}}
 							onClick={() => {
-								console.log("clicked");
 								dispatch(
 									setMultipleChoiceOption({
 										optionClickedIndex: optionIndex,

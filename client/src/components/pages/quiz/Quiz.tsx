@@ -53,7 +53,6 @@ export const Quiz = () => {
 	};
 	const onSaveAsDraft = () => {
 		const currQuizState = store.getState().quiz.value;
-		console.log(currQuizState);
 
 		if (!currQuizState) {
 			return;
