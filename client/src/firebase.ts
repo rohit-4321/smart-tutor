@@ -1,13 +1,12 @@
 import { initializeApp } from "firebase/app";
 
 const firebaseConfig = {
-	// Dont need to put that in environment
-	apiKey: "AIzaSyC_miVgdIP2mAj7zOWq3OYWONoQSkJmDbY",
-	authDomain: "smart-tutor-c1502.firebaseapp.com",
-	projectId: "smart-tutor-c1502",
-	storageBucket: "smart-tutor-c1502.firebasestorage.app",
-	messagingSenderId: "230175717579",
-	appId: "1:230175717579:web:f868c7878f67afd145434e",
+	apiKey: import.meta.env.VITE_FIREBASE_CLIENT_api_key,
+	authDomain: import.meta.env.VITE_FIREBASE_CLIENT_auth_domain,
+	projectId: import.meta.env.VITE_FIREBASE_CLIENT_project_id,
+	storageBucket: import.meta.env.VITE_FIREBASE_CLIENT_storage_bucket,
+	messagingSenderId: import.meta.env.VITE_FIREBASE_CLIENT_messaging_sender_id,
+	appId: import.meta.env.VITE_FIREBASE_CLIENT_app_id,
 };
 
 export const firebaseApp = initializeApp(firebaseConfig);
