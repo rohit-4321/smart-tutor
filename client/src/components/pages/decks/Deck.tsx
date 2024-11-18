@@ -1,6 +1,6 @@
 import flashCard from "../../../api/flashCard.api";
 import { CreateDeck } from "../../ui/CreateDeck";
-import style from "./Flash.module.css";
+import style from "./Deck.module.css";
 import { ActionMenu } from "./ActionMenu";
 import { CircularProgress, Stack } from "@mui/material";
 import { EditDeck } from "./EditDeckDialog";
@@ -17,7 +17,7 @@ function formatDate(dateStr: string) {
 	return `${day}-${month}-${year}`;
 }
 
-export const Flash = () => {
+export const Deck = () => {
 	const { data, isLoading, isFetching } = flashCard.useGetDecksQuery(null);
 	const [currentEditDeck, setCurrentEditDeck] = useState<ResponseDeckItem>();
 
