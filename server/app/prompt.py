@@ -156,19 +156,19 @@ Schema:
             "type": "string",
             "description": "The text of the question"
           }},
-          "correct_answer": {{
-            "type": "array",
-            "items": {{
-              "type": "integer"
-            }},
-            "description": "List of indices representing the correct answers"
-          }},
           "options": {{
             "type": "array",
             "items": {{
               "type": "string"
             }},
             "description": "List of possible answer options"
+          }},
+          "correct_answer": {{
+            "type": "array",
+            "items": {{
+              "type": "integer"
+            }},
+            "description": "description": "List of indices representing the correct options. Indices must match valid positions in the 'options' array, starting from 0, and represent the correct options for the question."
           }},
           "description": {{
             "type": "string",
